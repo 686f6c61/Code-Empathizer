@@ -1,0 +1,1483 @@
+{
+  "timestamp": "20251125_124531",
+  "metricas": {
+    "repos": {
+      "empresa": {
+        "metadata": {
+          "nombre": "clipxjs",
+          "url": "https://github.com/mraxays/clipxjs",
+          "descripcion": "ClipX.js is a lightweight JavaScript library for efficient clipboard management, text manipulation, and user feedback. It offers simple copy, cut, and paste operations, basic text formatting, and built-in toast notifications with customizable messages, all in a compact package.",
+          "url_clone": "https://github.com/mraxays/clipxjs.git",
+          "rama_default": "main",
+          "fecha_creacion": "2024-08-25T15:38:01+00:00",
+          "fecha_ultimo_push": "2025-11-25T11:13:19+00:00",
+          "lenguaje_principal": "JavaScript",
+          "tamano_kb": 93.0,
+          "archivos_analizados": 3,
+          "lenguajes_analizados": [
+            "HTML",
+            "JavaScript"
+          ],
+          "empathy_score_global": 1.2202223319055903
+        },
+        "nombres": {
+          "descriptividad": 0.6338709677419355
+        },
+        "documentacion": {
+          "cobertura_docstrings": 0.0
+        },
+        "modularidad": {
+          "funciones_por_archivo": 8.0
+        },
+        "complejidad": {
+          "complejidad_ciclomatica": 0.5
+        },
+        "manejo_errores": {
+          "cobertura_manejo_errores": 1.0
+        },
+        "pruebas": {
+          "cobertura_pruebas": 0.0
+        },
+        "seguridad": {
+          "validacion_entradas": 0.6
+        },
+        "consistencia_estilo": {
+          "consistencia_nombres": 0.8931535269709543
+        },
+        "duplicacion": {
+          "porcentaje_global": 11.9,
+          "bloques_encontrados": 7,
+          "total_ocurrencias": 14,
+          "lineas_duplicadas": 35,
+          "archivos_afectados": [
+            "dist/clipx.min.js",
+            "src/clipx.js"
+          ],
+          "total_archivos": 2,
+          "mayor_duplicacion": {
+            "archivo": "src/clipx.js",
+            "porcentaje": 19.3
+          },
+          "duplicates_details": {
+            "8264be0fdf86eca14c64ed578bd628b9": {
+              "occurrences": 2,
+              "blocks": [
+                {
+                  "hash": "8264be0fdf86eca14c64ed578bd628b9",
+                  "content": "/*\nClipX JS\nhttps:\nVersion: 1.2.0\nCopyright (c) 2024 Mr Akshay Shinde",
+                  "original_content": "/* \n    ClipX JS\n    https://clipx.js.org\n    Version: 1.2.0\n    Copyright (c) 2024 Mr Akshay Shinde",
+                  "file_path": "dist/clipx.min.js",
+                  "start_line": 1,
+                  "end_line": 5,
+                  "size": 5
+                },
+                {
+                  "hash": "8264be0fdf86eca14c64ed578bd628b9",
+                  "content": "/*\nClipX JS\nhttps:\nVersion: 1.2.0\nCopyright (c) 2024 Mr Akshay Shinde",
+                  "original_content": "/* \r\n    ClipX JS\r\n    https://clipx.js.org\r\n    Version: 1.2.0\r\n    Copyright (c) 2024 Mr Akshay Shinde\r",
+                  "file_path": "src/clipx.js",
+                  "start_line": 1,
+                  "end_line": 5,
+                  "size": 5
+                }
+              ],
+              "size": 5,
+              "content_preview": "/*\nClipX JS\nhttps:\nVersion: 1.2.0\nCopyright (c) 2024 Mr Akshay Shinde"
+            },
+            "446b3c3a5d53e1814c30102ce0ed5ef0": {
+              "occurrences": 2,
+              "blocks": [
+                {
+                  "hash": "446b3c3a5d53e1814c30102ce0ed5ef0",
+                  "content": "ClipX JS\nhttps:\nVersion: 1.2.0\nCopyright (c) 2024 Mr Akshay Shinde\nLicensed under the MIT license",
+                  "original_content": "    ClipX JS\n    https://clipx.js.org\n    Version: 1.2.0\n    Copyright (c) 2024 Mr Akshay Shinde\n    Licensed under the MIT license",
+                  "file_path": "dist/clipx.min.js",
+                  "start_line": 2,
+                  "end_line": 6,
+                  "size": 5
+                },
+                {
+                  "hash": "446b3c3a5d53e1814c30102ce0ed5ef0",
+                  "content": "ClipX JS\nhttps:\nVersion: 1.2.0\nCopyright (c) 2024 Mr Akshay Shinde\nLicensed under the MIT license",
+                  "original_content": "    ClipX JS\r\n    https://clipx.js.org\r\n    Version: 1.2.0\r\n    Copyright (c) 2024 Mr Akshay Shinde\r\n    Licensed under the MIT license\r",
+                  "file_path": "src/clipx.js",
+                  "start_line": 2,
+                  "end_line": 6,
+                  "size": 5
+                }
+              ],
+              "size": 5,
+              "content_preview": "ClipX JS\nhttps:\nVersion: 1.2.0\nCopyright (c) 2024 Mr Akshay Shinde\nLicensed under the MIT license"
+            },
+            "3adecb3883bf88c2ec1fc26bddc2188c": {
+              "occurrences": 2,
+              "blocks": [
+                {
+                  "hash": "3adecb3883bf88c2ec1fc26bddc2188c",
+                  "content": "https:\nVersion: 1.2.0\nCopyright (c) 2024 Mr Akshay Shinde\nLicensed under the MIT license\n*/",
+                  "original_content": "    https://clipx.js.org\n    Version: 1.2.0\n    Copyright (c) 2024 Mr Akshay Shinde\n    Licensed under the MIT license\n*/",
+                  "file_path": "dist/clipx.min.js",
+                  "start_line": 3,
+                  "end_line": 7,
+                  "size": 5
+                },
+                {
+                  "hash": "3adecb3883bf88c2ec1fc26bddc2188c",
+                  "content": "https:\nVersion: 1.2.0\nCopyright (c) 2024 Mr Akshay Shinde\nLicensed under the MIT license\n*/",
+                  "original_content": "    https://clipx.js.org\r\n    Version: 1.2.0\r\n    Copyright (c) 2024 Mr Akshay Shinde\r\n    Licensed under the MIT license\r\n*/\r",
+                  "file_path": "src/clipx.js",
+                  "start_line": 3,
+                  "end_line": 7,
+                  "size": 5
+                }
+              ],
+              "size": 5,
+              "content_preview": "https:\nVersion: 1.2.0\nCopyright (c) 2024 Mr Akshay Shinde\nLicensed under the MIT license\n*/"
+            },
+            "2c45b578fe7f1caea5026d730df1ce12": {
+              "occurrences": 2,
+              "blocks": [
+                {
+                  "hash": "2c45b578fe7f1caea5026d730df1ce12",
+                  "content": "element,\nmsgType,\ntoastOnly,\ndisableMsg,\ndisableToast,",
+                  "original_content": "                    element,\r\n                    msgType,\r\n                    toastOnly,\r\n                    disableMsg,\r\n                    disableToast,\r",
+                  "file_path": "src/clipx.js",
+                  "start_line": 115,
+                  "end_line": 119,
+                  "size": 5
+                },
+                {
+                  "hash": "2c45b578fe7f1caea5026d730df1ce12",
+                  "content": "element,\nmsgType,\ntoastOnly,\ndisableMsg,\ndisableToast,",
+                  "original_content": "    element,\r\n    msgType,\r\n    toastOnly,\r\n    disableMsg,\r\n    disableToast,\r",
+                  "file_path": "src/clipx.js",
+                  "start_line": 137,
+                  "end_line": 141,
+                  "size": 5
+                }
+              ],
+              "size": 5,
+              "content_preview": "element,\nmsgType,\ntoastOnly,\ndisableMsg,\ndisableToast,"
+            },
+            "e7ba230a920b20f5f1c31f0ab2e289b3": {
+              "occurrences": 2,
+              "blocks": [
+                {
+                  "hash": "e7ba230a920b20f5f1c31f0ab2e289b3",
+                  "content": "msgType,\ntoastOnly,\ndisableMsg,\ndisableToast,\ntoastPosition,",
+                  "original_content": "                    msgType,\r\n                    toastOnly,\r\n                    disableMsg,\r\n                    disableToast,\r\n                    toastPosition,\r",
+                  "file_path": "src/clipx.js",
+                  "start_line": 116,
+                  "end_line": 120,
+                  "size": 5
+                },
+                {
+                  "hash": "e7ba230a920b20f5f1c31f0ab2e289b3",
+                  "content": "msgType,\ntoastOnly,\ndisableMsg,\ndisableToast,\ntoastPosition,",
+                  "original_content": "    msgType,\r\n    toastOnly,\r\n    disableMsg,\r\n    disableToast,\r\n    toastPosition,\r",
+                  "file_path": "src/clipx.js",
+                  "start_line": 138,
+                  "end_line": 142,
+                  "size": 5
+                }
+              ],
+              "size": 5,
+              "content_preview": "msgType,\ntoastOnly,\ndisableMsg,\ndisableToast,\ntoastPosition,"
+            },
+            "29ea117c5d5d7774b858275667048014": {
+              "occurrences": 2,
+              "blocks": [
+                {
+                  "hash": "29ea117c5d5d7774b858275667048014",
+                  "content": "toastOnly,\ndisableMsg,\ndisableToast,\ntoastPosition,\ncontentDuration",
+                  "original_content": "                    toastOnly,\r\n                    disableMsg,\r\n                    disableToast,\r\n                    toastPosition,\r\n                    contentDuration\r",
+                  "file_path": "src/clipx.js",
+                  "start_line": 117,
+                  "end_line": 121,
+                  "size": 5
+                },
+                {
+                  "hash": "29ea117c5d5d7774b858275667048014",
+                  "content": "toastOnly,\ndisableMsg,\ndisableToast,\ntoastPosition,\ncontentDuration",
+                  "original_content": "    toastOnly,\r\n    disableMsg,\r\n    disableToast,\r\n    toastPosition,\r\n    contentDuration\r",
+                  "file_path": "src/clipx.js",
+                  "start_line": 139,
+                  "end_line": 143,
+                  "size": 5
+                }
+              ],
+              "size": 5,
+              "content_preview": "toastOnly,\ndisableMsg,\ndisableToast,\ntoastPosition,\ncontentDuration"
+            },
+            "eb1fb2ba4d4041e2c992feabd097470a": {
+              "occurrences": 2,
+              "blocks": [
+                {
+                  "hash": "eb1fb2ba4d4041e2c992feabd097470a",
+                  "content": "element.textContent = originalText;\n}\n}.bind(this),\ncontentDuration\n);",
+                  "original_content": "            element.textContent = originalText; // Restore original text content\r\n          }\r\n        }.bind(this),\r\n        contentDuration\r\n      );\r",
+                  "file_path": "src/clipx.js",
+                  "start_line": 176,
+                  "end_line": 180,
+                  "size": 5
+                },
+                {
+                  "hash": "eb1fb2ba4d4041e2c992feabd097470a",
+                  "content": "element.textContent = originalText;\n}\n}.bind(this),\ncontentDuration\n);",
+                  "original_content": "            element.textContent = originalText; // Restore original text content\r\n          }\r\n        }.bind(this),\r\n        contentDuration\r\n      );\r",
+                  "file_path": "src/clipx.js",
+                  "start_line": 185,
+                  "end_line": 189,
+                  "size": 5
+                }
+              ],
+              "size": 5,
+              "content_preview": "element.textContent = originalText;\n}\n}.bind(this),\ncontentDuration\n);"
+            }
+          },
+          "summary": "Bueno: Duplicación dentro de límites aceptables. 7 bloques duplicados en 2 archivos."
+        },
+        "dependencias": {
+          "total_dependencies": 0,
+          "external_dependencies": 0,
+          "internal_dependencies": 0,
+          "dependency_ratio": 0.0,
+          "avg_dependencies_per_file": 0.0,
+          "most_used_dependencies": [],
+          "files_with_most_dependencies": [],
+          "circular_dependencies": 0,
+          "circular_dependency_details": [],
+          "external_deps_list": [],
+          "coupling_score": 0.0,
+          "summary": "No se encontraron dependencias en el código analizado."
+        },
+        "patrones": {
+          "design_patterns": {
+            "factory": [
+              {
+                "file": "dist/clipx.min.js",
+                "line": 8,
+                "pattern": "factory",
+                "confidence": 0.8,
+                "snippet": "createElement("
+              },
+              {
+                "file": "dist/clipx.min.js",
+                "line": 8,
+                "pattern": "factory",
+                "confidence": 0.8,
+                "snippet": "createElement("
+              },
+              {
+                "file": "dist/clipx.min.js",
+                "line": 8,
+                "pattern": "factory",
+                "confidence": 0.8,
+                "snippet": "createElement("
+              },
+              {
+                "file": "dist/clipx.min.js",
+                "line": 8,
+                "pattern": "factory",
+                "confidence": 0.8,
+                "snippet": "createElement("
+              },
+              {
+                "file": "src/clipx.js",
+                "line": 42,
+                "pattern": "factory",
+                "confidence": 0.8,
+                "snippet": "createElement("
+              },
+              {
+                "file": "src/clipx.js",
+                "line": 155,
+                "pattern": "factory",
+                "confidence": 0.8,
+                "snippet": "createElement("
+              },
+              {
+                "file": "src/clipx.js",
+                "line": 196,
+                "pattern": "factory",
+                "confidence": 0.8,
+                "snippet": "createElement("
+              },
+              {
+                "file": "src/clipx.js",
+                "line": 221,
+                "pattern": "factory",
+                "confidence": 0.8,
+                "snippet": "createElement("
+              }
+            ],
+            "observer": [
+              {
+                "file": "dist/clipx.min.js",
+                "line": 8,
+                "pattern": "observer",
+                "confidence": 0.8,
+                "snippet": "addEventListener("
+              },
+              {
+                "file": "dist/clipx.min.js",
+                "line": 8,
+                "pattern": "observer",
+                "confidence": 0.8,
+                "snippet": "on(t,"
+              },
+              {
+                "file": "dist/clipx.min.js",
+                "line": 8,
+                "pattern": "observer",
+                "confidence": 0.8,
+                "snippet": "on(t,"
+              },
+              {
+                "file": "dist/clipx.min.js",
+                "line": 8,
+                "pattern": "observer",
+                "confidence": 0.8,
+                "snippet": "on(t,"
+              },
+              {
+                "file": "src/clipx.js",
+                "line": 79,
+                "pattern": "observer",
+                "confidence": 0.8,
+                "snippet": "addEventListener("
+              },
+              {
+                "file": "src/clipx.js",
+                "line": 53,
+                "pattern": "observer",
+                "confidence": 0.8,
+                "snippet": "on (text,"
+              },
+              {
+                "file": "src/clipx.js",
+                "line": 136,
+                "pattern": "observer",
+                "confidence": 0.8,
+                "snippet": "on (\r\n    element,"
+              },
+              {
+                "file": "src/clipx.js",
+                "line": 194,
+                "pattern": "observer",
+                "confidence": 0.8,
+                "snippet": "on (element,"
+              }
+            ]
+          },
+          "anti_patterns": {
+            "spaghetti_code": [
+              {
+                "file": "src/clipx.js",
+                "issue": "Anidamiento muy profundo",
+                "max_nesting": 15,
+                "severity": "high"
+              }
+            ],
+            "long_method": [
+              {
+                "file": "src/clipx.js",
+                "line": 10,
+                "issue": "Método muy largo",
+                "lines": 275,
+                "severity": "high"
+              }
+            ],
+            "god_class": [],
+            "magic_numbers": []
+          },
+          "structure_analysis": {
+            "architecture_type": "unknown",
+            "organization_score": 100.0,
+            "folder_structure": {
+              "dist": 1,
+              "src": 1
+            },
+            "file_organization": {}
+          },
+          "pattern_score": 80.0,
+          "recommendations": [
+            {
+              "type": "refactoring",
+              "priority": "high",
+              "title": "Reducir complejidad de código",
+              "description": "Se detectó código con anidamiento muy profundo. Considere extraer métodos y simplificar la lógica."
+            },
+            {
+              "type": "refactoring",
+              "priority": "medium",
+              "title": "Dividir métodos largos",
+              "description": "Se detectaron métodos muy largos. Considere dividirlos en métodos más pequeños y específicos."
+            }
+          ],
+          "summary": "Se detectaron 16 instancias de patrones de diseño (factory, observer) y 2 posibles anti-patrones. Excelente uso de patrones de diseño."
+        },
+        "rendimiento": {
+          "performance_issues": {
+            "nested_loops": [],
+            "database_in_loop": [],
+            "inefficient_string_concat": [],
+            "recursive_calls": []
+          },
+          "optimizations_found": {
+            "async_operations": [
+              {
+                "file": "dist/clipx.min.js",
+                "line": 8,
+                "type": "async_operations",
+                "snippet": "Promise."
+              },
+              {
+                "file": "src/clipx.js",
+                "line": 48,
+                "type": "async_operations",
+                "snippet": "Promise."
+              }
+            ],
+            "caching": []
+          },
+          "complexity_analysis": {
+            "dist/clipx.min.js": {
+              "max_complexity": 30,
+              "avg_complexity": 30.0,
+              "complex_functions": [
+                {
+                  "name": "e",
+                  "line": 8,
+                  "complexity": 30
+                }
+              ]
+            },
+            "src/clipx.js": {
+              "max_complexity": 42,
+              "avg_complexity": 42.0,
+              "complex_functions": [
+                {
+                  "name": "clipx",
+                  "line": 10,
+                  "complexity": 42
+                }
+              ]
+            }
+          },
+          "performance_score": 84.0,
+          "recommendations": [
+            {
+              "type": "optimization",
+              "priority": "low",
+              "title": "Implementar caché",
+              "description": "Considere implementar caché para operaciones costosas que se repiten.",
+              "impact": "Puede mejorar rendimiento significativamente"
+            }
+          ],
+          "hotspots": [],
+          "summary": "Se detectaron 0 posibles problemas de rendimiento y 2 optimizaciones implementadas. El código tiene un buen rendimiento general."
+        },
+        "comentarios": {
+          "markers": {},
+          "comment_metrics": {
+            "total_comments": 44,
+            "total_lines": 294,
+            "comment_ratio": 14.965986394557824,
+            "avg_comment_length": 134.4090909090909,
+            "documentation_coverage": 50.0,
+            "comment_quality_score": 77.0,
+            "total_functions": 2
+          },
+          "comment_quality": {
+            "obvious_comments": [],
+            "meaningful_comments": [
+              {
+                "file": "dist/clipx.min.js",
+                "line": 8,
+                "comment": "www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" width=\"16\" height=\"16\" fill=\"rgba(0,210,65,1)\" fill=\"curren"
+              },
+              {
+                "file": "dist/clipx.min.js",
+                "line": 8,
+                "comment": "Ensure the width adjusts based on content"
+              },
+              {
+                "file": "src/clipx.js",
+                "line": 99,
+                "comment": "Determine the action based on attributes"
+              },
+              {
+                "file": "src/clipx.js",
+                "line": 240,
+                "comment": "Ensure the width adjusts based on content"
+              }
+            ],
+            "code_smells": []
+          },
+          "by_priority": {},
+          "by_category": {},
+          "comment_score": 77.0,
+          "recommendations": [],
+          "summary": "El código tiene un 15.0% de líneas comentadas (adecuado) con 50.0% de funciones documentadas. Buena documentación con áreas de mejora."
+        }
+      },
+      "candidato": {
+        "metadata": {
+          "nombre": "table",
+          "url": "https://github.com/itrocks-ts/table",
+          "descripcion": "A lightweight, modular HTML table offering near-spreadsheet features such as edit, freeze, lock, scroll, and more",
+          "url_clone": "https://github.com/itrocks-ts/table.git",
+          "rama_default": "main",
+          "fecha_creacion": "2024-11-15T16:51:22+00:00",
+          "fecha_ultimo_push": "2025-11-25T08:57:05+00:00",
+          "lenguaje_principal": "TypeScript",
+          "tamano_kb": 42.0,
+          "archivos_analizados": 14,
+          "lenguajes_analizados": [
+            "HTML",
+            "CSS",
+            "TypeScript"
+          ],
+          "empathy_score_global": 1.2787880406749064
+        },
+        "nombres": {
+          "descriptividad": 0.9716794151040501
+        },
+        "documentacion": {
+          "cobertura_docstrings": 0.05555555555555555
+        },
+        "modularidad": {
+          "funciones_por_archivo": 6.583333333333333
+        },
+        "complejidad": {
+          "complejidad_ciclomatica": 0.7798577343212822
+        },
+        "manejo_errores": {
+          "cobertura_manejo_errores": 0.0
+        },
+        "pruebas": {
+          "cobertura_pruebas": 0.0
+        },
+        "seguridad": {
+          "validacion_entradas": 0.9719202898550724
+        },
+        "consistencia_estilo": {
+          "consistencia_nombres": 0.9629629629629629
+        },
+        "duplicacion": {
+          "porcentaje_global": 4.27,
+          "bloques_encontrados": 11,
+          "total_ocurrencias": 22,
+          "lineas_duplicadas": 55,
+          "archivos_afectados": [
+            "src/freeze.ts"
+          ],
+          "total_archivos": 12,
+          "mayor_duplicacion": {
+            "archivo": "src/freeze.ts",
+            "porcentaje": 48.46
+          },
+          "duplicates_details": {
+            "90142b6843e467910962616ca3130d2f": {
+              "occurrences": 2,
+              "blocks": [
+                {
+                  "hash": "90142b6843e467910962616ca3130d2f",
+                  "content": "position: sticky;\n${zIndex}\n}\n`)\n}",
+                  "original_content": "\t\t\t\tposition: sticky;\n\t\t\t\t${zIndex}\n\t\t\t}\t\t\n\t\t`)\n\t}",
+                  "file_path": "src/freeze.ts",
+                  "start_line": 83,
+                  "end_line": 87,
+                  "size": 5
+                },
+                {
+                  "hash": "90142b6843e467910962616ca3130d2f",
+                  "content": "position: sticky;\n${zIndex}\n}\n`)\n}",
+                  "original_content": "\t\t\t\tposition: sticky;\n\t\t\t\t${zIndex}\n\t\t\t}\t\t\n\t\t`)\n\t}",
+                  "file_path": "src/freeze.ts",
+                  "start_line": 108,
+                  "end_line": 112,
+                  "size": 5
+                }
+              ],
+              "size": 5,
+              "content_preview": "position: sticky;\n${zIndex}\n}\n`)\n}"
+            },
+            "d74a37e2a4a4aca458808110920b70c1": {
+              "occurrences": 2,
+              "blocks": [
+                {
+                  "hash": "d74a37e2a4a4aca458808110920b70c1",
+                  "content": "counter ++\n}\nconst zIndex = this.full ? `z-index: ${this.full.column};` : ''\nconst zIndexValue = this.full ? this.full.corner : this.zIndex\ntable.styleSheet.push(`",
+                  "original_content": "\t\t\tcounter ++\n\t\t}\n\t\tconst zIndex      = this.full ? `z-index: ${this.full.column};` : ''\n\t\tconst zIndexValue = this.full ? this.full.corner : this.zIndex\n\t\ttable.styleSheet.push(`",
+                  "file_path": "src/freeze.ts",
+                  "start_line": 133,
+                  "end_line": 137,
+                  "size": 5
+                },
+                {
+                  "hash": "d74a37e2a4a4aca458808110920b70c1",
+                  "content": "counter ++\n}\nconst zIndex = this.full ? `z-index: ${this.full.column};` : ''\nconst zIndexValue = this.full ? this.full.corner : this.zIndex\ntable.styleSheet.push(`",
+                  "original_content": "\t\t\tcounter ++\n\t\t}\n\t\tconst zIndex      = this.full ? `z-index: ${this.full.column};` : ''\n\t\tconst zIndexValue = this.full ? this.full.corner : this.zIndex\n\t\ttable.styleSheet.push(`",
+                  "file_path": "src/freeze.ts",
+                  "start_line": 169,
+                  "end_line": 173,
+                  "size": 5
+                }
+              ],
+              "size": 5,
+              "content_preview": "counter ++\n}\nconst zIndex = this.full ? `z-index: ${this.full.column};` : ''\nconst zIndexValue = this.full ? this.full.corner : this.zIndex\ntable.styleSheet.push(`"
+            },
+            "171cb1de8e089fc219576d2007c4f53d": {
+              "occurrences": 2,
+              "blocks": [
+                {
+                  "hash": "171cb1de8e089fc219576d2007c4f53d",
+                  "content": "}\nconst zIndex = this.full ? `z-index: ${this.full.column};` : ''\nconst zIndexValue = this.full ? this.full.corner : this.zIndex\ntable.styleSheet.push(`\n${bodySel.join(', ')} {",
+                  "original_content": "\t\t}\n\t\tconst zIndex      = this.full ? `z-index: ${this.full.column};` : ''\n\t\tconst zIndexValue = this.full ? this.full.corner : this.zIndex\n\t\ttable.styleSheet.push(`\n\t\t\t${bodySel.join(', ')} {",
+                  "file_path": "src/freeze.ts",
+                  "start_line": 134,
+                  "end_line": 138,
+                  "size": 5
+                },
+                {
+                  "hash": "171cb1de8e089fc219576d2007c4f53d",
+                  "content": "}\nconst zIndex = this.full ? `z-index: ${this.full.column};` : ''\nconst zIndexValue = this.full ? this.full.corner : this.zIndex\ntable.styleSheet.push(`\n${bodySel.join(', ')} {",
+                  "original_content": "\t\t}\n\t\tconst zIndex      = this.full ? `z-index: ${this.full.column};` : ''\n\t\tconst zIndexValue = this.full ? this.full.corner : this.zIndex\n\t\ttable.styleSheet.push(`\n\t\t\t${bodySel.join(', ')} {",
+                  "file_path": "src/freeze.ts",
+                  "start_line": 170,
+                  "end_line": 174,
+                  "size": 5
+                }
+              ],
+              "size": 5,
+              "content_preview": "}\nconst zIndex = this.full ? `z-index: ${this.full.column};` : ''\nconst zIndexValue = this.full ? this.full.corner : this.zIndex\ntable.styleSheet.push(`\n${bodySel.join(', ')} {"
+            },
+            "35479236b354903e56018b4bbf6dde3c": {
+              "occurrences": 2,
+              "blocks": [
+                {
+                  "hash": "35479236b354903e56018b4bbf6dde3c",
+                  "content": "const zIndex = this.full ? `z-index: ${this.full.column};` : ''\nconst zIndexValue = this.full ? this.full.corner : this.zIndex\ntable.styleSheet.push(`\n${bodySel.join(', ')} {\nposition: sticky;",
+                  "original_content": "\t\tconst zIndex      = this.full ? `z-index: ${this.full.column};` : ''\n\t\tconst zIndexValue = this.full ? this.full.corner : this.zIndex\n\t\ttable.styleSheet.push(`\n\t\t\t${bodySel.join(', ')} {\n\t\t\t\tposition: sticky;",
+                  "file_path": "src/freeze.ts",
+                  "start_line": 135,
+                  "end_line": 139,
+                  "size": 5
+                },
+                {
+                  "hash": "35479236b354903e56018b4bbf6dde3c",
+                  "content": "const zIndex = this.full ? `z-index: ${this.full.column};` : ''\nconst zIndexValue = this.full ? this.full.corner : this.zIndex\ntable.styleSheet.push(`\n${bodySel.join(', ')} {\nposition: sticky;",
+                  "original_content": "\t\tconst zIndex      = this.full ? `z-index: ${this.full.column};` : ''\n\t\tconst zIndexValue = this.full ? this.full.corner : this.zIndex\n\t\ttable.styleSheet.push(`\n\t\t\t${bodySel.join(', ')} {\n\t\t\t\tposition: sticky;",
+                  "file_path": "src/freeze.ts",
+                  "start_line": 171,
+                  "end_line": 175,
+                  "size": 5
+                }
+              ],
+              "size": 5,
+              "content_preview": "const zIndex = this.full ? `z-index: ${this.full.column};` : ''\nconst zIndexValue = this.full ? this.full.corner : this.zIndex\ntable.styleSheet.push(`\n${bodySel.join(', ')} {\nposition: sticky;"
+            },
+            "5962b07dcad88e944d0742aac349e662": {
+              "occurrences": 2,
+              "blocks": [
+                {
+                  "hash": "5962b07dcad88e944d0742aac349e662",
+                  "content": "const zIndexValue = this.full ? this.full.corner : this.zIndex\ntable.styleSheet.push(`\n${bodySel.join(', ')} {\nposition: sticky;\n${zIndex}",
+                  "original_content": "\t\tconst zIndexValue = this.full ? this.full.corner : this.zIndex\n\t\ttable.styleSheet.push(`\n\t\t\t${bodySel.join(', ')} {\n\t\t\t\tposition: sticky;\n\t\t\t\t${zIndex}",
+                  "file_path": "src/freeze.ts",
+                  "start_line": 136,
+                  "end_line": 140,
+                  "size": 5
+                },
+                {
+                  "hash": "5962b07dcad88e944d0742aac349e662",
+                  "content": "const zIndexValue = this.full ? this.full.corner : this.zIndex\ntable.styleSheet.push(`\n${bodySel.join(', ')} {\nposition: sticky;\n${zIndex}",
+                  "original_content": "\t\tconst zIndexValue = this.full ? this.full.corner : this.zIndex\n\t\ttable.styleSheet.push(`\n\t\t\t${bodySel.join(', ')} {\n\t\t\t\tposition: sticky;\n\t\t\t\t${zIndex}",
+                  "file_path": "src/freeze.ts",
+                  "start_line": 172,
+                  "end_line": 176,
+                  "size": 5
+                }
+              ],
+              "size": 5,
+              "content_preview": "const zIndexValue = this.full ? this.full.corner : this.zIndex\ntable.styleSheet.push(`\n${bodySel.join(', ')} {\nposition: sticky;\n${zIndex}"
+            },
+            "987d776102a607337b27869ecc8a29e3": {
+              "occurrences": 2,
+              "blocks": [
+                {
+                  "hash": "987d776102a607337b27869ecc8a29e3",
+                  "content": "table.styleSheet.push(`\n${bodySel.join(', ')} {\nposition: sticky;\n${zIndex}\n}",
+                  "original_content": "\t\ttable.styleSheet.push(`\n\t\t\t${bodySel.join(', ')} {\n\t\t\t\tposition: sticky;\n\t\t\t\t${zIndex}\n\t\t\t}",
+                  "file_path": "src/freeze.ts",
+                  "start_line": 137,
+                  "end_line": 141,
+                  "size": 5
+                },
+                {
+                  "hash": "987d776102a607337b27869ecc8a29e3",
+                  "content": "table.styleSheet.push(`\n${bodySel.join(', ')} {\nposition: sticky;\n${zIndex}\n}",
+                  "original_content": "\t\ttable.styleSheet.push(`\n\t\t\t${bodySel.join(', ')} {\n\t\t\t\tposition: sticky;\n\t\t\t\t${zIndex}\n\t\t\t}",
+                  "file_path": "src/freeze.ts",
+                  "start_line": 173,
+                  "end_line": 177,
+                  "size": 5
+                }
+              ],
+              "size": 5,
+              "content_preview": "table.styleSheet.push(`\n${bodySel.join(', ')} {\nposition: sticky;\n${zIndex}\n}"
+            },
+            "431521150309abb014eb87816852599c": {
+              "occurrences": 2,
+              "blocks": [
+                {
+                  "hash": "431521150309abb014eb87816852599c",
+                  "content": "${bodySel.join(', ')} {\nposition: sticky;\n${zIndex}\n}\n${cornerSel.join(', ')} {",
+                  "original_content": "\t\t\t${bodySel.join(', ')} {\n\t\t\t\tposition: sticky;\n\t\t\t\t${zIndex}\n\t\t\t}\n\t\t\t${cornerSel.join(', ')} {",
+                  "file_path": "src/freeze.ts",
+                  "start_line": 138,
+                  "end_line": 142,
+                  "size": 5
+                },
+                {
+                  "hash": "431521150309abb014eb87816852599c",
+                  "content": "${bodySel.join(', ')} {\nposition: sticky;\n${zIndex}\n}\n${cornerSel.join(', ')} {",
+                  "original_content": "\t\t\t${bodySel.join(', ')} {\n\t\t\t\tposition: sticky;\n\t\t\t\t${zIndex}\n\t\t\t}\n\t\t\t${cornerSel.join(', ')} {",
+                  "file_path": "src/freeze.ts",
+                  "start_line": 174,
+                  "end_line": 178,
+                  "size": 5
+                }
+              ],
+              "size": 5,
+              "content_preview": "${bodySel.join(', ')} {\nposition: sticky;\n${zIndex}\n}\n${cornerSel.join(', ')} {"
+            },
+            "80d2ecfb147c2e472324db5600838184": {
+              "occurrences": 2,
+              "blocks": [
+                {
+                  "hash": "80d2ecfb147c2e472324db5600838184",
+                  "content": "position: sticky;\n${zIndex}\n}\n${cornerSel.join(', ')} {\nz-index: ${zIndexValue};",
+                  "original_content": "\t\t\t\tposition: sticky;\n\t\t\t\t${zIndex}\n\t\t\t}\n\t\t\t${cornerSel.join(', ')} {\n\t\t\t\tz-index: ${zIndexValue};",
+                  "file_path": "src/freeze.ts",
+                  "start_line": 139,
+                  "end_line": 143,
+                  "size": 5
+                },
+                {
+                  "hash": "80d2ecfb147c2e472324db5600838184",
+                  "content": "position: sticky;\n${zIndex}\n}\n${cornerSel.join(', ')} {\nz-index: ${zIndexValue};",
+                  "original_content": "\t\t\t\tposition: sticky;\n\t\t\t\t${zIndex}\n\t\t\t}\n\t\t\t${cornerSel.join(', ')} {\n\t\t\t\tz-index: ${zIndexValue};",
+                  "file_path": "src/freeze.ts",
+                  "start_line": 175,
+                  "end_line": 179,
+                  "size": 5
+                }
+              ],
+              "size": 5,
+              "content_preview": "position: sticky;\n${zIndex}\n}\n${cornerSel.join(', ')} {\nz-index: ${zIndexValue};"
+            },
+            "632791f2c6d0b234a7c89dc6a46f3015": {
+              "occurrences": 2,
+              "blocks": [
+                {
+                  "hash": "632791f2c6d0b234a7c89dc6a46f3015",
+                  "content": "${zIndex}\n}\n${cornerSel.join(', ')} {\nz-index: ${zIndexValue};\n}",
+                  "original_content": "\t\t\t\t${zIndex}\n\t\t\t}\n\t\t\t${cornerSel.join(', ')} {\n\t\t\t\tz-index: ${zIndexValue};\n\t\t\t}",
+                  "file_path": "src/freeze.ts",
+                  "start_line": 140,
+                  "end_line": 144,
+                  "size": 5
+                },
+                {
+                  "hash": "632791f2c6d0b234a7c89dc6a46f3015",
+                  "content": "${zIndex}\n}\n${cornerSel.join(', ')} {\nz-index: ${zIndexValue};\n}",
+                  "original_content": "\t\t\t\t${zIndex}\n\t\t\t}\n\t\t\t${cornerSel.join(', ')} {\n\t\t\t\tz-index: ${zIndexValue};\n\t\t\t}",
+                  "file_path": "src/freeze.ts",
+                  "start_line": 176,
+                  "end_line": 180,
+                  "size": 5
+                }
+              ],
+              "size": 5,
+              "content_preview": "${zIndex}\n}\n${cornerSel.join(', ')} {\nz-index: ${zIndexValue};\n}"
+            },
+            "5a1fe5396b612c9eb6faa415a887a472": {
+              "occurrences": 2,
+              "blocks": [
+                {
+                  "hash": "5a1fe5396b612c9eb6faa415a887a472",
+                  "content": "}\n${cornerSel.join(', ')} {\nz-index: ${zIndexValue};\n}\n`)",
+                  "original_content": "\t\t\t}\n\t\t\t${cornerSel.join(', ')} {\n\t\t\t\tz-index: ${zIndexValue};\n\t\t\t}\n\t\t`)",
+                  "file_path": "src/freeze.ts",
+                  "start_line": 141,
+                  "end_line": 145,
+                  "size": 5
+                },
+                {
+                  "hash": "5a1fe5396b612c9eb6faa415a887a472",
+                  "content": "}\n${cornerSel.join(', ')} {\nz-index: ${zIndexValue};\n}\n`)",
+                  "original_content": "\t\t\t}\n\t\t\t${cornerSel.join(', ')} {\n\t\t\t\tz-index: ${zIndexValue};\n\t\t\t}\n\t\t`)",
+                  "file_path": "src/freeze.ts",
+                  "start_line": 177,
+                  "end_line": 181,
+                  "size": 5
+                }
+              ],
+              "size": 5,
+              "content_preview": "}\n${cornerSel.join(', ')} {\nz-index: ${zIndexValue};\n}\n`)"
+            },
+            "47f25367eb1e7a1cf06b924baa6a69ec": {
+              "occurrences": 2,
+              "blocks": [
+                {
+                  "hash": "47f25367eb1e7a1cf06b924baa6a69ec",
+                  "content": "${cornerSel.join(', ')} {\nz-index: ${zIndexValue};\n}\n`)\n}",
+                  "original_content": "\t\t\t${cornerSel.join(', ')} {\n\t\t\t\tz-index: ${zIndexValue};\n\t\t\t}\n\t\t`)\n\t}",
+                  "file_path": "src/freeze.ts",
+                  "start_line": 142,
+                  "end_line": 146,
+                  "size": 5
+                },
+                {
+                  "hash": "47f25367eb1e7a1cf06b924baa6a69ec",
+                  "content": "${cornerSel.join(', ')} {\nz-index: ${zIndexValue};\n}\n`)\n}",
+                  "original_content": "\t\t\t${cornerSel.join(', ')} {\n\t\t\t\tz-index: ${zIndexValue};\n\t\t\t}\n\t\t`)\n\t}",
+                  "file_path": "src/freeze.ts",
+                  "start_line": 178,
+                  "end_line": 182,
+                  "size": 5
+                }
+              ],
+              "size": 5,
+              "content_preview": "${cornerSel.join(', ')} {\nz-index: ${zIndexValue};\n}\n`)\n}"
+            }
+          },
+          "summary": "Excelente: Muy poca duplicación detectada. 11 bloques duplicados en 1 archivos."
+        },
+        "dependencias": {
+          "total_dependencies": 20,
+          "external_dependencies": 0,
+          "internal_dependencies": 20,
+          "dependency_ratio": 1.0,
+          "avg_dependencies_per_file": 3.5,
+          "most_used_dependencies": [
+            {
+              "dependency": "../../plugin/plugin.js",
+              "used_by_count": 5,
+              "used_by": [
+                "src/feed.ts",
+                "src/edit.ts",
+                "src/column-reorder.ts"
+              ]
+            },
+            {
+              "dependency": "../../../plugin/plugin.js",
+              "used_by_count": 5,
+              "used_by": [
+                "src/edit/lock.ts",
+                "src/edit-freeze/hide.ts",
+                "src/edit/move.ts"
+              ]
+            },
+            {
+              "dependency": "../table.js",
+              "used_by_count": 5,
+              "used_by": [
+                "src/edit/lock.ts",
+                "src/edit-freeze/hide.ts",
+                "src/edit/move.ts"
+              ]
+            },
+            {
+              "dependency": "./table.js",
+              "used_by_count": 4,
+              "used_by": [
+                "src/edit.ts",
+                "src/column-reorder.ts",
+                "src/feed.ts"
+              ]
+            },
+            {
+              "dependency": "../edit.js",
+              "used_by_count": 4,
+              "used_by": [
+                "src/edit-freeze/hide.ts",
+                "src/edit/move.ts",
+                "src/edit/lock.ts"
+              ]
+            },
+            {
+              "dependency": "../freeze.js",
+              "used_by_count": 4,
+              "used_by": [
+                "src/edit-freeze/hide.ts",
+                "src/freeze/inherit-border.ts",
+                "src/freeze/inherit-background.ts"
+              ]
+            },
+            {
+              "dependency": "../../../contenteditable/contenteditable.js",
+              "used_by_count": 2,
+              "used_by": [
+                "src/edit-freeze/hide.ts",
+                "src/edit/move.ts"
+              ]
+            },
+            {
+              "dependency": "../src/edit-freeze/scroll.js",
+              "used_by_count": 1,
+              "used_by": [
+                "demo/table.ts"
+              ]
+            },
+            {
+              "dependency": "../src/edit-freeze/hide.js",
+              "used_by_count": 1,
+              "used_by": [
+                "demo/table.ts"
+              ]
+            },
+            {
+              "dependency": "../src/table.js",
+              "used_by_count": 1,
+              "used_by": [
+                "demo/table.ts"
+              ]
+            }
+          ],
+          "files_with_most_dependencies": [
+            {
+              "file": "demo/table.ts",
+              "dependency_count": 10,
+              "dependencies": [
+                "../src/edit-freeze/scroll.js",
+                "../src/edit-freeze/hide.js",
+                "../src/table.js",
+                "../src/edit.js",
+                "../src/freeze/inherit-border.js"
+              ]
+            },
+            {
+              "file": "src/edit-freeze/hide.ts",
+              "dependency_count": 5,
+              "dependencies": [
+                "../edit.js",
+                "../../../plugin/plugin.js",
+                "../freeze.js",
+                "../table.js",
+                "../../../contenteditable/contenteditable.js"
+              ]
+            },
+            {
+              "file": "src/edit-freeze/scroll.ts",
+              "dependency_count": 4,
+              "dependencies": [
+                "../edit.js",
+                "../freeze.js",
+                "../table.js",
+                "../../../plugin/plugin.js"
+              ]
+            },
+            {
+              "file": "src/edit/move.ts",
+              "dependency_count": 4,
+              "dependencies": [
+                "../edit.js",
+                "../table.js",
+                "../../../contenteditable/contenteditable.js",
+                "../../../plugin/plugin.js"
+              ]
+            },
+            {
+              "file": "src/column-reorder.ts",
+              "dependency_count": 3,
+              "dependencies": [
+                "../../plugin/plugin.js",
+                "./freeze.js",
+                "./table.js"
+              ]
+            }
+          ],
+          "circular_dependencies": 0,
+          "circular_dependency_details": [],
+          "external_deps_list": [],
+          "coupling_score": 0.3181818181818182,
+          "summary": "Se encontraron 20 dependencias únicas: 0 externas (0.0%) y 20 internas (100.0%). No se detectaron dependencias circulares."
+        },
+        "patrones": {
+          "design_patterns": {
+            "observer": [
+              {
+                "file": "demo/table.ts",
+                "line": 28,
+                "pattern": "observer",
+                "confidence": 0.8,
+                "snippet": "addEventListener("
+              },
+              {
+                "file": "src/column-reorder.ts",
+                "line": 20,
+                "pattern": "observer",
+                "confidence": 0.8,
+                "snippet": "addEventListener("
+              },
+              {
+                "file": "src/column-reorder.ts",
+                "line": 26,
+                "pattern": "observer",
+                "confidence": 0.8,
+                "snippet": "addEventListener("
+              },
+              {
+                "file": "src/column-reorder.ts",
+                "line": 38,
+                "pattern": "observer",
+                "confidence": 0.8,
+                "snippet": "addEventListener("
+              },
+              {
+                "file": "src/edit.ts",
+                "line": 51,
+                "pattern": "observer",
+                "confidence": 0.8,
+                "snippet": "addEventListener("
+              },
+              {
+                "file": "src/edit.ts",
+                "line": 96,
+                "pattern": "observer",
+                "confidence": 0.8,
+                "snippet": "addEventListener("
+              },
+              {
+                "file": "src/table.ts",
+                "line": 69,
+                "pattern": "observer",
+                "confidence": 0.8,
+                "snippet": "addEventListener("
+              },
+              {
+                "file": "src/edit-freeze/hide.ts",
+                "line": 31,
+                "pattern": "observer",
+                "confidence": 0.8,
+                "snippet": "addEventListener("
+              },
+              {
+                "file": "src/edit-freeze/hide.ts",
+                "line": 32,
+                "pattern": "observer",
+                "confidence": 0.8,
+                "snippet": "addEventListener("
+              },
+              {
+                "file": "src/edit-freeze/hide.ts",
+                "line": 45,
+                "pattern": "observer",
+                "confidence": 0.8,
+                "snippet": "addEventListener("
+              },
+              {
+                "file": "src/edit-freeze/hide.ts",
+                "line": 46,
+                "pattern": "observer",
+                "confidence": 0.8,
+                "snippet": "addEventListener("
+              },
+              {
+                "file": "src/edit-freeze/hide.ts",
+                "line": 47,
+                "pattern": "observer",
+                "confidence": 0.8,
+                "snippet": "addEventListener("
+              },
+              {
+                "file": "src/edit/move.ts",
+                "line": 78,
+                "pattern": "observer",
+                "confidence": 0.8,
+                "snippet": "addEventListener("
+              },
+              {
+                "file": "src/freeze/inherit-border.ts",
+                "line": 24,
+                "pattern": "observer",
+                "confidence": 0.8,
+                "snippet": "on(position,"
+              }
+            ],
+            "factory": [
+              {
+                "file": "src/edit.ts",
+                "line": 80,
+                "pattern": "factory",
+                "confidence": 0.8,
+                "snippet": "createEditable("
+              },
+              {
+                "file": "src/edit.ts",
+                "line": 82,
+                "pattern": "factory",
+                "confidence": 0.8,
+                "snippet": "createElement("
+              },
+              {
+                "file": "src/edit.ts",
+                "line": 168,
+                "pattern": "factory",
+                "confidence": 0.8,
+                "snippet": "createElement("
+              },
+              {
+                "file": "src/edit.ts",
+                "line": 205,
+                "pattern": "factory",
+                "confidence": 0.8,
+                "snippet": "createEditable("
+              },
+              {
+                "file": "src/feed.ts",
+                "line": 27,
+                "pattern": "factory",
+                "confidence": 0.8,
+                "snippet": "createElement("
+              },
+              {
+                "file": "src/edit/move.ts",
+                "line": 128,
+                "pattern": "factory",
+                "confidence": 0.8,
+                "snippet": "createElement("
+              }
+            ]
+          },
+          "anti_patterns": {
+            "magic_numbers": [
+              {
+                "file": "src/column-reorder.ts",
+                "line": 28,
+                "issue": "Número mágico detectado",
+                "snippet": "if (downed && (Math.sqrt(Math.abs(mouse.x - mouseFrom.x) * Math.abs(mouse.y - mouseFrom.y)) > 10",
+                "severity": "low"
+              },
+              {
+                "file": "src/table.ts",
+                "line": 32,
+                "issue": "Número mágico detectado",
+                "snippet": "if (tableCounter > 999999999",
+                "severity": "low"
+              }
+            ],
+            "spaghetti_code": [
+              {
+                "file": "src/edit/lock.ts",
+                "issue": "Anidamiento muy profundo",
+                "max_nesting": 6,
+                "severity": "medium"
+              },
+              {
+                "file": "src/edit/move.ts",
+                "issue": "Anidamiento muy profundo",
+                "max_nesting": 6,
+                "severity": "medium"
+              }
+            ],
+            "god_class": [],
+            "long_method": []
+          },
+          "structure_analysis": {
+            "architecture_type": "unknown",
+            "organization_score": 100.0,
+            "folder_structure": {
+              "demo": 1,
+              "src": 5,
+              "src/edit-freeze": 2,
+              "src/edit": 2,
+              "src/freeze": 2
+            },
+            "file_organization": {}
+          },
+          "pattern_score": 86.0,
+          "recommendations": [
+            {
+              "type": "refactoring",
+              "priority": "high",
+              "title": "Reducir complejidad de código",
+              "description": "Se detectó código con anidamiento muy profundo. Considere extraer métodos y simplificar la lógica."
+            },
+            {
+              "type": "code_quality",
+              "priority": "medium",
+              "title": "Eliminar números mágicos",
+              "description": "Reemplace números mágicos con constantes nombradas para mejorar la legibilidad."
+            }
+          ],
+          "summary": "Se detectaron 20 instancias de patrones de diseño (observer, factory) y 4 posibles anti-patrones. Excelente uso de patrones de diseño."
+        },
+        "rendimiento": {
+          "performance_issues": {
+            "nested_loops": [],
+            "database_in_loop": [],
+            "inefficient_string_concat": [],
+            "recursive_calls": []
+          },
+          "optimizations_found": {
+            "efficient_data_structures": [
+              {
+                "file": "demo/table.ts",
+                "line": 28,
+                "type": "efficient_data_structures",
+                "snippet": "set("
+              },
+              {
+                "file": "src/edit.ts",
+                "line": 214,
+                "type": "efficient_data_structures",
+                "snippet": "set("
+              },
+              {
+                "file": "src/table.ts",
+                "line": 86,
+                "type": "efficient_data_structures",
+                "snippet": "set("
+              }
+            ],
+            "async_operations": [
+              {
+                "file": "src/feed.ts",
+                "line": 28,
+                "type": "async_operations",
+                "snippet": "await "
+              },
+              {
+                "file": "src/feed.ts",
+                "line": 28,
+                "type": "async_operations",
+                "snippet": "await "
+              }
+            ],
+            "caching": []
+          },
+          "complexity_analysis": {},
+          "performance_score": 100,
+          "recommendations": [
+            {
+              "type": "optimization",
+              "priority": "low",
+              "title": "Implementar caché",
+              "description": "Considere implementar caché para operaciones costosas que se repiten.",
+              "impact": "Puede mejorar rendimiento significativamente"
+            }
+          ],
+          "hotspots": [],
+          "summary": "Se detectaron 0 posibles problemas de rendimiento y 5 optimizaciones implementadas. El código tiene un buen rendimiento general."
+        },
+        "comentarios": {
+          "markers": {},
+          "comment_metrics": {
+            "total_comments": 11,
+            "total_lines": 1287,
+            "comment_ratio": 0.8547008547008548,
+            "avg_comment_length": 42.36363636363637,
+            "documentation_coverage": 0.0,
+            "comment_quality_score": 30.0,
+            "total_functions": 11
+          },
+          "comment_quality": {
+            "obvious_comments": [],
+            "meaningful_comments": [],
+            "code_smells": []
+          },
+          "by_priority": {},
+          "by_category": {},
+          "comment_score": 30.0,
+          "recommendations": [
+            {
+              "type": "documentation",
+              "priority": "high",
+              "title": "Aumentar documentación",
+              "description": "El código tiene muy pocos comentarios. Agregue comentarios explicativos para lógica compleja."
+            },
+            {
+              "type": "documentation",
+              "priority": "medium",
+              "title": "Documentar funciones públicas",
+              "description": "Muchas funciones carecen de documentación. Agregue docstrings o comentarios de documentación."
+            }
+          ],
+          "summary": "El código tiene un 0.9% de líneas comentadas (muy bajo) con 0.0% de funciones documentadas. La documentación necesita mejoras significativas."
+        }
+      }
+    },
+    "timestamp": "2025-11-25T12:45:30.999643",
+    "empathy_analysis": {
+      "empathy_score": 71.77,
+      "category_scores": {
+        "nombres": 100.0,
+        "documentacion": 50.0,
+        "modularidad": 100.0,
+        "complejidad": 64.11425802363233,
+        "manejo_errores": 0.0,
+        "pruebas": 100.0,
+        "seguridad": 87.43840579710145,
+        "consistencia_estilo": 100.0,
+        "patrones": 86.0,
+        "rendimiento": 100,
+        "comentarios": 30.0
+      },
+      "language_overlap": {
+        "score": 45.0,
+        "overlap": [
+          "HTML"
+        ],
+        "missing": [
+          "JavaScript"
+        ],
+        "extra": [
+          "CSS",
+          "TypeScript"
+        ]
+      },
+      "detailed_analysis": {
+        "strengths": [
+          {
+            "category": "nombres",
+            "score": 100.0,
+            "description": "Excelente alineación en nombres"
+          },
+          {
+            "category": "modularidad",
+            "score": 100.0,
+            "description": "Excelente alineación en modularidad"
+          },
+          {
+            "category": "pruebas",
+            "score": 100.0,
+            "description": "Excelente alineación en pruebas"
+          },
+          {
+            "category": "seguridad",
+            "score": 87.43840579710145,
+            "description": "Excelente alineación en seguridad"
+          },
+          {
+            "category": "consistencia_estilo",
+            "score": 100.0,
+            "description": "Excelente alineación en consistencia_estilo"
+          },
+          {
+            "category": "patrones",
+            "score": 86.0,
+            "description": "Excelente alineación en patrones"
+          },
+          {
+            "category": "rendimiento",
+            "score": 100,
+            "description": "Excelente alineación en rendimiento"
+          }
+        ],
+        "weaknesses": [
+          {
+            "category": "documentacion",
+            "score": 50.0,
+            "description": "Necesita mejorar en documentacion"
+          },
+          {
+            "category": "manejo_errores",
+            "score": 0.0,
+            "description": "Necesita mejorar en manejo_errores"
+          },
+          {
+            "category": "comentarios",
+            "score": 30.0,
+            "description": "Necesita mejorar en comentarios"
+          }
+        ],
+        "language_analysis": {
+          "alignment": 45.0,
+          "missing_languages": [
+            "JavaScript"
+          ],
+          "recommendation": "Cobertura insuficiente de lenguajes requeridos por la empresa"
+        },
+        "overall_alignment": "Bueno"
+      },
+      "recommendations": [
+        {
+          "title": "Mejorar manejo de errores",
+          "description": "Implemente mejor gestión de excepciones",
+          "tips": [
+            "Use excepciones específicas",
+            "Maneje todos los casos de error",
+            "Registre errores apropiadamente"
+          ],
+          "priority": "high",
+          "category": "manejo_errores",
+          "current_score": 0.0,
+          "impact": "Puede mejorar la puntuación en 70%"
+        },
+        {
+          "title": "Mejorar calidad de comentarios",
+          "description": "Escriba comentarios más útiles y mantenga ratio apropiado",
+          "tips": [
+            "Explique el \"por qué\", no el \"qué\"",
+            "Mantenga comentarios actualizados",
+            "Resuelva TODOs y FIXMEs pendientes"
+          ],
+          "priority": "high",
+          "category": "comentarios",
+          "current_score": 30.0,
+          "impact": "Puede mejorar la puntuación en 40%"
+        },
+        {
+          "priority": "high",
+          "category": "languages",
+          "title": "Lenguajes faltantes",
+          "description": "Considere añadir proyectos en: JavaScript",
+          "impact": "Alto impacto en la puntuación de empatía"
+        },
+        {
+          "title": "Aumentar documentación",
+          "description": "Añada más comentarios y documentación al código",
+          "tips": [
+            "Documente todas las funciones públicas",
+            "Añada comentarios en lógica compleja",
+            "Use formato de documentación estándar del lenguaje"
+          ],
+          "priority": "medium",
+          "category": "documentacion",
+          "current_score": 50.0,
+          "impact": "Puede mejorar la puntuación en 20%"
+        },
+        {
+          "title": "Reducir complejidad",
+          "description": "Simplifique el código para mejorar mantenibilidad",
+          "tips": [
+            "Divida funciones largas en más pequeñas",
+            "Reduzca niveles de anidación",
+            "Elimine código duplicado"
+          ],
+          "priority": "medium",
+          "category": "complejidad",
+          "current_score": 64.11425802363233,
+          "impact": "Puede mejorar la puntuación en 6%"
+        }
+      ],
+      "interpretation": {
+        "level": "Aceptable",
+        "description": "Alineación moderada, requiere adaptación",
+        "recommendation": "Candidato viable con plan de capacitación",
+        "color": "#666666"
+      },
+      "algorithm_version": "3.0",
+      "complexity_factors": {
+        "base_score": 80.06,
+        "correlation_adjustment": 5.68,
+        "multi_factor_adjustment": -8.28
+      }
+    }
+  }
+}

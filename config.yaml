@@ -1,0 +1,111 @@
+# =============================================================================
+# CONFIGURACIÓN DE CODE EMPATHIZER v2.2.2
+# =============================================================================
+#
+# Este archivo contiene la configuración principal del analizador de código.
+# Modifique estos valores para ajustar el comportamiento del análisis.
+#
+# SECCIONES:
+# ---------
+# 1. languages    - Lenguajes a analizar
+# 2. thresholds   - Umbrales mínimos por categoría
+# 3. weights      - Pesos para el cálculo de empatía
+# 4. analysis     - Configuración de análisis
+# 5. github       - Límites de la API de GitHub
+#
+# DOCUMENTACIÓN:
+# -------------
+# Repositorio: https://github.com/686f6c61/Code-Empathizer
+# Autor: https://github.com/686f6c61
+# Licencia: MIT
+#
+# =============================================================================
+
+# =============================================================================
+# 1. LENGUAJES A ANALIZAR
+# =============================================================================
+# Lista de lenguajes que se analizarán por defecto.
+# Lenguajes disponibles: python, javascript, typescript, java, go, csharp,
+#                        cpp, php, ruby, swift, html, css
+languages:
+  - python
+  - javascript
+  - typescript
+  - java
+
+# =============================================================================
+# 2. UMBRALES PARA MÉTRICAS
+# =============================================================================
+# Valores mínimos aceptables para cada categoría (0.0 - 1.0)
+# Valores por debajo de estos umbrales se consideran deficientes.
+thresholds:
+  nombres:
+    descriptividad: 0.7
+  documentacion:
+    cobertura: 0.6
+  complejidad:
+    ciclomatica: 0.7
+  manejo_errores:
+    cobertura: 0.5
+  pruebas:
+    cobertura: 0.4
+  seguridad:
+    validacion: 0.8
+  consistencia_estilo:
+    consistencia: 0.7
+
+# =============================================================================
+# 3. PESOS PARA EL CÁLCULO DE EMPATÍA
+# =============================================================================
+# Define la importancia relativa de cada categoría en el score final.
+# La suma de todos los pesos debe ser 1.0 (100%)
+#
+# FÓRMULA: E = Σ(Score_i × Peso_i) × FactoresAjuste
+weights:
+  nombres: 0.15
+  documentacion: 0.15
+  modularidad: 0.15
+  complejidad: 0.15
+  manejo_errores: 0.10
+  pruebas: 0.10
+  seguridad: 0.10
+  consistencia_estilo: 0.10
+
+# =============================================================================
+# 4. CONFIGURACIÓN DE ANÁLISIS
+# =============================================================================
+# Parámetros para controlar el comportamiento del análisis de archivos.
+analysis:
+  # Tamaño máximo de archivo en KB
+  max_file_size: 500
+  # Extensiones adicionales a analizar
+  additional_extensions: []
+  # Directorios a ignorar
+  ignore_dirs:
+    - node_modules
+    - venv
+    - __pycache__
+    - .git
+    - dist
+    - build
+
+# =============================================================================
+# 5. CONFIGURACIÓN DE GITHUB
+# =============================================================================
+# Límites adaptativos de archivos según el tamaño del repositorio.
+# Esto evita exceder los límites de la API de GitHub y optimiza el rendimiento.
+github:
+  # Límites de archivos a analizar según tamaño del repositorio
+  file_limits:
+    small_repos:
+      max_files: 150
+      threshold_kb: 0  # Repos menores a 10MB
+    medium_repos:
+      max_files: 80
+      threshold_kb: 10000  # Repos entre 10MB y 50MB
+    large_repos:
+      max_files: 40
+      threshold_kb: 50000  # Repos entre 50MB y 100MB
+    very_large_repos:
+      max_files: 20
+      threshold_kb: 100000  # Repos mayores a 100MB

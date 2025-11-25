@@ -1,0 +1,607 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="es" data-content_root="../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pattern_analyzer &mdash; documentación de Code Empathizer - 2.0.0</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=ea25ecff"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/translations.js?v=f85f4cfb"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Code Empathizer
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Buscar documentos" aria-label="Buscar documentos" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contenidos:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">Módulos de Code Empathizer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API de Code Empathizer</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Code Empathizer</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Código de módulo</a></li>
+      <li class="breadcrumb-item active">pattern_analyzer</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Código fuente para pattern_analyzer</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Analizador de patrones de diseño y anti-patrones.</span>
+
+<span class="sd">Este módulo es parte de Code Empathizer, una herramienta para medir la alineación</span>
+<span class="sd">entre el código de una empresa y sus candidatos.</span>
+
+<span class="sd">Autor: https://github.com/686f6c61</span>
+<span class="sd">Repositorio: https://github.com/686f6c61/Code-Empathizer</span>
+<span class="sd">Fecha: Noviembre 2025</span>
+<span class="sd">Licencia: MIT</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Set</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">defaultdict</span>
+
+
+<div class="viewcode-block" id="PatternAnalyzer">
+<a class="viewcode-back" href="../api/pattern_analyzer.html#pattern_analyzer.PatternAnalyzer">[documentos]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PatternAnalyzer</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Analizador de patrones de diseño y anti-patrones&quot;&quot;&quot;</span>
+    
+<div class="viewcode-block" id="PatternAnalyzer.__init__">
+<a class="viewcode-back" href="../api/pattern_analyzer.html#pattern_analyzer.PatternAnalyzer.__init__">[documentos]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Inicializa el analizador con definiciones de patrones&quot;&quot;&quot;</span>
+        <span class="c1"># Patrones de diseño por lenguaje</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">design_patterns</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;singleton&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;python&#39;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="sa">r</span><span class="s1">&#39;class\s+\w+.*:\s*\n\s*_instance\s*=\s*None&#39;</span><span class="p">,</span>
+                    <span class="sa">r</span><span class="s1">&#39;def\s+__new__\s*\(\s*cls.*\).*:\s*\n.*if.*not.*cls\._instance&#39;</span><span class="p">,</span>
+                    <span class="sa">r</span><span class="s1">&#39;@singleton&#39;</span><span class="p">,</span>
+                <span class="p">],</span>
+                <span class="s1">&#39;javascript&#39;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="sa">r</span><span class="s1">&#39;class\s+\w+\s*{\s*static\s+instance&#39;</span><span class="p">,</span>
+                    <span class="sa">r</span><span class="s1">&#39;let\s+instance\s*=\s*null.*getInstance&#39;</span><span class="p">,</span>
+                    <span class="sa">r</span><span class="s1">&#39;const\s+\w+\s*=\s*\(\s*\)\s*=&gt;\s*{\s*let\s+instance&#39;</span><span class="p">,</span>
+                <span class="p">],</span>
+                <span class="s1">&#39;java&#39;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="sa">r</span><span class="s1">&#39;private\s+static\s+\w+\s+instance&#39;</span><span class="p">,</span>
+                    <span class="sa">r</span><span class="s1">&#39;public\s+static\s+\w+\s+getInstance&#39;</span><span class="p">,</span>
+                    <span class="sa">r</span><span class="s1">&#39;private\s+\w+\s*\(\s*\)\s*{\s*}.*getInstance&#39;</span><span class="p">,</span>
+                <span class="p">]</span>
+            <span class="p">},</span>
+            <span class="s1">&#39;factory&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;python&#39;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="sa">r</span><span class="s1">&#39;class\s+\w*Factory\w*.*:&#39;</span><span class="p">,</span>
+                    <span class="sa">r</span><span class="s1">&#39;def\s+create_\w+\s*\(&#39;</span><span class="p">,</span>
+                    <span class="sa">r</span><span class="s1">&#39;def\s+factory_method\s*\(&#39;</span><span class="p">,</span>
+                <span class="p">],</span>
+                <span class="s1">&#39;javascript&#39;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="sa">r</span><span class="s1">&#39;class\s+\w*Factory\w*&#39;</span><span class="p">,</span>
+                    <span class="sa">r</span><span class="s1">&#39;create[A-Z]\w+\s*\(&#39;</span><span class="p">,</span>
+                    <span class="sa">r</span><span class="s1">&#39;function\s+\w*[Ff]actory\w*&#39;</span><span class="p">,</span>
+                <span class="p">],</span>
+                <span class="s1">&#39;java&#39;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="sa">r</span><span class="s1">&#39;class\s+\w*Factory\w*&#39;</span><span class="p">,</span>
+                    <span class="sa">r</span><span class="s1">&#39;public\s+\w+\s+create\w+&#39;</span><span class="p">,</span>
+                    <span class="sa">r</span><span class="s1">&#39;interface\s+\w*Factory\w*&#39;</span><span class="p">,</span>
+                <span class="p">]</span>
+            <span class="p">},</span>
+            <span class="s1">&#39;observer&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;python&#39;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="sa">r</span><span class="s1">&#39;def\s+attach\s*\(\s*self.*observer&#39;</span><span class="p">,</span>
+                    <span class="sa">r</span><span class="s1">&#39;def\s+notify\s*\(\s*self&#39;</span><span class="p">,</span>
+                    <span class="sa">r</span><span class="s1">&#39;class\s+\w*Observer\w*.*:&#39;</span><span class="p">,</span>
+                    <span class="sa">r</span><span class="s1">&#39;def\s+update\s*\(\s*self.*subject&#39;</span><span class="p">,</span>
+                <span class="p">],</span>
+                <span class="s1">&#39;javascript&#39;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="sa">r</span><span class="s1">&#39;subscribe\s*\(&#39;</span><span class="p">,</span>
+                    <span class="sa">r</span><span class="s1">&#39;addEventListener\s*\(&#39;</span><span class="p">,</span>
+                    <span class="sa">r</span><span class="s1">&#39;on\s*\(\s*[</span><span class="se">\&#39;</span><span class="s1">&quot;]?\w+[</span><span class="se">\&#39;</span><span class="s1">&quot;]?\s*,&#39;</span><span class="p">,</span>
+                    <span class="sa">r</span><span class="s1">&#39;emit\s*\(&#39;</span><span class="p">,</span>
+                <span class="p">],</span>
+                <span class="s1">&#39;java&#39;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="sa">r</span><span class="s1">&#39;interface\s+\w*Observer\w*&#39;</span><span class="p">,</span>
+                    <span class="sa">r</span><span class="s1">&#39;void\s+update\s*\(&#39;</span><span class="p">,</span>
+                    <span class="sa">r</span><span class="s1">&#39;addObserver\s*\(&#39;</span><span class="p">,</span>
+                    <span class="sa">r</span><span class="s1">&#39;notifyObservers\s*\(&#39;</span><span class="p">,</span>
+                <span class="p">]</span>
+            <span class="p">},</span>
+            <span class="s1">&#39;decorator&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;python&#39;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="sa">r</span><span class="s1">&#39;@\w+\s*\n\s*def\s+\w+&#39;</span><span class="p">,</span>
+                    <span class="sa">r</span><span class="s1">&#39;def\s+\w+\s*\(\s*func\s*\)&#39;</span><span class="p">,</span>
+                    <span class="sa">r</span><span class="s1">&#39;@property&#39;</span><span class="p">,</span>
+                    <span class="sa">r</span><span class="s1">&#39;@staticmethod&#39;</span><span class="p">,</span>
+                    <span class="sa">r</span><span class="s1">&#39;@classmethod&#39;</span><span class="p">,</span>
+                <span class="p">],</span>
+                <span class="s1">&#39;javascript&#39;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="sa">r</span><span class="s1">&#39;@\w+\s*\n\s*\w+&#39;</span><span class="p">,</span>
+                    <span class="sa">r</span><span class="s1">&#39;function\s+\w+Decorator&#39;</span><span class="p">,</span>
+                <span class="p">],</span>
+                <span class="s1">&#39;java&#39;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="sa">r</span><span class="s1">&#39;@\w+\s*\n\s*public&#39;</span><span class="p">,</span>
+                    <span class="sa">r</span><span class="s1">&#39;@Override&#39;</span><span class="p">,</span>
+                    <span class="sa">r</span><span class="s1">&#39;@Deprecated&#39;</span><span class="p">,</span>
+                <span class="p">]</span>
+            <span class="p">},</span>
+            <span class="s1">&#39;strategy&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;python&#39;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="sa">r</span><span class="s1">&#39;class\s+\w*Strategy\w*.*:&#39;</span><span class="p">,</span>
+                    <span class="sa">r</span><span class="s1">&#39;def\s+execute_strategy\s*\(&#39;</span><span class="p">,</span>
+                    <span class="sa">r</span><span class="s1">&#39;def\s+set_strategy\s*\(&#39;</span><span class="p">,</span>
+                <span class="p">],</span>
+                <span class="s1">&#39;javascript&#39;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="sa">r</span><span class="s1">&#39;class\s+\w*Strategy\w*&#39;</span><span class="p">,</span>
+                    <span class="sa">r</span><span class="s1">&#39;setStrategy\s*\(&#39;</span><span class="p">,</span>
+                    <span class="sa">r</span><span class="s1">&#39;executeStrategy\s*\(&#39;</span><span class="p">,</span>
+                <span class="p">],</span>
+                <span class="s1">&#39;java&#39;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="sa">r</span><span class="s1">&#39;interface\s+\w*Strategy\w*&#39;</span><span class="p">,</span>
+                    <span class="sa">r</span><span class="s1">&#39;void\s+execute\s*\(&#39;</span><span class="p">,</span>
+                    <span class="sa">r</span><span class="s1">&#39;setStrategy\s*\(&#39;</span><span class="p">,</span>
+                <span class="p">]</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        
+        <span class="c1"># Anti-patrones</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">anti_patterns</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;god_class&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;indicators&#39;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="s1">&#39;too_many_methods&#39;</span><span class="p">,</span>  <span class="c1"># &gt; 20 métodos</span>
+                    <span class="s1">&#39;too_many_lines&#39;</span><span class="p">,</span>    <span class="c1"># &gt; 500 líneas</span>
+                    <span class="s1">&#39;too_many_dependencies&#39;</span>  <span class="c1"># &gt; 10 imports</span>
+                <span class="p">]</span>
+            <span class="p">},</span>
+            <span class="s1">&#39;spaghetti_code&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;patterns&#39;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="sa">r</span><span class="s1">&#39;goto\s+\w+&#39;</span><span class="p">,</span>  <span class="c1"># GOTOs</span>
+                    <span class="sa">r</span><span class="s1">&#39;if.*:\s*\n\s*if.*:\s*\n\s*if.*:&#39;</span><span class="p">,</span>  <span class="c1"># Nested ifs profundos</span>
+                    <span class="sa">r</span><span class="s1">&#39;while.*:\s*\n\s*while.*:\s*\n\s*while.*:&#39;</span><span class="p">,</span>  <span class="c1"># Nested loops</span>
+                <span class="p">]</span>
+            <span class="p">},</span>
+            <span class="s1">&#39;copy_paste&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;indicators&#39;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="s1">&#39;high_duplication&#39;</span><span class="p">,</span>  <span class="c1"># Detectado por duplication analyzer</span>
+                    <span class="s1">&#39;similar_method_names&#39;</span>
+                <span class="p">]</span>
+            <span class="p">},</span>
+            <span class="s1">&#39;magic_numbers&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;patterns&#39;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="sa">r</span><span class="s1">&#39;if\s+.*[&gt;&lt;=]\s*\d{2,}&#39;</span><span class="p">,</span>  <span class="c1"># Números mágicos en condiciones</span>
+                    <span class="sa">r</span><span class="s1">&#39;return\s+\d{2,}&#39;</span><span class="p">,</span>  <span class="c1"># Números mágicos en returns</span>
+                    <span class="sa">r</span><span class="s1">&#39;=\s*\d{2,}[^\d\.]&#39;</span><span class="p">,</span>  <span class="c1"># Asignaciones con números mágicos</span>
+                <span class="p">]</span>
+            <span class="p">},</span>
+            <span class="s1">&#39;long_method&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;indicators&#39;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="s1">&#39;method_lines &gt; 50&#39;</span>  <span class="c1"># Métodos muy largos</span>
+                <span class="p">]</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        
+        <span class="c1"># Estructura y organización</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">structure_patterns</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;mvc&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;folders&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;models&#39;</span><span class="p">,</span> <span class="s1">&#39;views&#39;</span><span class="p">,</span> <span class="s1">&#39;controllers&#39;</span><span class="p">],</span>
+                <span class="s1">&#39;files&#39;</span><span class="p">:</span> <span class="p">[</span><span class="sa">r</span><span class="s1">&#39;.*model.*&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;.*view.*&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;.*controller.*&#39;</span><span class="p">]</span>
+            <span class="p">},</span>
+            <span class="s1">&#39;layered&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;folders&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;presentation&#39;</span><span class="p">,</span> <span class="s1">&#39;business&#39;</span><span class="p">,</span> <span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="s1">&#39;domain&#39;</span><span class="p">],</span>
+                <span class="s1">&#39;files&#39;</span><span class="p">:</span> <span class="p">[</span><span class="sa">r</span><span class="s1">&#39;.*service.*&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;.*repository.*&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;.*dto.*&#39;</span><span class="p">]</span>
+            <span class="p">},</span>
+            <span class="s1">&#39;clean&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;folders&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;entities&#39;</span><span class="p">,</span> <span class="s1">&#39;usecases&#39;</span><span class="p">,</span> <span class="s1">&#39;interfaces&#39;</span><span class="p">,</span> <span class="s1">&#39;infrastructure&#39;</span><span class="p">],</span>
+                <span class="s1">&#39;files&#39;</span><span class="p">:</span> <span class="p">[</span><span class="sa">r</span><span class="s1">&#39;.*entity.*&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;.*usecase.*&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;.*interface.*&#39;</span><span class="p">]</span>
+            <span class="p">},</span>
+            <span class="s1">&#39;modular&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;indicators&#39;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="s1">&#39;separate_concerns&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;low_coupling&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;high_cohesion&#39;</span>
+                <span class="p">]</span>
+            <span class="p">}</span>
+        <span class="p">}</span></div>
+
+    
+<div class="viewcode-block" id="PatternAnalyzer.analyze_patterns">
+<a class="viewcode-back" href="../api/pattern_analyzer.html#pattern_analyzer.PatternAnalyzer.analyze_patterns">[documentos]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">analyze_patterns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">files</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Analiza patrones de diseño en los archivos.</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            files: Diccionario con rutas y contenido de archivos</span>
+<span class="sd">            </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            Diccionario con patrones detectados y métricas</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;design_patterns&#39;</span><span class="p">:</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">),</span>
+            <span class="s1">&#39;anti_patterns&#39;</span><span class="p">:</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">),</span>
+            <span class="s1">&#39;structure_analysis&#39;</span><span class="p">:</span> <span class="p">{},</span>
+            <span class="s1">&#39;pattern_score&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s1">&#39;recommendations&#39;</span><span class="p">:</span> <span class="p">[]</span>
+        <span class="p">}</span>
+        
+        <span class="c1"># Analizar cada archivo</span>
+        <span class="k">for</span> <span class="n">file_path</span><span class="p">,</span> <span class="n">content</span> <span class="ow">in</span> <span class="n">files</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">language</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_detect_language</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">language</span><span class="p">:</span>
+                <span class="c1"># Detectar patrones de diseño</span>
+                <span class="n">design_patterns</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_detect_design_patterns</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">language</span><span class="p">,</span> <span class="n">file_path</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">pattern</span><span class="p">,</span> <span class="n">locations</span> <span class="ow">in</span> <span class="n">design_patterns</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="n">results</span><span class="p">[</span><span class="s1">&#39;design_patterns&#39;</span><span class="p">][</span><span class="n">pattern</span><span class="p">]</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">locations</span><span class="p">)</span>
+                
+                <span class="c1"># Detectar anti-patrones</span>
+                <span class="n">anti_patterns</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_detect_anti_patterns</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">file_path</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">pattern</span><span class="p">,</span> <span class="n">locations</span> <span class="ow">in</span> <span class="n">anti_patterns</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="n">results</span><span class="p">[</span><span class="s1">&#39;anti_patterns&#39;</span><span class="p">][</span><span class="n">pattern</span><span class="p">]</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">locations</span><span class="p">)</span>
+        
+        <span class="c1"># Analizar estructura del proyecto</span>
+        <span class="n">results</span><span class="p">[</span><span class="s1">&#39;structure_analysis&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_analyze_structure</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">files</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+        
+        <span class="c1"># Calcular score y recomendaciones</span>
+        <span class="n">results</span><span class="p">[</span><span class="s1">&#39;pattern_score&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_calculate_pattern_score</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+        <span class="n">results</span><span class="p">[</span><span class="s1">&#39;recommendations&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generate_recommendations</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+        
+        <span class="c1"># Resumen</span>
+        <span class="n">results</span><span class="p">[</span><span class="s1">&#39;summary&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generate_summary</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">results</span></div>
+
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_detect_language</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Detecta el lenguaje basado en la extensión&quot;&quot;&quot;</span>
+        <span class="n">ext_map</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;.py&#39;</span><span class="p">:</span> <span class="s1">&#39;python&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;.js&#39;</span><span class="p">:</span> <span class="s1">&#39;javascript&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;.jsx&#39;</span><span class="p">:</span> <span class="s1">&#39;javascript&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;.ts&#39;</span><span class="p">:</span> <span class="s1">&#39;javascript&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;.tsx&#39;</span><span class="p">:</span> <span class="s1">&#39;javascript&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;.java&#39;</span><span class="p">:</span> <span class="s1">&#39;java&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;.cs&#39;</span><span class="p">:</span> <span class="s1">&#39;csharp&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;.cpp&#39;</span><span class="p">:</span> <span class="s1">&#39;cpp&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;.go&#39;</span><span class="p">:</span> <span class="s1">&#39;go&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;.rb&#39;</span><span class="p">:</span> <span class="s1">&#39;ruby&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;.php&#39;</span><span class="p">:</span> <span class="s1">&#39;php&#39;</span>
+        <span class="p">}</span>
+        
+        <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+        <span class="n">ext</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">file_path</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">ext_map</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">ext</span><span class="p">)</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_detect_design_patterns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">language</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Detecta patrones de diseño en el contenido&quot;&quot;&quot;</span>
+        <span class="n">found_patterns</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+        
+        <span class="k">for</span> <span class="n">pattern_name</span><span class="p">,</span> <span class="n">pattern_def</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">design_patterns</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">language</span> <span class="ow">in</span> <span class="n">pattern_def</span><span class="p">:</span>
+                <span class="n">patterns</span> <span class="o">=</span> <span class="n">pattern_def</span><span class="p">[</span><span class="n">language</span><span class="p">]</span>
+                
+                <span class="k">for</span> <span class="n">pattern_regex</span> <span class="ow">in</span> <span class="n">patterns</span><span class="p">:</span>
+                    <span class="n">matches</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">finditer</span><span class="p">(</span><span class="n">pattern_regex</span><span class="p">,</span> <span class="n">content</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">MULTILINE</span> <span class="o">|</span> <span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">match</span> <span class="ow">in</span> <span class="n">matches</span><span class="p">:</span>
+                        <span class="n">line_num</span> <span class="o">=</span> <span class="n">content</span><span class="p">[:</span><span class="n">match</span><span class="o">.</span><span class="n">start</span><span class="p">()]</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+                        <span class="n">found_patterns</span><span class="p">[</span><span class="n">pattern_name</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                            <span class="s1">&#39;file&#39;</span><span class="p">:</span> <span class="n">file_path</span><span class="p">,</span>
+                            <span class="s1">&#39;line&#39;</span><span class="p">:</span> <span class="n">line_num</span><span class="p">,</span>
+                            <span class="s1">&#39;pattern&#39;</span><span class="p">:</span> <span class="n">pattern_name</span><span class="p">,</span>
+                            <span class="s1">&#39;confidence&#39;</span><span class="p">:</span> <span class="mf">0.8</span><span class="p">,</span>  <span class="c1"># Confianza base</span>
+                            <span class="s1">&#39;snippet&#39;</span><span class="p">:</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">0</span><span class="p">)[:</span><span class="mi">100</span><span class="p">]</span>
+                        <span class="p">})</span>
+        
+        <span class="k">return</span> <span class="n">found_patterns</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_detect_anti_patterns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Detecta anti-patrones en el contenido&quot;&quot;&quot;</span>
+        <span class="n">found_anti_patterns</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="n">content</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+        
+        <span class="c1"># God Class - archivo muy largo</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">500</span><span class="p">:</span>
+            <span class="n">found_anti_patterns</span><span class="p">[</span><span class="s1">&#39;god_class&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                <span class="s1">&#39;file&#39;</span><span class="p">:</span> <span class="n">file_path</span><span class="p">,</span>
+                <span class="s1">&#39;issue&#39;</span><span class="p">:</span> <span class="s1">&#39;Archivo muy largo&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;lines&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">lines</span><span class="p">),</span>
+                <span class="s1">&#39;severity&#39;</span><span class="p">:</span> <span class="s1">&#39;high&#39;</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1000</span> <span class="k">else</span> <span class="s1">&#39;medium&#39;</span>
+            <span class="p">})</span>
+        
+        <span class="c1"># Spaghetti code - anidamiento profundo</span>
+        <span class="n">max_nesting</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_calculate_max_nesting</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">max_nesting</span> <span class="o">&gt;</span> <span class="mi">4</span><span class="p">:</span>
+            <span class="n">found_anti_patterns</span><span class="p">[</span><span class="s1">&#39;spaghetti_code&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                <span class="s1">&#39;file&#39;</span><span class="p">:</span> <span class="n">file_path</span><span class="p">,</span>
+                <span class="s1">&#39;issue&#39;</span><span class="p">:</span> <span class="s1">&#39;Anidamiento muy profundo&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;max_nesting&#39;</span><span class="p">:</span> <span class="n">max_nesting</span><span class="p">,</span>
+                <span class="s1">&#39;severity&#39;</span><span class="p">:</span> <span class="s1">&#39;high&#39;</span> <span class="k">if</span> <span class="n">max_nesting</span> <span class="o">&gt;</span> <span class="mi">6</span> <span class="k">else</span> <span class="s1">&#39;medium&#39;</span>
+            <span class="p">})</span>
+        
+        <span class="c1"># Magic numbers</span>
+        <span class="n">magic_patterns</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">anti_patterns</span><span class="p">[</span><span class="s1">&#39;magic_numbers&#39;</span><span class="p">][</span><span class="s1">&#39;patterns&#39;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">pattern</span> <span class="ow">in</span> <span class="n">magic_patterns</span><span class="p">:</span>
+            <span class="n">matches</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">finditer</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">content</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">MULTILINE</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">match</span> <span class="ow">in</span> <span class="n">matches</span><span class="p">:</span>
+                <span class="n">line_num</span> <span class="o">=</span> <span class="n">content</span><span class="p">[:</span><span class="n">match</span><span class="o">.</span><span class="n">start</span><span class="p">()]</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+                <span class="n">found_anti_patterns</span><span class="p">[</span><span class="s1">&#39;magic_numbers&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                    <span class="s1">&#39;file&#39;</span><span class="p">:</span> <span class="n">file_path</span><span class="p">,</span>
+                    <span class="s1">&#39;line&#39;</span><span class="p">:</span> <span class="n">line_num</span><span class="p">,</span>
+                    <span class="s1">&#39;issue&#39;</span><span class="p">:</span> <span class="s1">&#39;Número mágico detectado&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;snippet&#39;</span><span class="p">:</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
+                    <span class="s1">&#39;severity&#39;</span><span class="p">:</span> <span class="s1">&#39;low&#39;</span>
+                <span class="p">})</span>
+        
+        <span class="c1"># Long methods (simplificado)</span>
+        <span class="n">method_pattern</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;def\s+\w+.*:|function\s+\w+.*{|public\s+\w+\s+\w+.*{&#39;</span>
+        <span class="n">methods</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">finditer</span><span class="p">(</span><span class="n">method_pattern</span><span class="p">,</span> <span class="n">content</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">MULTILINE</span><span class="p">))</span>
+        
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">method</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">methods</span><span class="p">):</span>
+            <span class="n">start_line</span> <span class="o">=</span> <span class="n">content</span><span class="p">[:</span><span class="n">method</span><span class="o">.</span><span class="n">start</span><span class="p">()]</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="c1"># Estimar fin del método (siguiente método o fin de archivo)</span>
+            <span class="n">end_pos</span> <span class="o">=</span> <span class="n">methods</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">start</span><span class="p">()</span> <span class="k">if</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">methods</span><span class="p">)</span> <span class="k">else</span> <span class="nb">len</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+            <span class="n">method_lines</span> <span class="o">=</span> <span class="n">content</span><span class="p">[</span><span class="n">method</span><span class="o">.</span><span class="n">start</span><span class="p">():</span><span class="n">end_pos</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+            
+            <span class="k">if</span> <span class="n">method_lines</span> <span class="o">&gt;</span> <span class="mi">50</span><span class="p">:</span>
+                <span class="n">found_anti_patterns</span><span class="p">[</span><span class="s1">&#39;long_method&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                    <span class="s1">&#39;file&#39;</span><span class="p">:</span> <span class="n">file_path</span><span class="p">,</span>
+                    <span class="s1">&#39;line&#39;</span><span class="p">:</span> <span class="n">start_line</span><span class="p">,</span>
+                    <span class="s1">&#39;issue&#39;</span><span class="p">:</span> <span class="s1">&#39;Método muy largo&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;lines&#39;</span><span class="p">:</span> <span class="n">method_lines</span><span class="p">,</span>
+                    <span class="s1">&#39;severity&#39;</span><span class="p">:</span> <span class="s1">&#39;high&#39;</span> <span class="k">if</span> <span class="n">method_lines</span> <span class="o">&gt;</span> <span class="mi">100</span> <span class="k">else</span> <span class="s1">&#39;medium&#39;</span>
+                <span class="p">})</span>
+        
+        <span class="k">return</span> <span class="n">found_anti_patterns</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_calculate_max_nesting</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calcula el nivel máximo de anidamiento&quot;&quot;&quot;</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="n">content</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">max_nesting</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">current_nesting</span> <span class="o">=</span> <span class="mi">0</span>
+        
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
+            <span class="c1"># Contar indentación (asumiendo 4 espacios o 1 tab)</span>
+            <span class="n">indent</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="p">)</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">lstrip</span><span class="p">())</span>
+            <span class="n">nesting_level</span> <span class="o">=</span> <span class="n">indent</span> <span class="o">//</span> <span class="mi">4</span> <span class="k">if</span> <span class="n">indent</span> <span class="o">%</span> <span class="mi">4</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">indent</span>
+            
+            <span class="c1"># Detectar bloques</span>
+            <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">keyword</span> <span class="ow">in</span> <span class="n">line</span> <span class="k">for</span> <span class="n">keyword</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;if &#39;</span><span class="p">,</span> <span class="s1">&#39;for &#39;</span><span class="p">,</span> <span class="s1">&#39;while &#39;</span><span class="p">,</span> <span class="s1">&#39;def &#39;</span><span class="p">,</span> <span class="s1">&#39;class &#39;</span><span class="p">,</span> <span class="s1">&#39;function &#39;</span><span class="p">,</span> <span class="s1">&#39;try&#39;</span><span class="p">]):</span>
+                <span class="n">current_nesting</span> <span class="o">=</span> <span class="n">nesting_level</span> <span class="o">+</span> <span class="mi">1</span>
+                <span class="n">max_nesting</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">max_nesting</span><span class="p">,</span> <span class="n">current_nesting</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">max_nesting</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_analyze_structure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_paths</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Analiza la estructura y organización del proyecto&quot;&quot;&quot;</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+        
+        <span class="n">structure</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;architecture_type&#39;</span><span class="p">:</span> <span class="s1">&#39;unknown&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;organization_score&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s1">&#39;folder_structure&#39;</span><span class="p">:</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">int</span><span class="p">),</span>
+            <span class="s1">&#39;file_organization&#39;</span><span class="p">:</span> <span class="p">{}</span>
+        <span class="p">}</span>
+        
+        <span class="c1"># Analizar estructura de carpetas</span>
+        <span class="n">folders</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">file_paths</span><span class="p">:</span>
+            <span class="n">parts</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">folders</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">parts</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        
+        <span class="c1"># Detectar arquitectura</span>
+        <span class="k">for</span> <span class="n">arch_type</span><span class="p">,</span> <span class="n">patterns</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">structure_patterns</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">arch_type</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;mvc&#39;</span><span class="p">,</span> <span class="s1">&#39;layered&#39;</span><span class="p">,</span> <span class="s1">&#39;clean&#39;</span><span class="p">]:</span>
+                <span class="n">matching_folders</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="mi">1</span> <span class="k">for</span> <span class="n">folder</span> <span class="ow">in</span> <span class="n">patterns</span><span class="p">[</span><span class="s1">&#39;folders&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">folder</span> <span class="ow">in</span> <span class="n">f</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">folders</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">matching_folders</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">patterns</span><span class="p">[</span><span class="s1">&#39;folders&#39;</span><span class="p">])</span> <span class="o">*</span> <span class="mf">0.6</span><span class="p">:</span>  <span class="c1"># 60% match</span>
+                    <span class="n">structure</span><span class="p">[</span><span class="s1">&#39;architecture_type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">arch_type</span>
+                    <span class="k">break</span>
+        
+        <span class="c1"># Calcular score de organización</span>
+        <span class="n">total_files</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">file_paths</span><span class="p">)</span>
+        <span class="n">organized_files</span> <span class="o">=</span> <span class="mi">0</span>
+        
+        <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">file_paths</span><span class="p">:</span>
+            <span class="c1"># Archivos en carpetas apropiadas</span>
+            <span class="k">if</span> <span class="s1">&#39;/&#39;</span> <span class="ow">in</span> <span class="n">path</span><span class="p">:</span>  <span class="c1"># No en raíz</span>
+                <span class="n">organized_files</span> <span class="o">+=</span> <span class="mi">1</span>
+            
+            <span class="c1"># Nombres descriptivos</span>
+            <span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+            <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">pattern</span> <span class="ow">in</span> <span class="n">filename</span> <span class="k">for</span> <span class="n">pattern</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;test&#39;</span><span class="p">,</span> <span class="s1">&#39;spec&#39;</span><span class="p">,</span> <span class="s1">&#39;model&#39;</span><span class="p">,</span> <span class="s1">&#39;view&#39;</span><span class="p">,</span> <span class="s1">&#39;controller&#39;</span><span class="p">,</span> <span class="s1">&#39;service&#39;</span><span class="p">,</span> <span class="s1">&#39;util&#39;</span><span class="p">]):</span>
+                <span class="n">organized_files</span> <span class="o">+=</span> <span class="mf">0.5</span>
+        
+        <span class="n">structure</span><span class="p">[</span><span class="s1">&#39;organization_score&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">organized_files</span> <span class="o">/</span> <span class="n">total_files</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span> <span class="k">if</span> <span class="n">total_files</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span>
+        
+        <span class="c1"># Distribución de archivos por carpeta</span>
+        <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">file_paths</span><span class="p">:</span>
+            <span class="n">folder</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="ow">or</span> <span class="s1">&#39;root&#39;</span>
+            <span class="n">structure</span><span class="p">[</span><span class="s1">&#39;folder_structure&#39;</span><span class="p">][</span><span class="n">folder</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        
+        <span class="k">return</span> <span class="n">structure</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_calculate_pattern_score</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">results</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calcula un score basado en patrones encontrados&quot;&quot;&quot;</span>
+        <span class="n">score</span> <span class="o">=</span> <span class="mf">50.0</span>  <span class="c1"># Base</span>
+        
+        <span class="c1"># Bonus por patrones de diseño</span>
+        <span class="n">design_patterns_count</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">locations</span><span class="p">)</span> <span class="k">for</span> <span class="n">locations</span> <span class="ow">in</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;design_patterns&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+        <span class="n">score</span> <span class="o">+=</span> <span class="nb">min</span><span class="p">(</span><span class="n">design_patterns_count</span> <span class="o">*</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>  <span class="c1"># Máx +30</span>
+        
+        <span class="c1"># Penalización por anti-patrones</span>
+        <span class="k">for</span> <span class="n">pattern_type</span><span class="p">,</span> <span class="n">instances</span> <span class="ow">in</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;anti_patterns&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">instance</span> <span class="ow">in</span> <span class="n">instances</span><span class="p">:</span>
+                <span class="n">severity</span> <span class="o">=</span> <span class="n">instance</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;severity&#39;</span><span class="p">,</span> <span class="s1">&#39;low&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">severity</span> <span class="o">==</span> <span class="s1">&#39;high&#39;</span><span class="p">:</span>
+                    <span class="n">score</span> <span class="o">-=</span> <span class="mi">10</span>
+                <span class="k">elif</span> <span class="n">severity</span> <span class="o">==</span> <span class="s1">&#39;medium&#39;</span><span class="p">:</span>
+                    <span class="n">score</span> <span class="o">-=</span> <span class="mi">5</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">score</span> <span class="o">-=</span> <span class="mi">2</span>
+        
+        <span class="c1"># Bonus por buena organización</span>
+        <span class="n">org_score</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;structure_analysis&#39;</span><span class="p">][</span><span class="s1">&#39;organization_score&#39;</span><span class="p">]</span>
+        <span class="n">score</span> <span class="o">+=</span> <span class="n">org_score</span> <span class="o">*</span> <span class="mf">0.2</span>  <span class="c1"># Máx +20</span>
+        
+        <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">score</span><span class="p">))</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_generate_recommendations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">results</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Genera recomendaciones basadas en el análisis&quot;&quot;&quot;</span>
+        <span class="n">recommendations</span> <span class="o">=</span> <span class="p">[]</span>
+        
+        <span class="c1"># Recomendaciones por anti-patrones</span>
+        <span class="k">if</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;anti_patterns&#39;</span><span class="p">][</span><span class="s1">&#39;god_class&#39;</span><span class="p">]:</span>
+            <span class="n">recommendations</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;refactoring&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;priority&#39;</span><span class="p">:</span> <span class="s1">&#39;high&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="s1">&#39;Refactorizar clases grandes&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="s1">&#39;Se detectaron clases/archivos muy grandes. Considere dividirlos en componentes más pequeños y cohesivos.&#39;</span>
+            <span class="p">})</span>
+        
+        <span class="k">if</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;anti_patterns&#39;</span><span class="p">][</span><span class="s1">&#39;spaghetti_code&#39;</span><span class="p">]:</span>
+            <span class="n">recommendations</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;refactoring&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;priority&#39;</span><span class="p">:</span> <span class="s1">&#39;high&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="s1">&#39;Reducir complejidad de código&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="s1">&#39;Se detectó código con anidamiento muy profundo. Considere extraer métodos y simplificar la lógica.&#39;</span>
+            <span class="p">})</span>
+        
+        <span class="k">if</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;anti_patterns&#39;</span><span class="p">][</span><span class="s1">&#39;magic_numbers&#39;</span><span class="p">]:</span>
+            <span class="n">recommendations</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;code_quality&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;priority&#39;</span><span class="p">:</span> <span class="s1">&#39;medium&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="s1">&#39;Eliminar números mágicos&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="s1">&#39;Reemplace números mágicos con constantes nombradas para mejorar la legibilidad.&#39;</span>
+            <span class="p">})</span>
+        
+        <span class="k">if</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;anti_patterns&#39;</span><span class="p">][</span><span class="s1">&#39;long_method&#39;</span><span class="p">]:</span>
+            <span class="n">recommendations</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;refactoring&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;priority&#39;</span><span class="p">:</span> <span class="s1">&#39;medium&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="s1">&#39;Dividir métodos largos&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="s1">&#39;Se detectaron métodos muy largos. Considere dividirlos en métodos más pequeños y específicos.&#39;</span>
+            <span class="p">})</span>
+        
+        <span class="c1"># Recomendaciones por falta de patrones</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;design_patterns&#39;</span><span class="p">]:</span>
+            <span class="n">recommendations</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;architecture&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;priority&#39;</span><span class="p">:</span> <span class="s1">&#39;low&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="s1">&#39;Considerar patrones de diseño&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="s1">&#39;No se detectaron patrones de diseño comunes. Evalúe si algún patrón podría mejorar la arquitectura.&#39;</span>
+            <span class="p">})</span>
+        
+        <span class="c1"># Recomendaciones de estructura</span>
+        <span class="k">if</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;structure_analysis&#39;</span><span class="p">][</span><span class="s1">&#39;organization_score&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">60</span><span class="p">:</span>
+            <span class="n">recommendations</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;organization&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;priority&#39;</span><span class="p">:</span> <span class="s1">&#39;medium&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="s1">&#39;Mejorar organización de archivos&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="s1">&#39;La estructura del proyecto podría mejorarse. Considere organizar archivos en carpetas temáticas.&#39;</span>
+            <span class="p">})</span>
+        
+        <span class="k">return</span> <span class="n">recommendations</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_generate_summary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">results</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Genera un resumen del análisis de patrones&quot;&quot;&quot;</span>
+        <span class="n">design_count</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">locations</span><span class="p">)</span> <span class="k">for</span> <span class="n">locations</span> <span class="ow">in</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;design_patterns&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+        <span class="n">anti_count</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">instances</span><span class="p">)</span> <span class="k">for</span> <span class="n">instances</span> <span class="ow">in</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;anti_patterns&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+        
+        <span class="n">summary</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Se detectaron </span><span class="si">{</span><span class="n">design_count</span><span class="si">}</span><span class="s2"> instancias de patrones de diseño&quot;</span>
+        
+        <span class="k">if</span> <span class="n">design_count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">patterns</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;design_patterns&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+            <span class="n">summary</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; (</span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">patterns</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span>
+        
+        <span class="n">summary</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; y </span><span class="si">{</span><span class="n">anti_count</span><span class="si">}</span><span class="s2"> posibles anti-patrones.&quot;</span>
+        
+        <span class="n">arch_type</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;structure_analysis&#39;</span><span class="p">][</span><span class="s1">&#39;architecture_type&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">arch_type</span> <span class="o">!=</span> <span class="s1">&#39;unknown&#39;</span><span class="p">:</span>
+            <span class="n">summary</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; La arquitectura parece seguir un patrón </span><span class="si">{</span><span class="n">arch_type</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s2">.&quot;</span>
+        
+        <span class="n">score</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;pattern_score&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">score</span> <span class="o">&gt;=</span> <span class="mi">80</span><span class="p">:</span>
+            <span class="n">summary</span> <span class="o">+=</span> <span class="s2">&quot; Excelente uso de patrones de diseño.&quot;</span>
+        <span class="k">elif</span> <span class="n">score</span> <span class="o">&gt;=</span> <span class="mi">60</span><span class="p">:</span>
+            <span class="n">summary</span> <span class="o">+=</span> <span class="s2">&quot; Buen uso de patrones con algunas áreas de mejora.&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">summary</span> <span class="o">+=</span> <span class="s2">&quot; Se recomienda revisar la arquitectura y patrones utilizados.&quot;</span>
+        
+        <span class="k">return</span> <span class="n">summary</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>© 2025 <a href="https://github.com/686f6c61">https://github.com/686f6c61</a> - Licencia MIT</p>
+  </div>
+
+  Compilado con <a href="https://www.sphinx-doc.org/">Sphinx</a> usando un
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">tema</a>
+    proporcionado por <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,7 @@
+# Dependencias para generar documentación
+# NOTA: La documentación HTML ya está generada en docs/
+# Este archivo se mantiene solo como referencia para regenerar si es necesario
+
+# Para regenerar documentación (opcional):
+# pip install -r requirements-docs.txt.bak
+# cd docs && make html

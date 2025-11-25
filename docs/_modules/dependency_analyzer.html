@@ -1,0 +1,435 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="es" data-content_root="../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>dependency_analyzer &mdash; documentación de Code Empathizer - 2.0.0</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=ea25ecff"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/translations.js?v=f85f4cfb"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Code Empathizer
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Buscar documentos" aria-label="Buscar documentos" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contenidos:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">Módulos de Code Empathizer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API de Code Empathizer</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Code Empathizer</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Código de módulo</a></li>
+      <li class="breadcrumb-item active">dependency_analyzer</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Código fuente para dependency_analyzer</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Analizador de dependencias para proyectos multi-lenguaje.</span>
+
+<span class="sd">Este módulo es parte de Code Empathizer, una herramienta para medir la alineación</span>
+<span class="sd">entre el código de una empresa y sus candidatos.</span>
+
+<span class="sd">Autor: https://github.com/686f6c61</span>
+<span class="sd">Repositorio: https://github.com/686f6c61/Code-Empathizer</span>
+<span class="sd">Fecha: Noviembre 2025</span>
+<span class="sd">Licencia: MIT</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Set</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">defaultdict</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
+
+<div class="viewcode-block" id="DependencyAnalyzer">
+<a class="viewcode-back" href="../api/dependency_analyzer.html#dependency_analyzer.DependencyAnalyzer">[documentos]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">DependencyAnalyzer</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Analizador de dependencias multi-lenguaje&quot;&quot;&quot;</span>
+    
+<div class="viewcode-block" id="DependencyAnalyzer.__init__">
+<a class="viewcode-back" href="../api/dependency_analyzer.html#dependency_analyzer.DependencyAnalyzer.__init__">[documentos]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Inicializa el analizador con patrones para cada lenguaje&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">patterns</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;python&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;import&#39;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="sa">r</span><span class="s1">&#39;^\s*import\s+(\S+)&#39;</span><span class="p">,</span>
+                    <span class="sa">r</span><span class="s1">&#39;^\s*from\s+(\S+)\s+import&#39;</span><span class="p">,</span>
+                <span class="p">],</span>
+                <span class="s1">&#39;internal_prefix&#39;</span><span class="p">:</span> <span class="s1">&#39;.&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;file_extensions&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;.py&#39;</span><span class="p">]</span>
+            <span class="p">},</span>
+            <span class="s1">&#39;javascript&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;import&#39;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="sa">r</span><span class="s1">&#39;^\s*import\s+.*\s+from\s+[</span><span class="se">\&#39;</span><span class="s1">&quot;]([^</span><span class="se">\&#39;</span><span class="s1">&quot;]+)[</span><span class="se">\&#39;</span><span class="s1">&quot;]&#39;</span><span class="p">,</span>
+                    <span class="sa">r</span><span class="s1">&#39;^\s*import\s+[</span><span class="se">\&#39;</span><span class="s1">&quot;]([^</span><span class="se">\&#39;</span><span class="s1">&quot;]+)[</span><span class="se">\&#39;</span><span class="s1">&quot;]&#39;</span><span class="p">,</span>
+                    <span class="sa">r</span><span class="s1">&#39;^\s*const\s+\w+\s*=\s*require\s*\([</span><span class="se">\&#39;</span><span class="s1">&quot;]([^</span><span class="se">\&#39;</span><span class="s1">&quot;]+)[</span><span class="se">\&#39;</span><span class="s1">&quot;]\)&#39;</span><span class="p">,</span>
+                    <span class="sa">r</span><span class="s1">&#39;^\s*let\s+\w+\s*=\s*require\s*\([</span><span class="se">\&#39;</span><span class="s1">&quot;]([^</span><span class="se">\&#39;</span><span class="s1">&quot;]+)[</span><span class="se">\&#39;</span><span class="s1">&quot;]\)&#39;</span><span class="p">,</span>
+                    <span class="sa">r</span><span class="s1">&#39;^\s*var\s+\w+\s*=\s*require\s*\([</span><span class="se">\&#39;</span><span class="s1">&quot;]([^</span><span class="se">\&#39;</span><span class="s1">&quot;]+)[</span><span class="se">\&#39;</span><span class="s1">&quot;]\)&#39;</span><span class="p">,</span>
+                    <span class="sa">r</span><span class="s1">&#39;^\s*require\s*\([</span><span class="se">\&#39;</span><span class="s1">&quot;]([^</span><span class="se">\&#39;</span><span class="s1">&quot;]+)[</span><span class="se">\&#39;</span><span class="s1">&quot;]\)&#39;</span><span class="p">,</span>
+                <span class="p">],</span>
+                <span class="s1">&#39;internal_prefix&#39;</span><span class="p">:</span> <span class="s1">&#39;.&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;file_extensions&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;.js&#39;</span><span class="p">,</span> <span class="s1">&#39;.jsx&#39;</span><span class="p">,</span> <span class="s1">&#39;.mjs&#39;</span><span class="p">]</span>
+            <span class="p">},</span>
+            <span class="s1">&#39;typescript&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;import&#39;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="sa">r</span><span class="s1">&#39;^\s*import\s+.*\s+from\s+[</span><span class="se">\&#39;</span><span class="s1">&quot;]([^</span><span class="se">\&#39;</span><span class="s1">&quot;]+)[</span><span class="se">\&#39;</span><span class="s1">&quot;]&#39;</span><span class="p">,</span>
+                    <span class="sa">r</span><span class="s1">&#39;^\s*import\s+[</span><span class="se">\&#39;</span><span class="s1">&quot;]([^</span><span class="se">\&#39;</span><span class="s1">&quot;]+)[</span><span class="se">\&#39;</span><span class="s1">&quot;]&#39;</span><span class="p">,</span>
+                    <span class="sa">r</span><span class="s1">&#39;^\s*const\s+\w+\s*=\s*require\s*\([</span><span class="se">\&#39;</span><span class="s1">&quot;]([^</span><span class="se">\&#39;</span><span class="s1">&quot;]+)[</span><span class="se">\&#39;</span><span class="s1">&quot;]\)&#39;</span><span class="p">,</span>
+                <span class="p">],</span>
+                <span class="s1">&#39;internal_prefix&#39;</span><span class="p">:</span> <span class="s1">&#39;.&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;file_extensions&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;.ts&#39;</span><span class="p">,</span> <span class="s1">&#39;.tsx&#39;</span><span class="p">]</span>
+            <span class="p">},</span>
+            <span class="s1">&#39;java&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;import&#39;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="sa">r</span><span class="s1">&#39;^\s*import\s+static\s+(\S+);&#39;</span><span class="p">,</span>
+                    <span class="sa">r</span><span class="s1">&#39;^\s*import\s+(\S+);&#39;</span><span class="p">,</span>
+                <span class="p">],</span>
+                <span class="s1">&#39;internal_prefix&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>  <span class="c1"># Java usa packages</span>
+                <span class="s1">&#39;file_extensions&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;.java&#39;</span><span class="p">]</span>
+            <span class="p">},</span>
+            <span class="s1">&#39;go&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;import&#39;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="sa">r</span><span class="s1">&#39;^\s*import\s+&quot;([^&quot;]+)&quot;&#39;</span><span class="p">,</span>
+                    <span class="sa">r</span><span class="s1">&#39;^\s*import\s+\(\s*&quot;([^&quot;]+)&quot;&#39;</span><span class="p">,</span>
+                <span class="p">],</span>
+                <span class="s1">&#39;internal_prefix&#39;</span><span class="p">:</span> <span class="s1">&#39;.&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;file_extensions&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;.go&#39;</span><span class="p">]</span>
+            <span class="p">},</span>
+            <span class="s1">&#39;csharp&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;import&#39;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="sa">r</span><span class="s1">&#39;^\s*using\s+(\S+);&#39;</span><span class="p">,</span>
+                    <span class="sa">r</span><span class="s1">&#39;^\s*using\s+static\s+(\S+);&#39;</span><span class="p">,</span>
+                <span class="p">],</span>
+                <span class="s1">&#39;internal_prefix&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="s1">&#39;file_extensions&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;.cs&#39;</span><span class="p">]</span>
+            <span class="p">},</span>
+            <span class="s1">&#39;php&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;import&#39;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="sa">r</span><span class="s1">&#39;^\s*use\s+(\S+);&#39;</span><span class="p">,</span>
+                    <span class="sa">r</span><span class="s1">&#39;^\s*require\s+[</span><span class="se">\&#39;</span><span class="s1">&quot;]([^</span><span class="se">\&#39;</span><span class="s1">&quot;]+)[</span><span class="se">\&#39;</span><span class="s1">&quot;]&#39;</span><span class="p">,</span>
+                    <span class="sa">r</span><span class="s1">&#39;^\s*require_once\s+[</span><span class="se">\&#39;</span><span class="s1">&quot;]([^</span><span class="se">\&#39;</span><span class="s1">&quot;]+)[</span><span class="se">\&#39;</span><span class="s1">&quot;]&#39;</span><span class="p">,</span>
+                    <span class="sa">r</span><span class="s1">&#39;^\s*include\s+[</span><span class="se">\&#39;</span><span class="s1">&quot;]([^</span><span class="se">\&#39;</span><span class="s1">&quot;]+)[</span><span class="se">\&#39;</span><span class="s1">&quot;]&#39;</span><span class="p">,</span>
+                    <span class="sa">r</span><span class="s1">&#39;^\s*include_once\s+[</span><span class="se">\&#39;</span><span class="s1">&quot;]([^</span><span class="se">\&#39;</span><span class="s1">&quot;]+)[</span><span class="se">\&#39;</span><span class="s1">&quot;]&#39;</span><span class="p">,</span>
+                <span class="p">],</span>
+                <span class="s1">&#39;internal_prefix&#39;</span><span class="p">:</span> <span class="s1">&#39;.&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;file_extensions&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;.php&#39;</span><span class="p">]</span>
+            <span class="p">},</span>
+            <span class="s1">&#39;ruby&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;import&#39;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="sa">r</span><span class="s1">&#39;^\s*require\s+[</span><span class="se">\&#39;</span><span class="s1">&quot;]([^</span><span class="se">\&#39;</span><span class="s1">&quot;]+)[</span><span class="se">\&#39;</span><span class="s1">&quot;]&#39;</span><span class="p">,</span>
+                    <span class="sa">r</span><span class="s1">&#39;^\s*require_relative\s+[</span><span class="se">\&#39;</span><span class="s1">&quot;]([^</span><span class="se">\&#39;</span><span class="s1">&quot;]+)[</span><span class="se">\&#39;</span><span class="s1">&quot;]&#39;</span><span class="p">,</span>
+                    <span class="sa">r</span><span class="s1">&#39;^\s*load\s+[</span><span class="se">\&#39;</span><span class="s1">&quot;]([^</span><span class="se">\&#39;</span><span class="s1">&quot;]+)[</span><span class="se">\&#39;</span><span class="s1">&quot;]&#39;</span><span class="p">,</span>
+                <span class="p">],</span>
+                <span class="s1">&#39;internal_prefix&#39;</span><span class="p">:</span> <span class="s1">&#39;.&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;file_extensions&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;.rb&#39;</span><span class="p">]</span>
+            <span class="p">}</span>
+        <span class="p">}</span></div>
+
+    
+<div class="viewcode-block" id="DependencyAnalyzer.analyze_dependencies">
+<a class="viewcode-back" href="../api/dependency_analyzer.html#dependency_analyzer.DependencyAnalyzer.analyze_dependencies">[documentos]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">analyze_dependencies</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">files</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Analiza las dependencias en un conjunto de archivos.</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            files: Diccionario con rutas de archivo como claves y contenido como valores</span>
+<span class="sd">            </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            Diccionario con métricas de dependencias</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dependencies</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">set</span><span class="p">)</span>
+        <span class="n">file_dependencies</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">set</span><span class="p">)</span>
+        <span class="n">external_deps</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="n">internal_deps</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        
+        <span class="c1"># Analizar cada archivo</span>
+        <span class="k">for</span> <span class="n">file_path</span><span class="p">,</span> <span class="n">content</span> <span class="ow">in</span> <span class="n">files</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">language</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_detect_language</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">language</span><span class="p">:</span>
+                <span class="k">continue</span>
+                
+            <span class="n">deps</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extract_dependencies</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">language</span><span class="p">)</span>
+            
+            <span class="k">for</span> <span class="n">dep</span> <span class="ow">in</span> <span class="n">deps</span><span class="p">:</span>
+                <span class="n">dependencies</span><span class="p">[</span><span class="n">dep</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+                <span class="n">file_dependencies</span><span class="p">[</span><span class="n">file_path</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">dep</span><span class="p">)</span>
+                
+                <span class="c1"># Clasificar como interna o externa</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_internal_dependency</span><span class="p">(</span><span class="n">dep</span><span class="p">,</span> <span class="n">language</span><span class="p">):</span>
+                    <span class="n">internal_deps</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">dep</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">external_deps</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">dep</span><span class="p">)</span>
+        
+        <span class="c1"># Detectar ciclos de dependencias</span>
+        <span class="n">cycles</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_detect_cycles</span><span class="p">(</span><span class="n">file_dependencies</span><span class="p">,</span> <span class="n">files</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        
+        <span class="c1"># Calcular métricas</span>
+        <span class="n">total_files</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">files</span><span class="p">)</span>
+        <span class="n">files_with_deps</span> <span class="o">=</span> <span class="nb">len</span><span class="p">([</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">file_dependencies</span> <span class="k">if</span> <span class="n">file_dependencies</span><span class="p">[</span><span class="n">f</span><span class="p">]])</span>
+        
+        <span class="n">metrics</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;total_dependencies&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">dependencies</span><span class="p">),</span>
+            <span class="s1">&#39;external_dependencies&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">external_deps</span><span class="p">),</span>
+            <span class="s1">&#39;internal_dependencies&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">internal_deps</span><span class="p">),</span>
+            <span class="s1">&#39;dependency_ratio&#39;</span><span class="p">:</span> <span class="n">files_with_deps</span> <span class="o">/</span> <span class="n">total_files</span> <span class="k">if</span> <span class="n">total_files</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s1">&#39;avg_dependencies_per_file&#39;</span><span class="p">:</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">deps</span><span class="p">)</span> <span class="k">for</span> <span class="n">deps</span> <span class="ow">in</span> <span class="n">file_dependencies</span><span class="o">.</span><span class="n">values</span><span class="p">())</span> <span class="o">/</span> <span class="n">total_files</span> <span class="k">if</span> <span class="n">total_files</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s1">&#39;most_used_dependencies&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_top_dependencies</span><span class="p">(</span><span class="n">dependencies</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span>
+            <span class="s1">&#39;files_with_most_dependencies&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_files_with_most_deps</span><span class="p">(</span><span class="n">file_dependencies</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
+            <span class="s1">&#39;circular_dependencies&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">cycles</span><span class="p">),</span>
+            <span class="s1">&#39;circular_dependency_details&#39;</span><span class="p">:</span> <span class="n">cycles</span><span class="p">[:</span><span class="mi">5</span><span class="p">],</span>  <span class="c1"># Primeros 5 ciclos</span>
+            <span class="s1">&#39;external_deps_list&#39;</span><span class="p">:</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">external_deps</span><span class="p">))[:</span><span class="mi">20</span><span class="p">],</span>  <span class="c1"># Top 20 externas</span>
+            <span class="s1">&#39;coupling_score&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_calculate_coupling_score</span><span class="p">(</span><span class="n">file_dependencies</span><span class="p">,</span> <span class="n">total_files</span><span class="p">),</span>
+            <span class="s1">&#39;summary&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generate_summary</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dependencies</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">external_deps</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">internal_deps</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">cycles</span><span class="p">))</span>
+        <span class="p">}</span>
+        
+        <span class="k">return</span> <span class="n">metrics</span></div>
+
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_detect_language</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Detecta el lenguaje basado en la extensión del archivo&quot;&quot;&quot;</span>
+        <span class="n">ext</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">file_path</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        
+        <span class="k">for</span> <span class="n">language</span><span class="p">,</span> <span class="n">config</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">patterns</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">ext</span> <span class="ow">in</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;file_extensions&#39;</span><span class="p">]:</span>
+                <span class="k">return</span> <span class="n">language</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_extract_dependencies</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">language</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Extrae las dependencias del contenido según el lenguaje&quot;&quot;&quot;</span>
+        <span class="n">dependencies</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        
+        <span class="k">if</span> <span class="n">language</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">patterns</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">dependencies</span>
+        
+        <span class="n">patterns</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">patterns</span><span class="p">[</span><span class="n">language</span><span class="p">][</span><span class="s1">&#39;import&#39;</span><span class="p">]</span>
+        
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">content</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">pattern</span> <span class="ow">in</span> <span class="n">patterns</span><span class="p">:</span>
+                <span class="n">matches</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">match</span> <span class="ow">in</span> <span class="n">matches</span><span class="p">:</span>
+                    <span class="c1"># Limpiar la dependencia</span>
+                    <span class="n">dep</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                    <span class="k">if</span> <span class="n">dep</span><span class="p">:</span>
+                        <span class="n">dependencies</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">dep</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">dependencies</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_is_internal_dependency</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dependency</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">language</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Determina si una dependencia es interna o externa&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">language</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">patterns</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        
+        <span class="n">prefix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">patterns</span><span class="p">[</span><span class="n">language</span><span class="p">][</span><span class="s1">&#39;internal_prefix&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">prefix</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># Para lenguajes como Java/C#, considerar internas las que no son de sistema</span>
+            <span class="n">system_packages</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;java&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;java.&#39;</span><span class="p">,</span> <span class="s1">&#39;javax.&#39;</span><span class="p">,</span> <span class="s1">&#39;android.&#39;</span><span class="p">,</span> <span class="s1">&#39;org.junit&#39;</span><span class="p">,</span> <span class="s1">&#39;org.apache&#39;</span><span class="p">],</span>
+                <span class="s1">&#39;csharp&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;System.&#39;</span><span class="p">,</span> <span class="s1">&#39;Microsoft.&#39;</span><span class="p">,</span> <span class="s1">&#39;Windows.&#39;</span><span class="p">]</span>
+            <span class="p">}</span>
+            
+            <span class="k">if</span> <span class="n">language</span> <span class="ow">in</span> <span class="n">system_packages</span><span class="p">:</span>
+                <span class="k">return</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="n">dependency</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">pkg</span><span class="p">)</span> <span class="k">for</span> <span class="n">pkg</span> <span class="ow">in</span> <span class="n">system_packages</span><span class="p">[</span><span class="n">language</span><span class="p">])</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        
+        <span class="k">return</span> <span class="n">dependency</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">prefix</span><span class="p">)</span> <span class="ow">or</span> <span class="n">dependency</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_detect_cycles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_dependencies</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span> <span class="n">all_files</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Detecta ciclos de dependencias entre archivos&quot;&quot;&quot;</span>
+        <span class="n">cycles</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">visited</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="n">rec_stack</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        
+        <span class="k">def</span><span class="w"> </span><span class="nf">_find_cycles_util</span><span class="p">(</span><span class="n">file</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">visited</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+            <span class="n">rec_stack</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+            <span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+            
+            <span class="c1"># Buscar dependencias que sean archivos del proyecto</span>
+            <span class="k">for</span> <span class="n">dep</span> <span class="ow">in</span> <span class="n">file_dependencies</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="nb">set</span><span class="p">()):</span>
+                <span class="c1"># Convertir dependencia a posible archivo</span>
+                <span class="n">possible_files</span> <span class="o">=</span> <span class="p">[</span>
+                    <span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">all_files</span> 
+                    <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="n">dep</span><span class="p">)</span> <span class="ow">or</span> <span class="n">dep</span> <span class="ow">in</span> <span class="n">f</span>
+                <span class="p">]</span>
+                
+                <span class="k">for</span> <span class="n">dep_file</span> <span class="ow">in</span> <span class="n">possible_files</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">dep_file</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">visited</span><span class="p">:</span>
+                        <span class="n">_find_cycles_util</span><span class="p">(</span><span class="n">dep_file</span><span class="p">,</span> <span class="n">path</span><span class="p">[:])</span>
+                    <span class="k">elif</span> <span class="n">dep_file</span> <span class="ow">in</span> <span class="n">rec_stack</span><span class="p">:</span>
+                        <span class="c1"># Encontramos un ciclo</span>
+                        <span class="n">cycle_start</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">dep_file</span><span class="p">)</span>
+                        <span class="n">cycle</span> <span class="o">=</span> <span class="n">path</span><span class="p">[</span><span class="n">cycle_start</span><span class="p">:]</span> <span class="o">+</span> <span class="p">[</span><span class="n">dep_file</span><span class="p">]</span>
+                        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">cycle</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>  <span class="c1"># Solo ciclos significativos</span>
+                            <span class="n">cycles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cycle</span><span class="p">)</span>
+            
+            <span class="n">path</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+            <span class="n">rec_stack</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+        
+        <span class="c1"># Buscar ciclos desde cada archivo</span>
+        <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">all_files</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">file</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">visited</span><span class="p">:</span>
+                <span class="n">_find_cycles_util</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="p">[])</span>
+        
+        <span class="c1"># Eliminar duplicados</span>
+        <span class="n">unique_cycles</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">cycle</span> <span class="ow">in</span> <span class="n">cycles</span><span class="p">:</span>
+            <span class="n">normalized</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">cycle</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">normalized</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">c</span><span class="p">))</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">unique_cycles</span><span class="p">]:</span>
+                <span class="n">unique_cycles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cycle</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">unique_cycles</span><span class="p">[:</span><span class="mi">10</span><span class="p">]</span>  <span class="c1"># Limitar a 10 ciclos</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_top_dependencies</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dependencies</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span> <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Obtiene las dependencias más utilizadas&quot;&quot;&quot;</span>
+        <span class="n">sorted_deps</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span>
+            <span class="n">dependencies</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> 
+            <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> 
+            <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)[:</span><span class="n">limit</span><span class="p">]</span>
+        
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s1">&#39;dependency&#39;</span><span class="p">:</span> <span class="n">dep</span><span class="p">,</span>
+                <span class="s1">&#39;used_by_count&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">files</span><span class="p">),</span>
+                <span class="s1">&#39;used_by&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">files</span><span class="p">)[:</span><span class="mi">3</span><span class="p">]</span>  <span class="c1"># Primeros 3 archivos</span>
+            <span class="p">}</span>
+            <span class="k">for</span> <span class="n">dep</span><span class="p">,</span> <span class="n">files</span> <span class="ow">in</span> <span class="n">sorted_deps</span>
+        <span class="p">]</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_files_with_most_deps</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_dependencies</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span> <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Obtiene los archivos con más dependencias&quot;&quot;&quot;</span>
+        <span class="n">sorted_files</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span>
+            <span class="n">file_dependencies</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span>
+            <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
+            <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)[:</span><span class="n">limit</span><span class="p">]</span>
+        
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s1">&#39;file&#39;</span><span class="p">:</span> <span class="n">file</span><span class="p">,</span>
+                <span class="s1">&#39;dependency_count&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">deps</span><span class="p">),</span>
+                <span class="s1">&#39;dependencies&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">deps</span><span class="p">)[:</span><span class="mi">5</span><span class="p">]</span>  <span class="c1"># Primeras 5 dependencias</span>
+            <span class="p">}</span>
+            <span class="k">for</span> <span class="n">file</span><span class="p">,</span> <span class="n">deps</span> <span class="ow">in</span> <span class="n">sorted_files</span>
+        <span class="p">]</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_calculate_coupling_score</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_dependencies</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span> <span class="n">total_files</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calcula un score de acoplamiento (0-1, donde 0 es bajo acoplamiento).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">total_files</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mf">0.0</span>
+        
+        <span class="c1"># Contar conexiones entre archivos</span>
+        <span class="n">connections</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">deps</span> <span class="ow">in</span> <span class="n">file_dependencies</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="n">connections</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">deps</span><span class="p">)</span>
+        
+        <span class="c1"># Máximo posible de conexiones (grafo completo)</span>
+        <span class="n">max_connections</span> <span class="o">=</span> <span class="n">total_files</span> <span class="o">*</span> <span class="p">(</span><span class="n">total_files</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        
+        <span class="c1"># Score normalizado</span>
+        <span class="n">coupling</span> <span class="o">=</span> <span class="n">connections</span> <span class="o">/</span> <span class="n">max_connections</span> <span class="k">if</span> <span class="n">max_connections</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span>
+        
+        <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="n">coupling</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>  <span class="c1"># Asegurar que esté entre 0 y 1</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_generate_summary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">total_deps</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">external_deps</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">internal_deps</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">cycles</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Genera un resumen del análisis de dependencias&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">total_deps</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;No se encontraron dependencias en el código analizado.&quot;</span>
+        
+        <span class="n">external_ratio</span> <span class="o">=</span> <span class="p">(</span><span class="n">external_deps</span> <span class="o">/</span> <span class="n">total_deps</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span> <span class="k">if</span> <span class="n">total_deps</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span>
+        <span class="n">internal_ratio</span> <span class="o">=</span> <span class="p">(</span><span class="n">internal_deps</span> <span class="o">/</span> <span class="n">total_deps</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span> <span class="k">if</span> <span class="n">total_deps</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span>
+        
+        <span class="n">summary</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Se encontraron </span><span class="si">{</span><span class="n">total_deps</span><span class="si">}</span><span class="s2"> dependencias únicas: &quot;</span>
+        <span class="n">summary</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">external_deps</span><span class="si">}</span><span class="s2"> externas (</span><span class="si">{</span><span class="n">external_ratio</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%) y &quot;</span>
+        <span class="n">summary</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">internal_deps</span><span class="si">}</span><span class="s2"> internas (</span><span class="si">{</span><span class="n">internal_ratio</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%). &quot;</span>
+        
+        <span class="k">if</span> <span class="n">cycles</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">summary</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;Advertencia: Se detectaron </span><span class="si">{</span><span class="n">cycles</span><span class="si">}</span><span class="s2"> dependencias circulares.&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">summary</span> <span class="o">+=</span> <span class="s2">&quot;No se detectaron dependencias circulares.&quot;</span>
+        
+        <span class="k">return</span> <span class="n">summary</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>© 2025 <a href="https://github.com/686f6c61">https://github.com/686f6c61</a> - Licencia MIT</p>
+  </div>
+
+  Compilado con <a href="https://www.sphinx-doc.org/">Sphinx</a> usando un
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">tema</a>
+    proporcionado por <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,7 @@
+Duplication Analyzer
+====================
+
+.. automodule:: duplication_analyzer
+   :members:
+   :undoc-members:
+   :show-inheritance:

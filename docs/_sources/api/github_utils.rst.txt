@@ -1,0 +1,7 @@
+Utilidades de GitHub
+====================
+
+.. automodule:: github_utils
+   :members:
+   :undoc-members:
+   :show-inheritance:

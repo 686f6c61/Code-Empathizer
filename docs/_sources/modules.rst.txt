@@ -1,0 +1,16 @@
+Módulos de Code Empathizer
+==========================
+
+.. toctree::
+   :maxdepth: 4
+
+   api/empathy_algorithm
+   api/github_utils
+   api/exporters
+   api/cache_manager
+   api/pattern_analyzer
+   api/performance_analyzer
+   api/comment_analyzer
+   api/duplication_analyzer
+   api/dependency_analyzer
+   api/language_analyzers

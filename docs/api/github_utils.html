@@ -1,0 +1,251 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="es" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Utilidades de GitHub &mdash; documentación de Code Empathizer - 2.0.0</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=ea25ecff"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/translations.js?v=f85f4cfb"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../search.html" />
+    <link rel="next" title="Exporters" href="exporters.html" />
+    <link rel="prev" title="Algoritmo de Empatía" href="empathy_algorithm.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Code Empathizer
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Buscar documentos" aria-label="Buscar documentos" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contenidos:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../modules.html">Módulos de Code Empathizer</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="empathy_algorithm.html">Algoritmo de Empatía</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Utilidades de GitHub</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#github_utils.GitHubRepo"><code class="docutils literal notranslate"><span class="pre">GitHubRepo</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#github_utils.GitHubRepo.token"><code class="docutils literal notranslate"><span class="pre">GitHubRepo.token</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#github_utils.GitHubRepo.github"><code class="docutils literal notranslate"><span class="pre">GitHubRepo.github</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#github_utils.GitHubRepo.__init__"><code class="docutils literal notranslate"><span class="pre">GitHubRepo.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#github_utils.GitHubRepo.analizar_repo"><code class="docutils literal notranslate"><span class="pre">GitHubRepo.analizar_repo()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#github_utils.GitHubRepo.esperar_reset_rate_limit"><code class="docutils literal notranslate"><span class="pre">GitHubRepo.esperar_reset_rate_limit()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#github_utils.GitHubRepo.extraer_usuario_repo"><code class="docutils literal notranslate"><span class="pre">GitHubRepo.extraer_usuario_repo()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#github_utils.GitHubRepo.get_repo_info"><code class="docutils literal notranslate"><span class="pre">GitHubRepo.get_repo_info()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#github_utils.GitHubRepo.get_code_files"><code class="docutils literal notranslate"><span class="pre">GitHubRepo.get_code_files()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#github_utils.GitHubRepo.get_repo_from_input"><code class="docutils literal notranslate"><span class="pre">GitHubRepo.get_repo_from_input()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="exporters.html">Exporters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cache_manager.html">Cache Manager</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pattern_analyzer.html">Pattern Analyzer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="performance_analyzer.html">Performance Analyzer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="comment_analyzer.html">Comment Analyzer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="duplication_analyzer.html">Duplication Analyzer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dependency_analyzer.html">Dependency Analyzer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="language_analyzers.html">Language Analyzers</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="index.html">API de Code Empathizer</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Code Empathizer</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../modules.html">Módulos de Code Empathizer</a></li>
+      <li class="breadcrumb-item active">Utilidades de GitHub</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/github_utils.rst.txt" rel="nofollow"> Ver código fuente de la página</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-github_utils">
+<span id="utilidades-de-github"></span><h1>Utilidades de GitHub<a class="headerlink" href="#module-github_utils" title="Link to this heading"></a></h1>
+<p>Módulo de utilidades para interacción con la API de GitHub.</p>
+<p>Este módulo es parte de Code Empathizer, una herramienta para medir la alineación
+entre el código de una empresa y sus candidatos.</p>
+<p>Autor: <a class="reference external" href="https://github.com/686f6c61">https://github.com/686f6c61</a>
+Repositorio: <a class="reference external" href="https://github.com/686f6c61/Code-Empathizer">https://github.com/686f6c61/Code-Empathizer</a>
+Fecha: Noviembre 2025
+Licencia: MIT</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="github_utils.GitHubRepo">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">github_utils.</span></span><span class="sig-name descname"><span class="pre">GitHubRepo</span></span><a class="reference internal" href="../_modules/github_utils.html#GitHubRepo"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#github_utils.GitHubRepo" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(en Python versión 3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Cliente para interactuar con repositorios de GitHub.</p>
+<p>Esta clase proporciona métodos para analizar repositorios de GitHub,
+extrayendo código fuente y calculando métricas de calidad mediante
+los analizadores de lenguaje disponibles.</p>
+<p>Gestiona automáticamente los límites de la API de GitHub y proporciona
+reintentos cuando se alcanzan los límites de velocidad.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="github_utils.GitHubRepo.token">
+<span class="sig-name descname"><span class="pre">token</span></span><a class="headerlink" href="#github_utils.GitHubRepo.token" title="Link to this definition"></a></dt>
+<dd><p>Token de autenticación de GitHub.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(en Python versión 3.14)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="github_utils.GitHubRepo.github">
+<span class="sig-name descname"><span class="pre">github</span></span><a class="headerlink" href="#github_utils.GitHubRepo.github" title="Link to this definition"></a></dt>
+<dd><p>Cliente de PyGithub.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Github</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="field-list simple">
+<dt class="field-odd">Muestra<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(en Python versión 3.14)"><strong>ValueError</strong></a> – Si no se encuentra el token de GitHub en las variables
+    de entorno.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="github_utils.GitHubRepo.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/github_utils.html#GitHubRepo.__init__"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#github_utils.GitHubRepo.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="github_utils.GitHubRepo.analizar_repo">
+<span class="sig-name descname"><span class="pre">analizar_repo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">repo_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/github_utils.html#GitHubRepo.analizar_repo"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#github_utils.GitHubRepo.analizar_repo" title="Link to this definition"></a></dt>
+<dd><p>Analiza un repositorio y retorna sus métricas</p>
+<dl class="field-list simple">
+<dt class="field-odd">Tipo del valor devuelto<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(en Python versión 3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(en Python versión 3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(en Python versión 3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="github_utils.GitHubRepo.esperar_reset_rate_limit">
+<span class="sig-name descname"><span class="pre">esperar_reset_rate_limit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/github_utils.html#GitHubRepo.esperar_reset_rate_limit"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#github_utils.GitHubRepo.esperar_reset_rate_limit" title="Link to this definition"></a></dt>
+<dd><p>Espera hasta que se resetee el límite de rate de GitHub</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="github_utils.GitHubRepo.extraer_usuario_repo">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">extraer_usuario_repo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">repo_input</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/github_utils.html#GitHubRepo.extraer_usuario_repo"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#github_utils.GitHubRepo.extraer_usuario_repo" title="Link to this definition"></a></dt>
+<dd><p>Extrae el formato usuario/repo de una URL de GitHub</p>
+<dl class="field-list simple">
+<dt class="field-odd">Tipo del valor devuelto<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(en Python versión 3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="github_utils.GitHubRepo.get_repo_info">
+<span class="sig-name descname"><span class="pre">get_repo_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/github_utils.html#GitHubRepo.get_repo_info"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#github_utils.GitHubRepo.get_repo_info" title="Link to this definition"></a></dt>
+<dd><p>Obtiene información básica del repositorio</p>
+<dl class="field-list simple">
+<dt class="field-odd">Tipo del valor devuelto<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(en Python versión 3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(en Python versión 3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(en Python versión 3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="github_utils.GitHubRepo.get_code_files">
+<span class="sig-name descname"><span class="pre">get_code_files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">repo_url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extensions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/github_utils.html#GitHubRepo.get_code_files"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#github_utils.GitHubRepo.get_code_files" title="Link to this definition"></a></dt>
+<dd><p>Obtiene todos los archivos de código del repositorio</p>
+<dl class="field-list simple">
+<dt class="field-odd">Tipo del valor devuelto<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(en Python versión 3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(en Python versión 3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(en Python versión 3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="github_utils.GitHubRepo.get_repo_from_input">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_repo_from_input</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tipo</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/github_utils.html#GitHubRepo.get_repo_from_input"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#github_utils.GitHubRepo.get_repo_from_input" title="Link to this definition"></a></dt>
+<dd><p>Obtiene URL del repositorio desde input del usuario</p>
+<dl class="field-list simple">
+<dt class="field-odd">Tipo del valor devuelto<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(en Python versión 3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Pie de página">
+        <a href="empathy_algorithm.html" class="btn btn-neutral float-left" title="Algoritmo de Empatía" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Anterior</a>
+        <a href="exporters.html" class="btn btn-neutral float-right" title="Exporters" accesskey="n" rel="next">Siguiente <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>© 2025 <a href="https://github.com/686f6c61">https://github.com/686f6c61</a> - Licencia MIT</p>
+  </div>
+
+  Compilado con <a href="https://www.sphinx-doc.org/">Sphinx</a> usando un
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">tema</a>
+    proporcionado por <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

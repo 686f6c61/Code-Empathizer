@@ -1,0 +1,19 @@
+# Dependencias de producción para Code Empathizer
+
+# Análisis de código
+radon>=6.0.1
+lizard>=1.17.13
+pylint>=3.0.3
+numpy>=1.24.0
+
+# Generación de gráficas
+matplotlib>=3.7.0
+
+# GitHub API
+PyGithub>=2.1.1
+
+# Utilidades
+python-dotenv>=1.0.1
+jinja2>=3.1.3
+PyYAML>=6.0.1
+pytz>=2024.1

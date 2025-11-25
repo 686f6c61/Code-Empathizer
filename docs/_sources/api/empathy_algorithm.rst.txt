@@ -1,0 +1,7 @@
+Algoritmo de Empatía
+====================
+
+.. automodule:: empathy_algorithm
+   :members:
+   :undoc-members:
+   :show-inheritance:

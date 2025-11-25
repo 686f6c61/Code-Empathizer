@@ -1,0 +1,1082 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="es" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Algoritmo de Empatía - Fundamentos Técnicos &mdash; documentación de Code Empathizer - 2.2.2</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=ea25ecff"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/translations.js?v=f85f4cfb"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="prev" title="Documentación de Code Empathizer" href="index.html" />
+
+    <style>
+        .formula {
+            background-color: #f8f9fa;
+            border-left: 4px solid #2980b9;
+            padding: 15px 20px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 16px;
+            overflow-x: auto;
+        }
+
+        .math-symbol {
+            font-style: italic;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .factor-box {
+            background-color: #ecf0f1;
+            border: 1px solid #bdc3c7;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        .factor-title {
+            font-weight: bold;
+            color: #2980b9;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+        }
+
+        .category-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .category-table th {
+            background-color: #2980b9;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: bold;
+        }
+
+        .category-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .category-table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        .category-table tr:hover {
+            background-color: #e8f4f8;
+        }
+
+        .weight-critical {
+            color: #c0392b;
+            font-weight: bold;
+        }
+
+        .weight-important {
+            color: #e67e22;
+            font-weight: bold;
+        }
+
+        .weight-standard {
+            color: #27ae60;
+            font-weight: bold;
+        }
+
+        .code-block {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+
+        .interpretation-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .interpretation-table th {
+            background-color: #34495e;
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+
+        .interpretation-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .score-excellent {
+            background-color: #d4edda !important;
+            color: #155724;
+            font-weight: bold;
+        }
+
+        .score-good {
+            background-color: #d1ecf1 !important;
+            color: #0c5460;
+            font-weight: bold;
+        }
+
+        .score-acceptable {
+            background-color: #fff3cd !important;
+            color: #856404;
+            font-weight: bold;
+        }
+
+        .score-low {
+            background-color: #f8d7da !important;
+            color: #721c24;
+            font-weight: bold;
+        }
+
+        .score-verylow {
+            background-color: #f5c6cb !important;
+            color: #721c24;
+            font-weight: bold;
+        }
+
+        .correlation-matrix {
+            background-color: #fff;
+            border: 2px solid #2980b9;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .correlation-positive {
+            color: #27ae60;
+            font-weight: bold;
+        }
+
+        .correlation-negative {
+            color: #c0392b;
+            font-weight: bold;
+        }
+
+        .note-box {
+            background-color: #fff9e6;
+            border-left: 4px solid #f39c12;
+            padding: 15px 20px;
+            margin: 20px 0;
+        }
+
+        .note-box strong {
+            color: #e67e22;
+        }
+    </style>
+</head>
+
+<body class="wy-body-for-nav">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+
+
+          <a href="index.html" class="icon icon-home">
+            Code Empathizer
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Buscar documentos" aria-label="Buscar documentos" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contenidos:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">Módulos de Code Empathizer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/index.html">API de Code Empathizer</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Algoritmo de Empatía</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Code Empathizer</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Algoritmo de Empatía - Fundamentos Técnicos</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+
+  <section id="algoritmo-de-empatia-fundamentos-tecnicos">
+<h1>ALGORITMO DE EMPATÍA - FUNDAMENTOS TÉCNICOS<a class="headerlink" href="#algoritmo-de-empatia-fundamentos-tecnicos" title="Link to this heading"></a></h1>
+
+<section id="introduccion">
+<h2>INTRODUCCIÓN<a class="headerlink" href="#introduccion" title="Link to this heading"></a></h2>
+<p>El algoritmo de empatía de Code Empathizer es un sistema avanzado de puntuación que mide la compatibilidad entre el estilo de código de una empresa y el de un candidato. A diferencia de métricas simples, este algoritmo utiliza análisis multidimensional con correlaciones, factores de ajuste dinámicos y ponderaciones contextuales.</p>
+
+<div class="note-box">
+<strong>Nota:</strong> Este documento describe la implementación técnica del algoritmo v2.2.2. Para una introducción general, consulte el README del proyecto.
+</div>
+</section>
+
+<section id="formula-general">
+<h2>FÓRMULA GENERAL<a class="headerlink" href="#formula-general" title="Link to this heading"></a></h2>
+
+<p>La puntuación de empatía se calcula mediante la siguiente fórmula:</p>
+
+<div class="formula">
+E = (Σ S<sub>i</sub> × W<sub>i</sub> × C<sub>i</sub>) × L × ∏ F<sub>k</sub>
+</div>
+
+<p><strong>Donde:</strong></p>
+<ul class="simple">
+<li><span class="math-symbol">E</span> = Puntuación de empatía final (0-100)</li>
+<li><span class="math-symbol">S<sub>i</sub></span> = Puntuación de la categoría <em>i</em> (0-100)</li>
+<li><span class="math-symbol">W<sub>i</sub></span> = Peso de la categoría <em>i</em> (suma total = 1.0)</li>
+<li><span class="math-symbol">C<sub>i</sub></span> = Factor de correlación entre categorías</li>
+<li><span class="math-symbol">L</span> = Factor de coincidencia de lenguajes de programación</li>
+<li><span class="math-symbol">F<sub>k</sub></span> = Factores de ajuste dinámico (k = 1...6)</li>
+</ul>
+</section>
+
+<section id="categorias-y-pesos">
+<h2>CATEGORÍAS Y PESOS<a class="headerlink" href="#categorias-y-pesos" title="Link to this heading"></a></h2>
+
+<p>El algoritmo analiza 11 categorías distribuidas en dos grupos:</p>
+
+<h3>CATEGORÍAS BASE (70% DEL PESO TOTAL)</h3>
+
+<table class="category-table">
+    <thead>
+        <tr>
+            <th>Categoría</th>
+            <th>Peso</th>
+            <th>Tipo</th>
+            <th>Descripción</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Nombres</td>
+            <td class="weight-important">12%</td>
+            <td>Importante</td>
+            <td>Calidad de identificadores (variables, funciones, clases)</td>
+        </tr>
+        <tr>
+            <td>Documentación</td>
+            <td class="weight-important">12%</td>
+            <td>Importante</td>
+            <td>Docstrings, comentarios de cabecera y documentación inline</td>
+        </tr>
+        <tr>
+            <td>Modularidad</td>
+            <td class="weight-important">10%</td>
+            <td>Importante</td>
+            <td>Longitud de funciones, métodos y clases</td>
+        </tr>
+        <tr>
+            <td>Complejidad</td>
+            <td class="weight-important">10%</td>
+            <td>Importante</td>
+            <td>Complejidad ciclomática y cognitiva (Radon, Lizard)</td>
+        </tr>
+        <tr>
+            <td>Manejo de errores</td>
+            <td class="weight-standard">8%</td>
+            <td>Estándar</td>
+            <td>Try-catch, validaciones y gestión de excepciones</td>
+        </tr>
+        <tr>
+            <td>Pruebas</td>
+            <td class="weight-standard">8%</td>
+            <td>Estándar</td>
+            <td>Cobertura de tests y calidad de pruebas</td>
+        </tr>
+        <tr>
+            <td>Seguridad</td>
+            <td class="weight-critical">6%</td>
+            <td>Crítica</td>
+            <td>Validación de entradas y uso de funciones peligrosas</td>
+        </tr>
+        <tr>
+            <td>Consistencia de estilo</td>
+            <td class="weight-standard">4%</td>
+            <td>Estándar</td>
+            <td>Formato, espaciado e indentación</td>
+        </tr>
+    </tbody>
+</table>
+
+<h3>CATEGORÍAS AVANZADAS (30% DEL PESO TOTAL)</h3>
+
+<table class="category-table">
+    <thead>
+        <tr>
+            <th>Categoría</th>
+            <th>Peso</th>
+            <th>Tipo</th>
+            <th>Descripción</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Patrones de diseño</td>
+            <td class="weight-important">12%</td>
+            <td>Crítica</td>
+            <td>Detección de patrones (Singleton, Factory, Observer) y anti-patrones</td>
+        </tr>
+        <tr>
+            <td>Rendimiento</td>
+            <td class="weight-important">10%</td>
+            <td>Importante</td>
+            <td>Operaciones costosas, bucles anidados, queries en loops</td>
+        </tr>
+        <tr>
+            <td>Comentarios</td>
+            <td class="weight-standard">8%</td>
+            <td>Estándar</td>
+            <td>Ratio código/comentarios, TODOs, FIXMEs, calidad de comentarios</td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="note-box">
+<strong>Implementación:</strong> Los pesos están definidos en <code>src/empathy_algorithm.py:34-48</code> en el diccionario <code>self.category_weights</code>.
+</div>
+</section>
+
+<section id="matriz-de-correlaciones">
+<h2>MATRIZ DE CORRELACIONES<a class="headerlink" href="#matriz-de-correlaciones" title="Link to this heading"></a></h2>
+
+<p>Las categorías no son independientes. El algoritmo aplica una matriz de correlaciones para ajustar las puntuaciones según relaciones entre categorías:</p>
+
+<div class="correlation-matrix">
+<table class="category-table">
+    <thead>
+        <tr>
+            <th>Categoría Principal</th>
+            <th>Categoría Correlacionada</th>
+            <th>Factor</th>
+            <th>Descripción</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Documentación</td>
+            <td>Comentarios</td>
+            <td class="correlation-positive">+0.8</td>
+            <td>Correlación muy fuerte: buena documentación implica buenos comentarios</td>
+        </tr>
+        <tr>
+            <td>Documentación</td>
+            <td>Pruebas</td>
+            <td class="correlation-positive">+0.3</td>
+            <td>Correlación moderada: código documentado tiende a estar mejor testeado</td>
+        </tr>
+        <tr>
+            <td>Modularidad</td>
+            <td>Patrones</td>
+            <td class="correlation-positive">+0.7</td>
+            <td>Correlación fuerte: código modular usa más patrones de diseño</td>
+        </tr>
+        <tr>
+            <td>Modularidad</td>
+            <td>Complejidad</td>
+            <td class="correlation-negative">-0.5</td>
+            <td>Correlación negativa: mayor modularidad reduce complejidad</td>
+        </tr>
+        <tr>
+            <td>Patrones</td>
+            <td>Modularidad</td>
+            <td class="correlation-positive">+0.7</td>
+            <td>Bidireccional: patrones mejoran la modularidad</td>
+        </tr>
+        <tr>
+            <td>Patrones</td>
+            <td>Rendimiento</td>
+            <td class="correlation-positive">+0.4</td>
+            <td>Correlación moderada: buenos patrones mejoran el rendimiento</td>
+        </tr>
+        <tr>
+            <td>Seguridad</td>
+            <td>Manejo de errores</td>
+            <td class="correlation-positive">+0.6</td>
+            <td>Correlación fuerte: buena gestión de errores mejora la seguridad</td>
+        </tr>
+        <tr>
+            <td>Seguridad</td>
+            <td>Pruebas</td>
+            <td class="correlation-positive">+0.4</td>
+            <td>Correlación moderada: código testeado es más seguro</td>
+        </tr>
+        <tr>
+            <td>Rendimiento</td>
+            <td>Complejidad</td>
+            <td class="correlation-negative">-0.6</td>
+            <td>Correlación negativa: alta complejidad degrada el rendimiento</td>
+        </tr>
+        <tr>
+            <td>Rendimiento</td>
+            <td>Patrones</td>
+            <td class="correlation-positive">+0.4</td>
+            <td>Bidireccional: patrones optimizan el rendimiento</td>
+        </tr>
+    </tbody>
+</table>
+</div>
+
+<p><strong>Fórmula de ajuste por correlación:</strong></p>
+
+<div class="code-block">
+ajuste = (S<sub>correlacionada</sub> - 50) × factor_correlación × 0.1
+S<sub>i_ajustada</sub> = clamp(S<sub>i</sub> + ajuste, 0, 100)
+</div>
+
+<div class="note-box">
+<strong>Implementación:</strong> La matriz de correlaciones está en <code>src/empathy_algorithm.py:51-57</code>. El método <code>_apply_category_correlations()</code> (línea 416) aplica los ajustes.
+</div>
+</section>
+
+<section id="calculo-de-puntuaciones-por-categoria">
+<h2>CÁLCULO DE PUNTUACIONES POR CATEGORÍA<a class="headerlink" href="#calculo-de-puntuaciones-por-categoria" title="Link to this heading"></a></h2>
+
+<p>Cada categoría utiliza uno de tres métodos de similitud según su naturaleza:</p>
+
+<h3>1. SIMILITUD DIRECTA</h3>
+<p>Para métricas donde más es mejor (documentación, cobertura de pruebas):</p>
+
+<div class="code-block">
+similaridad = 1 - |empresa - candidato| / max(empresa, candidato)
+S<sub>i</sub> = clamp(similaridad × 100, 0, 100)
+</div>
+
+<h3>2. SIMILITUD INVERSA</h3>
+<p>Para métricas donde menos es mejor (complejidad, errores):</p>
+
+<div class="code-block">
+diferencia = |empresa - candidato| / max(empresa, candidato)
+S<sub>i</sub> = (1 - diferencia) × 100
+</div>
+
+<h3>3. SIMILITUD CON UMBRAL</h3>
+<p>Para métricas donde el candidato debe igualar o superar a la empresa (seguridad, pruebas):</p>
+
+<div class="code-block">
+Si candidato >= empresa:
+    S<sub>i</sub> = min(100, 80 + (candidato - empresa) × 20)
+Si candidato < empresa:
+    S<sub>i</sub> = (candidato / empresa) × 80
+</div>
+
+<div class="note-box">
+<strong>Implementación:</strong> Los métodos están en <code>src/empathy_algorithm.py:287-327</code>: <code>_calculate_similarity()</code>, <code>_inverse_similarity()</code> y <code>_threshold_similarity()</code>.
+</div>
+</section>
+
+<section id="factores-de-ajuste">
+<h2>FACTORES DE AJUSTE (F<sub>1</sub>...F<sub>6</sub>)<a class="headerlink" href="#factores-de-ajuste" title="Link to this heading"></a></h2>
+
+<p>Después de calcular la puntuación base, se aplican seis factores de ajuste dinámico:</p>
+
+<div class="factor-box">
+<div class="factor-title">F<sub>1</sub>: FACTOR DE COINCIDENCIA DE LENGUAJES (L)</div>
+<p>Penaliza o bonifica según el solapamiento de lenguajes de programación entre empresa y candidato.</p>
+
+<p><strong>Cálculo:</strong></p>
+<div class="code-block">
+L = |lenguajes_empresa ∩ lenguajes_candidato| / |lenguajes_empresa|
+
+Si L < 0.3:  # Muy poca coincidencia
+    ajuste = 0.5 + L  # Penalización severa (50-80%)
+
+Si 0.3 <= L < 0.7:  # Coincidencia moderada
+    ajuste = 0.8 + L × 0.2  # Penalización moderada (80-94%)
+
+Si L >= 0.7:  # Alta coincidencia
+    ajuste = 0.95 + L × 0.05  # Bonus (95-100%)
+
+E = E × ajuste
+</div>
+
+<p><strong>Implementación:</strong> <code>src/empathy_algorithm.py:508-520</code></p>
+</div>
+
+<div class="factor-box">
+<div class="factor-title">F<sub>2</sub>: FACTOR DE COMPLEJIDAD DEL PROYECTO</div>
+<p>Ajusta según el tamaño relativo de los repositorios (número de archivos analizados).</p>
+
+<p><strong>Cálculo:</strong></p>
+<div class="code-block">
+ratio_tamaño = min(archivos_candidato / archivos_empresa,
+                   archivos_empresa / archivos_candidato)
+
+Si ratio_tamaño > 0.5 y archivos > 50:
+    # Proyectos de tamaño comparable
+    factor = 1.0 + (ratio_tamaño - 0.5) × 0.1  # Bonus hasta 1.05
+Sino:
+    # Diferencia significativa de tamaño
+    factor = 0.9 + ratio_tamaño × 0.1  # Penalización (0.9-1.0)
+
+E = E × factor
+</div>
+
+<p><strong>Implementación:</strong> <code>src/empathy_algorithm.py:522-529</code></p>
+</div>
+
+<div class="factor-box">
+<div class="factor-title">F<sub>3</sub>: FACTOR DE CONSISTENCIA</div>
+<p>Bonifica puntuaciones homogéneas entre categorías (menor desviación estándar).</p>
+
+<p><strong>Cálculo:</strong></p>
+<div class="code-block">
+desviacion = std([S<sub>1</sub>, S<sub>2</sub>, ..., S<sub>11</sub>])
+
+Si desviacion < 15:  # Muy consistente
+    bonus = +3 puntos
+
+Si 15 <= desviacion < 25:  # Moderadamente consistente
+    bonus = +1 punto
+
+Si desviacion >= 25:  # Inconsistente
+    bonus = -2 puntos
+
+E = E + bonus
+</div>
+
+<p><strong>Implementación:</strong> <code>src/empathy_algorithm.py:531-542</code></p>
+</div>
+
+<div class="factor-box">
+<div class="factor-title">F<sub>4</sub>: FACTOR DE EXCELENCIA Y DEFICIENCIA</div>
+<p>Bonifica categorías críticas con puntuación superior al 85% y penaliza las inferiores al 50%.</p>
+
+<p><strong>Categorías críticas con ponderación:</strong></p>
+<table class="category-table" style="margin-top: 10px;">
+    <thead>
+        <tr><th>Categoría</th><th>Peso del Factor</th></tr>
+    </thead>
+    <tbody>
+        <tr><td>Seguridad</td><td class="weight-critical">3.0</td></tr>
+        <tr><td>Pruebas</td><td class="weight-critical">2.5</td></tr>
+        <tr><td>Patrones</td><td class="weight-critical">2.5</td></tr>
+        <tr><td>Documentación</td><td class="weight-important">2.0</td></tr>
+        <tr><td>Rendimiento</td><td class="weight-important">1.5</td></tr>
+    </tbody>
+</table>
+
+<p><strong>Cálculo:</strong></p>
+<div class="code-block">
+Para cada categoría crítica:
+    Si S<sub>i</sub> >= 85:  # Excelente
+        bonus_excelencia += peso_categoría × 1.5
+
+    Si S<sub>i</sub> >= 70:  # Bueno
+        bonus_excelencia += peso_categoría × 0.5
+
+    Si S<sub>i</sub> < 50:  # Deficiente
+        penalizacion_deficiencia += peso_categoría × 1.5
+
+E = E + bonus_excelencia - penalizacion_deficiencia
+</div>
+
+<p><strong>Implementación:</strong> <code>src/empathy_algorithm.py:544-566</code></p>
+</div>
+
+<div class="factor-box">
+<div class="factor-title">F<sub>5</sub>: FACTOR DE ANTI-PATRONES</div>
+<p>Penaliza la presencia de anti-patrones detectados en el código del candidato.</p>
+
+<p><strong>Anti-patrones detectados:</strong></p>
+<ul>
+    <li>God Class (clases con más de 500 líneas o 20 métodos)</li>
+    <li>Spaghetti Code (complejidad ciclomática > 20)</li>
+    <li>Magic Numbers (números literales sin constantes)</li>
+    <li>Long Parameter List (funciones con más de 5 parámetros)</li>
+    <li>Deep Nesting (más de 4 niveles de anidación)</li>
+</ul>
+
+<p><strong>Cálculo:</strong></p>
+<div class="code-block">
+total_antipatrones = Σ |antipatrones_por_tipo|
+
+penalizacion = min(15, total_antipatrones × 2)
+
+E = E - penalizacion
+</div>
+
+<p><strong>Implementación:</strong> <code>src/empathy_algorithm.py:568-576</code>, detección en <code>src/pattern_analyzer.py</code></p>
+</div>
+
+<div class="factor-box">
+<div class="factor-title">F<sub>6</sub>: FACTOR DE PATRONES DE DISEÑO</div>
+<p>Bonifica el uso correcto de patrones de diseño reconocidos.</p>
+
+<p><strong>Patrones detectados:</strong></p>
+<ul>
+    <li>Singleton (única instancia)</li>
+    <li>Factory (creación de objetos)</li>
+    <li>Observer (suscripción a eventos)</li>
+    <li>Strategy (algoritmos intercambiables)</li>
+    <li>Decorator (extensión de funcionalidad)</li>
+</ul>
+
+<p><strong>Cálculo:</strong></p>
+<div class="code-block">
+total_patrones = Σ |patrones_por_tipo|
+
+Si total_patrones > 3:
+    bonus = min(10, total_patrones × 1.5)
+    E = E + bonus
+</div>
+
+<p><strong>Implementación:</strong> <code>src/empathy_algorithm.py:578-580</code>, detección en <code>src/pattern_analyzer.py</code></p>
+</div>
+</section>
+
+<section id="calculo-paso-a-paso">
+<h2>CÁLCULO PASO A PASO<a class="headerlink" href="#calculo-paso-a-paso" title="Link to this heading"></a></h2>
+
+<p>El algoritmo ejecuta el siguiente proceso secuencial:</p>
+
+<ol>
+    <li><strong>Extracción de lenguajes:</strong> Obtener lenguajes de ambos repositorios y calcular solapamiento (L)</li>
+
+    <li><strong>Cálculo de puntuaciones por categoría:</strong>
+        <ul>
+            <li>Para cada una de las 11 categorías, calcular S<sub>i</sub> usando el método de similitud apropiado</li>
+            <li>Categorías base: similitud directa/inversa/umbral según corresponda</li>
+            <li>Categorías avanzadas: cálculo especializado (patrones, rendimiento, comentarios)</li>
+        </ul>
+    </li>
+
+    <li><strong>Aplicación de correlaciones:</strong> Ajustar puntuaciones usando la matriz de correlaciones (C<sub>i</sub>)</li>
+
+    <li><strong>Cálculo de puntuación base:</strong>
+        <div class="code-block">
+E<sub>base</sub> = Σ (S<sub>i</sub> × W<sub>i</sub>) / Σ W<sub>i</sub>
+        </div>
+    </li>
+
+    <li><strong>Aplicación de factores de ajuste:</strong> Aplicar F<sub>1</sub> a F<sub>6</sub> secuencialmente</li>
+
+    <li><strong>Normalización final:</strong>
+        <div class="code-block">
+E<sub>final</sub> = clamp(E, 0, 100)
+        </div>
+    </li>
+
+    <li><strong>Generación de análisis:</strong> Crear recomendaciones e interpretación del resultado</li>
+</ol>
+
+<div class="note-box">
+<strong>Implementación:</strong> El flujo completo está en <code>src/empathy_algorithm.py:75-177</code> en el método <code>calculate_empathy_score()</code>.
+</div>
+</section>
+
+<section id="interpretacion-de-resultados">
+<h2>INTERPRETACIÓN DE RESULTADOS<a class="headerlink" href="#interpretacion-de-resultados" title="Link to this heading"></a></h2>
+
+<p>La puntuación final (E) se interpreta según los siguientes rangos:</p>
+
+<table class="interpretation-table">
+    <thead>
+        <tr>
+            <th>Rango</th>
+            <th>Nivel</th>
+            <th>Descripción</th>
+            <th>Recomendación</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr class="score-excellent">
+            <td>90-100%</td>
+            <td>EXCELENTE</td>
+            <td>Estilo de código muy alineado con la empresa</td>
+            <td>Candidato altamente compatible, integración inmediata</td>
+        </tr>
+        <tr class="score-good">
+            <td>75-89%</td>
+            <td>BUENO</td>
+            <td>Buena alineación con áreas menores de mejora</td>
+            <td>Candidato compatible con onboarding estándar</td>
+        </tr>
+        <tr class="score-acceptable">
+            <td>60-74%</td>
+            <td>ACEPTABLE</td>
+            <td>Alineación moderada, requiere adaptación</td>
+            <td>Candidato viable con periodo de adaptación extendido</td>
+        </tr>
+        <tr class="score-low">
+            <td>45-59%</td>
+            <td>BAJO</td>
+            <td>Baja alineación, requiere capacitación significativa</td>
+            <td>Evaluar inversión en formación vs. búsqueda de alternativas</td>
+        </tr>
+        <tr class="score-verylow">
+            <td>0-44%</td>
+            <td>MUY BAJO</td>
+            <td>Estilo muy diferente, no recomendado</td>
+            <td>No recomendado, diferencias fundamentales en enfoque</td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="note-box">
+<strong>Implementación:</strong> La interpretación se genera en <code>src/empathy_algorithm.py:725-742</code> en el método <code>_interpret_score()</code>.
+</div>
+</section>
+
+<section id="ejemplo-de-calculo">
+<h2>EJEMPLO DE CÁLCULO<a class="headerlink" href="#ejemplo-de-calculo" title="Link to this heading"></a></h2>
+
+<p>Veamos un ejemplo completo con valores hipotéticos:</p>
+
+<h3>DATOS DE ENTRADA</h3>
+
+<div class="code-block">
+Empresa:
+  - Lenguajes: [Python, JavaScript]
+  - Archivos analizados: 120
+  - Puntuaciones: {nombres: 85, documentacion: 90, modularidad: 75, ...}
+
+Candidato:
+  - Lenguajes: [Python, TypeScript]
+  - Archivos analizados: 95
+  - Puntuaciones: {nombres: 80, documentacion: 85, modularidad: 78, ...}
+</div>
+
+<h3>PASO 1: COINCIDENCIA DE LENGUAJES</h3>
+
+<div class="code-block">
+L = |{Python} ∩ {Python, JavaScript}| / 2 = 0.5
+</div>
+
+<h3>PASO 2: PUNTUACIONES POR CATEGORÍA (EJEMPLO DE 3 CATEGORÍAS)</h3>
+
+<div class="code-block">
+Nombres (similitud directa):
+  S<sub>nombres</sub> = 1 - |85 - 80| / 85 = 0.94 → 94 puntos
+
+Documentación (similitud directa):
+  S<sub>docs</sub> = 1 - |90 - 85| / 90 = 0.94 → 94 puntos
+
+Complejidad (similitud inversa):
+  S<sub>comp</sub> = Cálculo inverso → 88 puntos
+</div>
+
+<h3>PASO 3: CORRELACIONES</h3>
+
+<div class="code-block">
+Documentación correlaciona con Comentarios (+0.8):
+  ajuste = (S<sub>comentarios</sub> - 50) × 0.8 × 0.1
+  S<sub>docs_ajustada</sub> = 94 + ajuste
+</div>
+
+<h3>PASO 4: PUNTUACIÓN BASE</h3>
+
+<div class="code-block">
+E<sub>base</sub> = (94×0.12 + 94×0.12 + 88×0.10 + ... + 75×0.08) / 1.0
+E<sub>base</sub> = 82.4
+</div>
+
+<h3>PASO 5: FACTORES DE AJUSTE</h3>
+
+<div class="code-block">
+F<sub>1</sub> (Lenguajes): L = 0.5 → ajuste = 0.8 + 0.5×0.2 = 0.9
+E = 82.4 × 0.9 = 74.16
+
+F<sub>2</sub> (Tamaño): ratio = 95/120 = 0.79 → factor = 0.98
+E = 74.16 × 0.98 = 72.68
+
+F<sub>3</sub> (Consistencia): std = 12 → bonus = +3
+E = 72.68 + 3 = 75.68
+
+F<sub>4</sub> (Excelencia): seguridad=90 → bonus = 3.0×1.5 = 4.5
+E = 75.68 + 4.5 = 80.18
+
+F<sub>5</sub> (Anti-patrones): 2 anti-patrones → penalización = -4
+E = 80.18 - 4 = 76.18
+
+F<sub>6</sub> (Patrones): 5 patrones → bonus = +7.5
+E = 76.18 + 7.5 = 83.68
+</div>
+
+<h3>RESULTADO FINAL</h3>
+
+<div class="code-block">
+E<sub>final</sub> = 83.68 → Nivel: BUENO (75-89%)
+</div>
+
+<p><strong>Interpretación:</strong> Candidato compatible con onboarding estándar. Áreas de mejora: coincidencia de lenguajes (considerar formación en JavaScript).</p>
+</section>
+
+<section id="consideraciones-tecnicas">
+<h2>CONSIDERACIONES TÉCNICAS<a class="headerlink" href="#consideraciones-tecnicas" title="Link to this heading"></a></h2>
+
+<h3>NORMALIZACIÓN Y LÍMITES</h3>
+
+<p>Todos los valores se normalizan mediante la función clamp:</p>
+
+<div class="code-block">
+clamp(valor, min, max) = max(min, min(max, valor))
+</div>
+
+<p>Esto garantiza que:</p>
+<ul>
+    <li>Todas las puntuaciones de categoría están en [0, 100]</li>
+    <li>La puntuación final está en [0, 100]</li>
+    <li>Los factores de ajuste no pueden generar valores fuera de rango</li>
+</ul>
+
+<h3>MANEJO DE CASOS ESPECIALES</h3>
+
+<div class="factor-box">
+<div class="factor-title">SIN DATOS EN CATEGORÍA</div>
+<p>Si una categoría no tiene datos en uno o ambos repositorios:</p>
+<ul>
+    <li>Categorías base: puntuación de 50 (neutral)</li>
+    <li>Categorías avanzadas: puntuación de 50 (neutral)</li>
+    <li>El peso se mantiene, pero no afecta negativamente</li>
+</ul>
+</div>
+
+<div class="factor-box">
+<div class="factor-title">SIN COINCIDENCIA DE LENGUAJES</div>
+<p>Si L = 0 (ningún lenguaje en común):</p>
+<ul>
+    <li>Penalización severa: ajuste = 0.5 (50% de la puntuación)</li>
+    <li>Se genera advertencia en el reporte</li>
+    <li>Nivel máximo alcanzable: ACEPTABLE</li>
+</ul>
+</div>
+
+<div class="factor-box">
+<div class="factor-title">REPOSITORIOS MUY PEQUEÑOS</div>
+<p>Si archivos_analizados < 10 en cualquier repositorio:</p>
+<ul>
+    <li>Se genera advertencia sobre baja confianza estadística</li>
+    <li>F<sub>2</sub> no aplica factor de complejidad</li>
+    <li>Las correlaciones se aplican con peso reducido (×0.5)</li>
+</ul>
+</div>
+
+<h3>COMPLEJIDAD COMPUTACIONAL</h3>
+
+<p>El algoritmo tiene complejidad temporal:</p>
+
+<div class="code-block">
+O(n × m × c)
+
+Donde:
+  n = número de archivos del repositorio empresa
+  m = número de archivos del repositorio candidato
+  c = número de categorías (11)
+</div>
+
+<p>Para repositorios típicos (50-200 archivos), el tiempo de ejecución es de 30-60 segundos en hardware estándar.</p>
+</section>
+
+<section id="referencias-de-implementacion">
+<h2>REFERENCIAS DE IMPLEMENTACIÓN<a class="headerlink" href="#referencias-de-implementacion" title="Link to this heading"></a></h2>
+
+<p>El código fuente del algoritmo está organizado en los siguientes módulos:</p>
+
+<table class="category-table">
+    <thead>
+        <tr>
+            <th>Módulo</th>
+            <th>Archivo</th>
+            <th>Descripción</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Algoritmo principal</td>
+            <td><code>src/empathy_algorithm.py</code></td>
+            <td>Clase EmpathyAlgorithm con toda la lógica de cálculo</td>
+        </tr>
+        <tr>
+            <td>Análisis de patrones</td>
+            <td><code>src/pattern_analyzer.py</code></td>
+            <td>Detección de patrones de diseño y anti-patrones</td>
+        </tr>
+        <tr>
+            <td>Análisis de rendimiento</td>
+            <td><code>src/performance_analyzer.py</code></td>
+            <td>Detección de problemas de performance</td>
+        </tr>
+        <tr>
+            <td>Análisis de comentarios</td>
+            <td><code>src/comment_analyzer.py</code></td>
+            <td>Análisis de calidad de comentarios y TODOs</td>
+        </tr>
+        <tr>
+            <td>Analizadores de lenguaje</td>
+            <td><code>src/language_analyzers/</code></td>
+            <td>Analizadores específicos para cada lenguaje (12 lenguajes)</td>
+        </tr>
+        <tr>
+            <td>Utilidades GitHub</td>
+            <td><code>src/github_utils.py</code></td>
+            <td>Integración con GitHub API y descarga de repositorios</td>
+        </tr>
+    </tbody>
+</table>
+
+<h3>MÉTODOS CLAVE EN EMPATHY_ALGORITHM.PY</h3>
+
+<table class="category-table">
+    <thead>
+        <tr>
+            <th>Método</th>
+            <th>Líneas</th>
+            <th>Descripción</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>calculate_empathy_score()</code></td>
+            <td>75-177</td>
+            <td>Método principal que orquesta todo el cálculo</td>
+        </tr>
+        <tr>
+            <td><code>_calculate_category_score()</code></td>
+            <td>245-285</td>
+            <td>Calcula puntuación para categorías base</td>
+        </tr>
+        <tr>
+            <td><code>_calculate_similarity()</code></td>
+            <td>287-300</td>
+            <td>Similitud directa (más es mejor)</td>
+        </tr>
+        <tr>
+            <td><code>_inverse_similarity()</code></td>
+            <td>302-313</td>
+            <td>Similitud inversa (menos es mejor)</td>
+        </tr>
+        <tr>
+            <td><code>_threshold_similarity()</code></td>
+            <td>315-327</td>
+            <td>Similitud con umbral (debe superar)</td>
+        </tr>
+        <tr>
+            <td><code>_apply_category_correlations()</code></td>
+            <td>416-429</td>
+            <td>Aplica matriz de correlaciones</td>
+        </tr>
+        <tr>
+            <td><code>_calculate_complex_base_score()</code></td>
+            <td>431-484</td>
+            <td>Calcula puntuación base con algoritmo complejo</td>
+        </tr>
+        <tr>
+            <td><code>_apply_multi_factor_adjustments()</code></td>
+            <td>501-612</td>
+            <td>Aplica los 6 factores de ajuste (F<sub>1</sub>-F<sub>6</sub>)</td>
+        </tr>
+        <tr>
+            <td><code>_interpret_score()</code></td>
+            <td>725-742</td>
+            <td>Genera interpretación textual del resultado</td>
+        </tr>
+    </tbody>
+</table>
+</section>
+
+<section id="validacion-y-pruebas">
+<h2>VALIDACIÓN Y PRUEBAS<a class="headerlink" href="#validacion-y-pruebas" title="Link to this heading"></a></h2>
+
+<p>El algoritmo ha sido validado mediante:</p>
+
+<ul>
+    <li><strong>Pruebas unitarias:</strong> Suite completa en <code>tests/test_empathy_algorithm.py</code></li>
+    <li><strong>Análisis de repositorios reales:</strong> Más de 50 repositorios open source analizados</li>
+    <li><strong>Validación cruzada:</strong> Comparación con evaluaciones manuales de expertos</li>
+    <li><strong>Tests de regresión:</strong> Verificación de estabilidad entre versiones</li>
+</ul>
+
+<p>Para ejecutar las pruebas:</p>
+
+<div class="code-block">
+pytest tests/ -v
+python3 tests/test_analysis.py
+</div>
+</section>
+
+<section id="conclusiones">
+<h2>CONCLUSIONES<a class="headerlink" href="#conclusiones" title="Link to this heading"></a></h2>
+
+<p>El algoritmo de empatía de Code Empathizer proporciona una métrica cuantitativa y objetiva de la compatibilidad entre estilos de código. Sus características principales son:</p>
+
+<ul>
+    <li><strong>Multidimensional:</strong> 11 categorías independientes con correlaciones</li>
+    <li><strong>Adaptativo:</strong> 6 factores de ajuste dinámico según contexto</li>
+    <li><strong>Preciso:</strong> Utiliza análisis AST, regex optimizado y heurísticas avanzadas</li>
+    <li><strong>Escalable:</strong> Funciona con repositorios de 10 a 1000+ archivos</li>
+    <li><strong>Interpretable:</strong> Genera recomendaciones específicas y accionables</li>
+</ul>
+
+<p>La versión actual (2.2.2) incorpora mejoras significativas en rendimiento y precisión respecto a versiones anteriores.</p>
+</section>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Pie de página">
+        <a href="index.html" class="btn btn-neutral float-left" title="Documentación de Code Empathizer" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Anterior</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>© 2025 <a href="https://github.com/686f6c61">https://github.com/686f6c61</a> - Licencia MIT</p>
+  </div>
+
+  Compilado con <a href="https://www.sphinx-doc.org/">Sphinx</a> usando un
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">tema</a>
+    proporcionado por <a href="https://readthedocs.org">Read the Docs</a>.
+
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+</body>
+</html>

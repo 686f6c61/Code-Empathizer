@@ -1,0 +1,168 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="es" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dependency Analyzer &mdash; documentación de Code Empathizer - 2.0.0</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=ea25ecff"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/translations.js?v=f85f4cfb"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../search.html" />
+    <link rel="next" title="Language Analyzers" href="language_analyzers.html" />
+    <link rel="prev" title="Duplication Analyzer" href="duplication_analyzer.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Code Empathizer
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Buscar documentos" aria-label="Buscar documentos" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contenidos:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../modules.html">Módulos de Code Empathizer</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="empathy_algorithm.html">Algoritmo de Empatía</a></li>
+<li class="toctree-l2"><a class="reference internal" href="github_utils.html">Utilidades de GitHub</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exporters.html">Exporters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cache_manager.html">Cache Manager</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pattern_analyzer.html">Pattern Analyzer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="performance_analyzer.html">Performance Analyzer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="comment_analyzer.html">Comment Analyzer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="duplication_analyzer.html">Duplication Analyzer</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Dependency Analyzer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#dependency_analyzer.DependencyAnalyzer"><code class="docutils literal notranslate"><span class="pre">DependencyAnalyzer</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dependency_analyzer.DependencyAnalyzer.__init__"><code class="docutils literal notranslate"><span class="pre">DependencyAnalyzer.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dependency_analyzer.DependencyAnalyzer.analyze_dependencies"><code class="docutils literal notranslate"><span class="pre">DependencyAnalyzer.analyze_dependencies()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="language_analyzers.html">Language Analyzers</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="index.html">API de Code Empathizer</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Code Empathizer</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../modules.html">Módulos de Code Empathizer</a></li>
+      <li class="breadcrumb-item active">Dependency Analyzer</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/dependency_analyzer.rst.txt" rel="nofollow"> Ver código fuente de la página</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-dependency_analyzer">
+<span id="dependency-analyzer"></span><h1>Dependency Analyzer<a class="headerlink" href="#module-dependency_analyzer" title="Link to this heading"></a></h1>
+<p>Analizador de dependencias para proyectos multi-lenguaje.</p>
+<p>Este módulo es parte de Code Empathizer, una herramienta para medir la alineación
+entre el código de una empresa y sus candidatos.</p>
+<p>Autor: <a class="reference external" href="https://github.com/686f6c61">https://github.com/686f6c61</a>
+Repositorio: <a class="reference external" href="https://github.com/686f6c61/Code-Empathizer">https://github.com/686f6c61/Code-Empathizer</a>
+Fecha: Noviembre 2025
+Licencia: MIT</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="dependency_analyzer.DependencyAnalyzer">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dependency_analyzer.</span></span><span class="sig-name descname"><span class="pre">DependencyAnalyzer</span></span><a class="reference internal" href="../_modules/dependency_analyzer.html#DependencyAnalyzer"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#dependency_analyzer.DependencyAnalyzer" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(en Python versión 3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Analizador de dependencias multi-lenguaje</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dependency_analyzer.DependencyAnalyzer.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dependency_analyzer.html#DependencyAnalyzer.__init__"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#dependency_analyzer.DependencyAnalyzer.__init__" title="Link to this definition"></a></dt>
+<dd><p>Inicializa el analizador con patrones para cada lenguaje</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dependency_analyzer.DependencyAnalyzer.analyze_dependencies">
+<span class="sig-name descname"><span class="pre">analyze_dependencies</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">files</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dependency_analyzer.html#DependencyAnalyzer.analyze_dependencies"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#dependency_analyzer.DependencyAnalyzer.analyze_dependencies" title="Link to this definition"></a></dt>
+<dd><p>Analiza las dependencias en un conjunto de archivos.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>files</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(en Python versión 3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(en Python versión 3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(en Python versión 3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>) – Diccionario con rutas de archivo como claves y contenido como valores</p>
+</dd>
+<dt class="field-even">Tipo del valor devuelto<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(en Python versión 3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(en Python versión 3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(en Python versión 3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span></p>
+</dd>
+<dt class="field-odd">Devuelve<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Diccionario con métricas de dependencias</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Pie de página">
+        <a href="duplication_analyzer.html" class="btn btn-neutral float-left" title="Duplication Analyzer" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Anterior</a>
+        <a href="language_analyzers.html" class="btn btn-neutral float-right" title="Language Analyzers" accesskey="n" rel="next">Siguiente <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>© 2025 <a href="https://github.com/686f6c61">https://github.com/686f6c61</a> - Licencia MIT</p>
+  </div>
+
+  Compilado con <a href="https://www.sphinx-doc.org/">Sphinx</a> usando un
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">tema</a>
+    proporcionado por <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

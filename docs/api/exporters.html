@@ -1,0 +1,278 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="es" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Exporters &mdash; documentación de Code Empathizer - 2.0.0</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=ea25ecff"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/translations.js?v=f85f4cfb"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../search.html" />
+    <link rel="next" title="Cache Manager" href="cache_manager.html" />
+    <link rel="prev" title="Utilidades de GitHub" href="github_utils.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Code Empathizer
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Buscar documentos" aria-label="Buscar documentos" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contenidos:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../modules.html">Módulos de Code Empathizer</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="empathy_algorithm.html">Algoritmo de Empatía</a></li>
+<li class="toctree-l2"><a class="reference internal" href="github_utils.html">Utilidades de GitHub</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Exporters</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#exporters.Exporter"><code class="docutils literal notranslate"><span class="pre">Exporter</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#exporters.Exporter.format_date"><code class="docutils literal notranslate"><span class="pre">Exporter.format_date()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#exporters.Exporter.exportar_txt"><code class="docutils literal notranslate"><span class="pre">Exporter.exportar_txt()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#exporters.Exporter.exportar_json"><code class="docutils literal notranslate"><span class="pre">Exporter.exportar_json()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#exporters.Exporter.exportar_html"><code class="docutils literal notranslate"><span class="pre">Exporter.exportar_html()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#exporters.Exporter.exportar_equipo"><code class="docutils literal notranslate"><span class="pre">Exporter.exportar_equipo()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#exporters.Exporter.exportar_graficas_zip"><code class="docutils literal notranslate"><span class="pre">Exporter.exportar_graficas_zip()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cache_manager.html">Cache Manager</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pattern_analyzer.html">Pattern Analyzer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="performance_analyzer.html">Performance Analyzer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="comment_analyzer.html">Comment Analyzer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="duplication_analyzer.html">Duplication Analyzer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dependency_analyzer.html">Dependency Analyzer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="language_analyzers.html">Language Analyzers</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="index.html">API de Code Empathizer</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Code Empathizer</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../modules.html">Módulos de Code Empathizer</a></li>
+      <li class="breadcrumb-item active">Exporters</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/exporters.rst.txt" rel="nofollow"> Ver código fuente de la página</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-exporters">
+<span id="exporters"></span><h1>Exporters<a class="headerlink" href="#module-exporters" title="Link to this heading"></a></h1>
+<p>Módulo de exportación de resultados.</p>
+<p>Este módulo es parte de Code Empathizer, una herramienta para medir la alineación
+entre el código de una empresa y sus candidatos.</p>
+<p>Autor: <a class="reference external" href="https://github.com/686f6c61">https://github.com/686f6c61</a>
+Repositorio: <a class="reference external" href="https://github.com/686f6c61/Code-Empathizer">https://github.com/686f6c61/Code-Empathizer</a>
+Fecha: Noviembre 2025
+Licencia: MIT</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="exporters.Exporter">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exporters.</span></span><span class="sig-name descname"><span class="pre">Exporter</span></span><a class="reference internal" href="../_modules/exporters.html#Exporter"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#exporters.Exporter" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(en Python versión 3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Gestor de exportación de resultados en múltiples formatos.</p>
+<p>Soporta exportación a texto plano, JSON y HTML con plantillas
+personalizadas para visualización interactiva.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="exporters.Exporter.format_date">
+<span class="sig-name descname"><span class="pre">format_date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/exporters.html#Exporter.format_date"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#exporters.Exporter.format_date" title="Link to this definition"></a></dt>
+<dd><p>Filtro Jinja2 para formatear fechas.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(en Python versión 3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a></span>) – Fecha en formato ISO string o datetime object.</p>
+</dd>
+<dt class="field-even">Devuelve<span class="colon">:</span></dt>
+<dd class="field-even"><p>Fecha formateada como DD/MM/YYYY HH:MM:SS.</p>
+</dd>
+<dt class="field-odd">Tipo del valor devuelto<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(en Python versión 3.14)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="exporters.Exporter.exportar_txt">
+<span class="sig-name descname"><span class="pre">exportar_txt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metricas</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestamp</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/exporters.html#Exporter.exportar_txt"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#exporters.Exporter.exportar_txt" title="Link to this definition"></a></dt>
+<dd><p>Exporta los resultados a archivo de texto plano.</p>
+<p>Genera un informe detallado con formato de tabla que incluye:
+- Información de repositorios
+- Puntuación de empatía
+- Métricas por categoría
+- Recomendaciones</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>metricas</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(en Python versión 3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(en Python versión 3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(en Python versión 3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span>) – Diccionario con los resultados del análisis.</p></li>
+<li><p><strong>timestamp</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(en Python versión 3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – Marca de tiempo para el nombre del archivo.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Muestra<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#IOError" title="(en Python versión 3.14)"><strong>IOError</strong></a> – Si no se puede escribir el archivo.</p>
+</dd>
+<dt class="field-odd">Tipo del valor devuelto<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(en Python versión 3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="exporters.Exporter.exportar_json">
+<span class="sig-name descname"><span class="pre">exportar_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metricas</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestamp</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/exporters.html#Exporter.exportar_json"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#exporters.Exporter.exportar_json" title="Link to this definition"></a></dt>
+<dd><p>Exporta los resultados a formato JSON.</p>
+<p>Útil para procesamiento posterior o integración con otras
+herramientas.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>metricas</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(en Python versión 3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(en Python versión 3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(en Python versión 3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span>) – Diccionario con los resultados del análisis.</p></li>
+<li><p><strong>timestamp</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(en Python versión 3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – Marca de tiempo para el nombre del archivo.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Muestra<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#IOError" title="(en Python versión 3.14)"><strong>IOError</strong></a> – Si no se puede escribir el archivo.</p>
+</dd>
+<dt class="field-odd">Tipo del valor devuelto<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(en Python versión 3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="exporters.Exporter.exportar_html">
+<span class="sig-name descname"><span class="pre">exportar_html</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metricas</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestamp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dashboard</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/exporters.html#Exporter.exportar_html"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#exporters.Exporter.exportar_html" title="Link to this definition"></a></dt>
+<dd><p>Exporta los resultados a formato HTML.</p>
+<p>Puede generar un reporte estático o un dashboard interactivo
+con gráficos usando Chart.js.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>metricas</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(en Python versión 3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(en Python versión 3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(en Python versión 3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span>) – Diccionario con los resultados del análisis.</p></li>
+<li><p><strong>timestamp</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(en Python versión 3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – Marca de tiempo para el nombre del archivo.</p></li>
+<li><p><strong>dashboard</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(en Python versión 3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – Si True, genera dashboard interactivo.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Muestra<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#IOError" title="(en Python versión 3.14)"><strong>IOError</strong></a> – Si no se puede escribir el archivo.</p></li>
+<li><p><strong>TemplateNotFound</strong> – Si no encuentra las plantillas HTML.</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Tipo del valor devuelto<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(en Python versión 3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="exporters.Exporter.exportar_equipo">
+<span class="sig-name descname"><span class="pre">exportar_equipo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resultados_equipo</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestamp</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/exporters.html#Exporter.exportar_equipo"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#exporters.Exporter.exportar_equipo" title="Link to this definition"></a></dt>
+<dd><p>Genera un reporte especial para análisis de equipo.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Tipo del valor devuelto<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(en Python versión 3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="exporters.Exporter.exportar_graficas_zip">
+<span class="sig-name descname"><span class="pre">exportar_graficas_zip</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metricas</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestamp</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/exporters.html#Exporter.exportar_graficas_zip"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#exporters.Exporter.exportar_graficas_zip" title="Link to this definition"></a></dt>
+<dd><p>Exporta todas las gráficas generadas en un archivo ZIP.</p>
+<p>Genera archivos HTML individuales para cada gráfica (radar, barras,
+comparación por categorías) y los empaqueta en un ZIP para fácil
+descarga y distribución.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>metricas</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(en Python versión 3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(en Python versión 3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(en Python versión 3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span>) – Diccionario con los resultados del análisis.</p></li>
+<li><p><strong>timestamp</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(en Python versión 3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – Marca de tiempo para el nombre del archivo.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Devuelve<span class="colon">:</span></dt>
+<dd class="field-even"><p>Ruta al archivo ZIP generado.</p>
+</dd>
+<dt class="field-odd">Tipo del valor devuelto<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(en Python versión 3.14)">str</a></p>
+</dd>
+<dt class="field-even">Muestra<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#IOError" title="(en Python versión 3.14)"><strong>IOError</strong></a> – Si no se puede escribir el archivo ZIP.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Pie de página">
+        <a href="github_utils.html" class="btn btn-neutral float-left" title="Utilidades de GitHub" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Anterior</a>
+        <a href="cache_manager.html" class="btn btn-neutral float-right" title="Cache Manager" accesskey="n" rel="next">Siguiente <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>© 2025 <a href="https://github.com/686f6c61">https://github.com/686f6c61</a> - Licencia MIT</p>
+  </div>
+
+  Compilado con <a href="https://www.sphinx-doc.org/">Sphinx</a> usando un
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">tema</a>
+    proporcionado por <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

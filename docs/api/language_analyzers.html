@@ -1,0 +1,471 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="es" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Language Analyzers &mdash; documentación de Code Empathizer - 2.0.0</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=ea25ecff"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/translations.js?v=f85f4cfb"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../search.html" />
+    <link rel="next" title="API de Code Empathizer" href="index.html" />
+    <link rel="prev" title="Dependency Analyzer" href="dependency_analyzer.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Code Empathizer
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Buscar documentos" aria-label="Buscar documentos" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contenidos:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../modules.html">Módulos de Code Empathizer</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="empathy_algorithm.html">Algoritmo de Empatía</a></li>
+<li class="toctree-l2"><a class="reference internal" href="github_utils.html">Utilidades de GitHub</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exporters.html">Exporters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cache_manager.html">Cache Manager</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pattern_analyzer.html">Pattern Analyzer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="performance_analyzer.html">Performance Analyzer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="comment_analyzer.html">Comment Analyzer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="duplication_analyzer.html">Duplication Analyzer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dependency_analyzer.html">Dependency Analyzer</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Language Analyzers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#language_analyzers.LanguageAnalyzer"><code class="docutils literal notranslate"><span class="pre">LanguageAnalyzer</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#language_analyzers.LanguageAnalyzer.metrics"><code class="docutils literal notranslate"><span class="pre">LanguageAnalyzer.metrics</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#language_analyzers.LanguageAnalyzer.total_files"><code class="docutils literal notranslate"><span class="pre">LanguageAnalyzer.total_files</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#language_analyzers.LanguageAnalyzer.total_lines"><code class="docutils literal notranslate"><span class="pre">LanguageAnalyzer.total_lines</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#language_analyzers.LanguageAnalyzer.__init__"><code class="docutils literal notranslate"><span class="pre">LanguageAnalyzer.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#language_analyzers.LanguageAnalyzer.aggregate_metrics"><code class="docutils literal notranslate"><span class="pre">LanguageAnalyzer.aggregate_metrics()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#language_analyzers.LanguageAnalyzer.analyze_comments"><code class="docutils literal notranslate"><span class="pre">LanguageAnalyzer.analyze_comments()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#language_analyzers.LanguageAnalyzer.analyze_dependencies"><code class="docutils literal notranslate"><span class="pre">LanguageAnalyzer.analyze_dependencies()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#language_analyzers.LanguageAnalyzer.analyze_duplication"><code class="docutils literal notranslate"><span class="pre">LanguageAnalyzer.analyze_duplication()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#language_analyzers.LanguageAnalyzer.analyze_file"><code class="docutils literal notranslate"><span class="pre">LanguageAnalyzer.analyze_file()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#language_analyzers.LanguageAnalyzer.analyze_files"><code class="docutils literal notranslate"><span class="pre">LanguageAnalyzer.analyze_files()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#language_analyzers.LanguageAnalyzer.analyze_patterns"><code class="docutils literal notranslate"><span class="pre">LanguageAnalyzer.analyze_patterns()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#language_analyzers.LanguageAnalyzer.analyze_performance"><code class="docutils literal notranslate"><span class="pre">LanguageAnalyzer.analyze_performance()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#language_analyzers.LanguageAnalyzer.calculate_empathy_score"><code class="docutils literal notranslate"><span class="pre">LanguageAnalyzer.calculate_empathy_score()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#language_analyzers.LanguageAnalyzer.get_file_extensions"><code class="docutils literal notranslate"><span class="pre">LanguageAnalyzer.get_file_extensions()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#language_analyzers.LanguageAnalyzer.get_language_name"><code class="docutils literal notranslate"><span class="pre">LanguageAnalyzer.get_language_name()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#language_analyzers.LanguageAnalyzer.get_summary"><code class="docutils literal notranslate"><span class="pre">LanguageAnalyzer.get_summary()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#language_analyzers.LanguageAnalyzer.should_analyze_file"><code class="docutils literal notranslate"><span class="pre">LanguageAnalyzer.should_analyze_file()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#language_analyzers.AnalyzerFactory"><code class="docutils literal notranslate"><span class="pre">AnalyzerFactory</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#language_analyzers.AnalyzerFactory.analyze_multi_language_project"><code class="docutils literal notranslate"><span class="pre">AnalyzerFactory.analyze_multi_language_project()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#language_analyzers.AnalyzerFactory.detect_primary_language"><code class="docutils literal notranslate"><span class="pre">AnalyzerFactory.detect_primary_language()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#language_analyzers.AnalyzerFactory.get_analyzer"><code class="docutils literal notranslate"><span class="pre">AnalyzerFactory.get_analyzer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#language_analyzers.AnalyzerFactory.get_analyzer_for_file"><code class="docutils literal notranslate"><span class="pre">AnalyzerFactory.get_analyzer_for_file()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#language_analyzers.AnalyzerFactory.get_supported_extensions"><code class="docutils literal notranslate"><span class="pre">AnalyzerFactory.get_supported_extensions()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#language_analyzers.AnalyzerFactory.get_supported_languages"><code class="docutils literal notranslate"><span class="pre">AnalyzerFactory.get_supported_languages()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#language_analyzers.AnalyzerFactory.register_analyzer"><code class="docutils literal notranslate"><span class="pre">AnalyzerFactory.register_analyzer()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="index.html">API de Code Empathizer</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Code Empathizer</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../modules.html">Módulos de Code Empathizer</a></li>
+      <li class="breadcrumb-item active">Language Analyzers</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/language_analyzers.rst.txt" rel="nofollow"> Ver código fuente de la página</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-language_analyzers">
+<span id="language-analyzers"></span><h1>Language Analyzers<a class="headerlink" href="#module-language_analyzers" title="Link to this heading"></a></h1>
+<p>Language analyzers package for multi-language support</p>
+<p>Este módulo es parte de Code Empathizer, una herramienta para medir la alineación
+entre el código de una empresa y sus candidatos.</p>
+<p>Autor: <a class="reference external" href="https://github.com/686f6c61">https://github.com/686f6c61</a>
+Repositorio: <a class="reference external" href="https://github.com/686f6c61/Code-Empathizer">https://github.com/686f6c61/Code-Empathizer</a>
+Fecha: Noviembre 2025
+Licencia: MIT</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="language_analyzers.LanguageAnalyzer">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">language_analyzers.</span></span><span class="sig-name descname"><span class="pre">LanguageAnalyzer</span></span><a class="reference internal" href="../_modules/language_analyzers/base.html#LanguageAnalyzer"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#language_analyzers.LanguageAnalyzer" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/abc.html#abc.ABC" title="(en Python versión 3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></a></p>
+<p>Clase base abstracta para analizadores específicos de lenguaje.</p>
+<p>Define la interfaz y comportamiento común para todos los analizadores.
+Las subclases deben implementar los métodos abstractos para cada
+lenguaje específico.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="language_analyzers.LanguageAnalyzer.metrics">
+<span class="sig-name descname"><span class="pre">metrics</span></span><a class="headerlink" href="#language_analyzers.LanguageAnalyzer.metrics" title="Link to this definition"></a></dt>
+<dd><p>Diccionario con las métricas analizadas.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="language_analyzers.LanguageAnalyzer.total_files">
+<span class="sig-name descname"><span class="pre">total_files</span></span><a class="headerlink" href="#language_analyzers.LanguageAnalyzer.total_files" title="Link to this definition"></a></dt>
+<dd><p>Número total de archivos analizados.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="language_analyzers.LanguageAnalyzer.total_lines">
+<span class="sig-name descname"><span class="pre">total_lines</span></span><a class="headerlink" href="#language_analyzers.LanguageAnalyzer.total_lines" title="Link to this definition"></a></dt>
+<dd><p>Número total de líneas procesadas.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="language_analyzers.LanguageAnalyzer.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/language_analyzers/base.html#LanguageAnalyzer.__init__"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#language_analyzers.LanguageAnalyzer.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="language_analyzers.LanguageAnalyzer.aggregate_metrics">
+<span class="sig-name descname"><span class="pre">aggregate_metrics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_metrics</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/language_analyzers/base.html#LanguageAnalyzer.aggregate_metrics"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#language_analyzers.LanguageAnalyzer.aggregate_metrics" title="Link to this definition"></a></dt>
+<dd><p>Aggregate metrics from individual files</p>
+<dl class="field-list simple">
+<dt class="field-odd">Tipo del valor devuelto<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(en Python versión 3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="language_analyzers.LanguageAnalyzer.analyze_comments">
+<span class="sig-name descname"><span class="pre">analyze_comments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">files_content</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/language_analyzers/base.html#LanguageAnalyzer.analyze_comments"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#language_analyzers.LanguageAnalyzer.analyze_comments" title="Link to this definition"></a></dt>
+<dd><p>Analiza comentarios y TODOs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>files_content</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(en Python versión 3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(en Python versión 3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(en Python versión 3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>) – Diccionario con el contenido de archivos.</p>
+</dd>
+<dt class="field-even">Devuelve<span class="colon">:</span></dt>
+<dd class="field-even"><p>Análisis de comentarios.</p>
+</dd>
+<dt class="field-odd">Tipo del valor devuelto<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dict[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(en Python versión 3.14)">str</a>, Any]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="language_analyzers.LanguageAnalyzer.analyze_dependencies">
+<span class="sig-name descname"><span class="pre">analyze_dependencies</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">files_content</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/language_analyzers/base.html#LanguageAnalyzer.analyze_dependencies"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#language_analyzers.LanguageAnalyzer.analyze_dependencies" title="Link to this definition"></a></dt>
+<dd><p>Analiza las dependencias en los archivos.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>files_content</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(en Python versión 3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(en Python versión 3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(en Python versión 3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>) – Diccionario con el contenido de archivos.</p>
+</dd>
+<dt class="field-even">Devuelve<span class="colon">:</span></dt>
+<dd class="field-even"><p>Análisis de dependencias.</p>
+</dd>
+<dt class="field-odd">Tipo del valor devuelto<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dict[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(en Python versión 3.14)">str</a>, Any]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="language_analyzers.LanguageAnalyzer.analyze_duplication">
+<span class="sig-name descname"><span class="pre">analyze_duplication</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">files_content</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/language_analyzers/base.html#LanguageAnalyzer.analyze_duplication"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#language_analyzers.LanguageAnalyzer.analyze_duplication" title="Link to this definition"></a></dt>
+<dd><p>Analiza duplicación de código en los archivos.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>files_content</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(en Python versión 3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(en Python versión 3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(en Python versión 3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>) – Diccionario con el contenido de archivos.</p>
+</dd>
+<dt class="field-even">Devuelve<span class="colon">:</span></dt>
+<dd class="field-even"><p>Análisis de duplicación.</p>
+</dd>
+<dt class="field-odd">Tipo del valor devuelto<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dict[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(en Python versión 3.14)">str</a>, Any]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="language_analyzers.LanguageAnalyzer.analyze_file">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">analyze_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">content</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/language_analyzers/base.html#LanguageAnalyzer.analyze_file"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#language_analyzers.LanguageAnalyzer.analyze_file" title="Link to this definition"></a></dt>
+<dd><p>Analyze a single file and return metrics</p>
+<dl class="field-list simple">
+<dt class="field-odd">Tipo del valor devuelto<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(en Python versión 3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(en Python versión 3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(en Python versión 3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="language_analyzers.LanguageAnalyzer.analyze_files">
+<span class="sig-name descname"><span class="pre">analyze_files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">files</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/language_analyzers/base.html#LanguageAnalyzer.analyze_files"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#language_analyzers.LanguageAnalyzer.analyze_files" title="Link to this definition"></a></dt>
+<dd><p>Analiza múltiples archivos y agrega los resultados.</p>
+<p>Procesa cada archivo individualmente y luego combina las métricas
+para obtener valores promedio o totales según corresponda.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>files</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(en Python versión 3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(en Python versión 3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(en Python versión 3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>) – Diccionario {ruta: contenido} de archivos a analizar.</p>
+</dd>
+<dt class="field-even">Devuelve<span class="colon">:</span></dt>
+<dd class="field-even"><p>Métricas agregadas de todos los archivos.</p>
+</dd>
+<dt class="field-odd">Tipo del valor devuelto<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dict[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(en Python versión 3.14)">str</a>, Any]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="language_analyzers.LanguageAnalyzer.analyze_patterns">
+<span class="sig-name descname"><span class="pre">analyze_patterns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">files_content</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/language_analyzers/base.html#LanguageAnalyzer.analyze_patterns"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#language_analyzers.LanguageAnalyzer.analyze_patterns" title="Link to this definition"></a></dt>
+<dd><p>Analiza patrones de diseño y anti-patrones.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>files_content</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(en Python versión 3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(en Python versión 3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(en Python versión 3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>) – Diccionario con el contenido de archivos.</p>
+</dd>
+<dt class="field-even">Devuelve<span class="colon">:</span></dt>
+<dd class="field-even"><p>Análisis de patrones.</p>
+</dd>
+<dt class="field-odd">Tipo del valor devuelto<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dict[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(en Python versión 3.14)">str</a>, Any]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="language_analyzers.LanguageAnalyzer.analyze_performance">
+<span class="sig-name descname"><span class="pre">analyze_performance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">files_content</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/language_analyzers/base.html#LanguageAnalyzer.analyze_performance"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#language_analyzers.LanguageAnalyzer.analyze_performance" title="Link to this definition"></a></dt>
+<dd><p>Analiza métricas de rendimiento.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>files_content</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(en Python versión 3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(en Python versión 3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(en Python versión 3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>) – Diccionario con el contenido de archivos.</p>
+</dd>
+<dt class="field-even">Devuelve<span class="colon">:</span></dt>
+<dd class="field-even"><p>Análisis de rendimiento.</p>
+</dd>
+<dt class="field-odd">Tipo del valor devuelto<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dict[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(en Python versión 3.14)">str</a>, Any]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="language_analyzers.LanguageAnalyzer.calculate_empathy_score">
+<span class="sig-name descname"><span class="pre">calculate_empathy_score</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/language_analyzers/base.html#LanguageAnalyzer.calculate_empathy_score"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#language_analyzers.LanguageAnalyzer.calculate_empathy_score" title="Link to this definition"></a></dt>
+<dd><p>Calculate overall empathy score based on all metrics</p>
+<dl class="field-list simple">
+<dt class="field-odd">Tipo del valor devuelto<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(en Python versión 3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="language_analyzers.LanguageAnalyzer.get_file_extensions">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_file_extensions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/language_analyzers/base.html#LanguageAnalyzer.get_file_extensions"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#language_analyzers.LanguageAnalyzer.get_file_extensions" title="Link to this definition"></a></dt>
+<dd><p>Retorna las extensiones de archivo que maneja este analizador.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Devuelve<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Lista de extensiones (ej: [“.py”, “.pyw”]).</p>
+</dd>
+<dt class="field-even">Tipo del valor devuelto<span class="colon">:</span></dt>
+<dd class="field-even"><p>List[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(en Python versión 3.14)">str</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="language_analyzers.LanguageAnalyzer.get_language_name">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_language_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/language_analyzers/base.html#LanguageAnalyzer.get_language_name"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#language_analyzers.LanguageAnalyzer.get_language_name" title="Link to this definition"></a></dt>
+<dd><p>Return the name of the language</p>
+<dl class="field-list simple">
+<dt class="field-odd">Tipo del valor devuelto<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(en Python versión 3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="language_analyzers.LanguageAnalyzer.get_summary">
+<span class="sig-name descname"><span class="pre">get_summary</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/language_analyzers/base.html#LanguageAnalyzer.get_summary"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#language_analyzers.LanguageAnalyzer.get_summary" title="Link to this definition"></a></dt>
+<dd><p>Obtiene un resumen de los resultados del análisis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Devuelve<span class="colon">:</span></dt>
+<dd class="field-odd"><p><dl class="simple">
+<dt>Resumen con lenguaje, archivos, líneas,</dt><dd><p>métricas y puntuación de empatía.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-even">Tipo del valor devuelto<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dict[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(en Python versión 3.14)">str</a>, Any]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="language_analyzers.LanguageAnalyzer.should_analyze_file">
+<span class="sig-name descname"><span class="pre">should_analyze_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/language_analyzers/base.html#LanguageAnalyzer.should_analyze_file"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#language_analyzers.LanguageAnalyzer.should_analyze_file" title="Link to this definition"></a></dt>
+<dd><p>Check if file should be analyzed based on extension</p>
+<dl class="field-list simple">
+<dt class="field-odd">Tipo del valor devuelto<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(en Python versión 3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="language_analyzers.AnalyzerFactory">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">language_analyzers.</span></span><span class="sig-name descname"><span class="pre">AnalyzerFactory</span></span><a class="reference internal" href="../_modules/language_analyzers/factory.html#AnalyzerFactory"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#language_analyzers.AnalyzerFactory" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(en Python versión 3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Factory class for creating appropriate language analyzers</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="language_analyzers.AnalyzerFactory.analyze_multi_language_project">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">analyze_multi_language_project</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">files</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/language_analyzers/factory.html#AnalyzerFactory.analyze_multi_language_project"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#language_analyzers.AnalyzerFactory.analyze_multi_language_project" title="Link to this definition"></a></dt>
+<dd><p>Analyze a project with multiple languages</p>
+<dl class="field-list simple">
+<dt class="field-odd">Tipo del valor devuelto<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(en Python versión 3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(en Python versión 3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(en Python versión 3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="language_analyzers.AnalyzerFactory.detect_primary_language">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">detect_primary_language</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">files</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/language_analyzers/factory.html#AnalyzerFactory.detect_primary_language"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#language_analyzers.AnalyzerFactory.detect_primary_language" title="Link to this definition"></a></dt>
+<dd><p>Detect the primary language in a set of files</p>
+<dl class="field-list simple">
+<dt class="field-odd">Tipo del valor devuelto<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(en Python versión 3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(en Python versión 3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="language_analyzers.AnalyzerFactory.get_analyzer">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_analyzer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">language</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/language_analyzers/factory.html#AnalyzerFactory.get_analyzer"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#language_analyzers.AnalyzerFactory.get_analyzer" title="Link to this definition"></a></dt>
+<dd><p>Get an analyzer instance for a specific language</p>
+<dl class="field-list simple">
+<dt class="field-odd">Tipo del valor devuelto<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(en Python versión 3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference internal" href="#language_analyzers.LanguageAnalyzer" title="language_analyzers.base.LanguageAnalyzer"><code class="xref py py-class docutils literal notranslate"><span class="pre">LanguageAnalyzer</span></code></a>]</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="language_analyzers.AnalyzerFactory.get_analyzer_for_file">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_analyzer_for_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/language_analyzers/factory.html#AnalyzerFactory.get_analyzer_for_file"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#language_analyzers.AnalyzerFactory.get_analyzer_for_file" title="Link to this definition"></a></dt>
+<dd><p>Get an analyzer instance based on file extension</p>
+<dl class="field-list simple">
+<dt class="field-odd">Tipo del valor devuelto<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(en Python versión 3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference internal" href="#language_analyzers.LanguageAnalyzer" title="language_analyzers.base.LanguageAnalyzer"><code class="xref py py-class docutils literal notranslate"><span class="pre">LanguageAnalyzer</span></code></a>]</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="language_analyzers.AnalyzerFactory.get_supported_extensions">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_supported_extensions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/language_analyzers/factory.html#AnalyzerFactory.get_supported_extensions"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#language_analyzers.AnalyzerFactory.get_supported_extensions" title="Link to this definition"></a></dt>
+<dd><p>Get list of all supported file extensions</p>
+<dl class="field-list simple">
+<dt class="field-odd">Tipo del valor devuelto<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(en Python versión 3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(en Python versión 3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="language_analyzers.AnalyzerFactory.get_supported_languages">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_supported_languages</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/language_analyzers/factory.html#AnalyzerFactory.get_supported_languages"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#language_analyzers.AnalyzerFactory.get_supported_languages" title="Link to this definition"></a></dt>
+<dd><p>Get list of all supported languages</p>
+<dl class="field-list simple">
+<dt class="field-odd">Tipo del valor devuelto<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(en Python versión 3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(en Python versión 3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="language_analyzers.AnalyzerFactory.register_analyzer">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">register_analyzer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">language</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">analyzer_class</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/language_analyzers/factory.html#AnalyzerFactory.register_analyzer"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#language_analyzers.AnalyzerFactory.register_analyzer" title="Link to this definition"></a></dt>
+<dd><p>Register a new analyzer for a language</p>
+<dl class="field-list simple">
+<dt class="field-odd">Tipo del valor devuelto<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(en Python versión 3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Pie de página">
+        <a href="dependency_analyzer.html" class="btn btn-neutral float-left" title="Dependency Analyzer" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Anterior</a>
+        <a href="index.html" class="btn btn-neutral float-right" title="API de Code Empathizer" accesskey="n" rel="next">Siguiente <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>© 2025 <a href="https://github.com/686f6c61">https://github.com/686f6c61</a> - Licencia MIT</p>
+  </div>
+
+  Compilado con <a href="https://www.sphinx-doc.org/">Sphinx</a> usando un
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">tema</a>
+    proporcionado por <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

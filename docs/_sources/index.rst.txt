@@ -1,0 +1,54 @@
+Documentación de Code Empathizer
+=================================
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Contenidos:
+
+   modules
+   api/index
+
+Bienvenido a Code Empathizer
+=============================
+
+Code Empathizer es una herramienta profesional de análisis de código que mide
+la "empatía" entre el código de una empresa y el de candidatos a empleo.
+
+Características Principales
+----------------------------
+
+* **Análisis Multi-lenguaje**: Soporte para 12 lenguajes de programación
+* **Algoritmo Avanzado**: Sistema de puntuación basado en 11 categorías de métricas
+* **Integración con GitHub**: Análisis directo desde repositorios remotos
+* **Reportes Profesionales**: Exportación en TXT, JSON, HTML y Dashboard interactivo
+* **Análisis Avanzados**: Patrones de diseño, rendimiento, comentarios y duplicación
+
+Instalación
+-----------
+
+.. code-block:: bash
+
+   pip install -r requirements.txt
+
+Uso Básico
+----------
+
+.. code-block:: bash
+
+   python src/main.py
+
+Configuración
+-------------
+
+Crear un archivo ``.env`` con tu token de GitHub:
+
+.. code-block:: bash
+
+   GITHUB_TOKEN=ghp_xxxxxxxxxxxx
+
+Índices y Tablas
+================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`

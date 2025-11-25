@@ -1,0 +1,513 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="es" data-content_root="../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>performance_analyzer &mdash; documentación de Code Empathizer - 2.0.0</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=ea25ecff"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/translations.js?v=f85f4cfb"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Code Empathizer
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Buscar documentos" aria-label="Buscar documentos" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contenidos:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">Módulos de Code Empathizer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API de Code Empathizer</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Code Empathizer</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Código de módulo</a></li>
+      <li class="breadcrumb-item active">performance_analyzer</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Código fuente para performance_analyzer</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Analizador de métricas de rendimiento.</span>
+
+<span class="sd">Este módulo es parte de Code Empathizer, una herramienta para medir la alineación</span>
+<span class="sd">entre el código de una empresa y sus candidatos.</span>
+
+<span class="sd">Autor: https://github.com/686f6c61</span>
+<span class="sd">Repositorio: https://github.com/686f6c61/Code-Empathizer</span>
+<span class="sd">Fecha: Noviembre 2025</span>
+<span class="sd">Licencia: MIT</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Any</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">defaultdict</span>
+
+
+<div class="viewcode-block" id="PerformanceAnalyzer">
+<a class="viewcode-back" href="../api/performance_analyzer.html#performance_analyzer.PerformanceAnalyzer">[documentos]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PerformanceAnalyzer</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Analizador de métricas de rendimiento y operaciones costosas&quot;&quot;&quot;</span>
+    
+<div class="viewcode-block" id="PerformanceAnalyzer.__init__">
+<a class="viewcode-back" href="../api/performance_analyzer.html#performance_analyzer.PerformanceAnalyzer.__init__">[documentos]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Inicializa el analizador con patrones de rendimiento&quot;&quot;&quot;</span>
+        <span class="c1"># Patrones de operaciones costosas</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">expensive_patterns</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;nested_loops&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;patterns&#39;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="c1"># Python</span>
+                    <span class="sa">r</span><span class="s1">&#39;for\s+.*:\s*\n\s*.*for\s+.*:&#39;</span><span class="p">,</span>
+                    <span class="sa">r</span><span class="s1">&#39;while\s+.*:\s*\n\s*.*while\s+.*:&#39;</span><span class="p">,</span>
+                    <span class="c1"># JavaScript/Java/C++</span>
+                    <span class="sa">r</span><span class="s1">&#39;for\s*\(.*\)\s*{\s*\n\s*.*for\s*\(.*\)&#39;</span><span class="p">,</span>
+                    <span class="sa">r</span><span class="s1">&#39;while\s*\(.*\)\s*{\s*\n\s*.*while\s*\(.*\)&#39;</span><span class="p">,</span>
+                <span class="p">],</span>
+                <span class="s1">&#39;severity&#39;</span><span class="p">:</span> <span class="s1">&#39;high&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;complexity&#39;</span><span class="p">:</span> <span class="s1">&#39;O(n²)&#39;</span>
+            <span class="p">},</span>
+            <span class="s1">&#39;triple_nested_loops&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;patterns&#39;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="c1"># Python</span>
+                    <span class="sa">r</span><span class="s1">&#39;for\s+.*:\s*\n\s*.*for\s+.*:\s*\n\s*.*for\s+.*:&#39;</span><span class="p">,</span>
+                    <span class="c1"># JavaScript/Java/C++</span>
+                    <span class="sa">r</span><span class="s1">&#39;for\s*\(.*\)\s*{\s*\n\s*.*for\s*\(.*\)\s*{\s*\n\s*.*for\s*\(.*\)&#39;</span><span class="p">,</span>
+                <span class="p">],</span>
+                <span class="s1">&#39;severity&#39;</span><span class="p">:</span> <span class="s1">&#39;critical&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;complexity&#39;</span><span class="p">:</span> <span class="s1">&#39;O(n³)&#39;</span>
+            <span class="p">},</span>
+            <span class="s1">&#39;recursive_calls&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;patterns&#39;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="c1"># Detectar funciones que se llaman a sí mismas</span>
+                    <span class="sa">r</span><span class="s1">&#39;def\s+(\w+)\s*\(.*\):\s*\n(?:.*\n)*?\s*\1\s*\(&#39;</span><span class="p">,</span>
+                    <span class="sa">r</span><span class="s1">&#39;function\s+(\w+)\s*\(.*\)\s*{\s*\n(?:.*\n)*?\s*\1\s*\(&#39;</span><span class="p">,</span>
+                <span class="p">],</span>
+                <span class="s1">&#39;severity&#39;</span><span class="p">:</span> <span class="s1">&#39;medium&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;complexity&#39;</span><span class="p">:</span> <span class="s1">&#39;Varies&#39;</span>
+            <span class="p">},</span>
+            <span class="s1">&#39;inefficient_string_concat&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;patterns&#39;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="c1"># Python - concatenación en loops</span>
+                    <span class="sa">r</span><span class="s1">&#39;for\s+.*:\s*\n\s*.*\+=\s*[&quot;</span><span class="se">\&#39;</span><span class="s1">]&#39;</span><span class="p">,</span>
+                    <span class="sa">r</span><span class="s1">&#39;while\s+.*:\s*\n\s*.*\+=\s*[&quot;</span><span class="se">\&#39;</span><span class="s1">]&#39;</span><span class="p">,</span>
+                    <span class="c1"># JavaScript</span>
+                    <span class="sa">r</span><span class="s1">&#39;for\s*\(.*\)\s*{\s*\n\s*.*\+=\s*[&quot;</span><span class="se">\&#39;</span><span class="s1">]&#39;</span><span class="p">,</span>
+                <span class="p">],</span>
+                <span class="s1">&#39;severity&#39;</span><span class="p">:</span> <span class="s1">&#39;medium&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;complexity&#39;</span><span class="p">:</span> <span class="s1">&#39;O(n²) for strings&#39;</span>
+            <span class="p">},</span>
+            <span class="s1">&#39;database_in_loop&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;patterns&#39;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="c1"># Queries en loops</span>
+                    <span class="sa">r</span><span class="s1">&#39;for\s+.*:\s*\n\s*.*(?:query|select|insert|update|delete)&#39;</span><span class="p">,</span>
+                    <span class="sa">r</span><span class="s1">&#39;while\s+.*:\s*\n\s*.*(?:query|select|insert|update|delete)&#39;</span><span class="p">,</span>
+                    <span class="sa">r</span><span class="s1">&#39;\.find\(\).*for\s+&#39;</span><span class="p">,</span>  <span class="c1"># MongoDB</span>
+                    <span class="sa">r</span><span class="s1">&#39;\.execute\(\).*for\s+&#39;</span><span class="p">,</span>  <span class="c1"># SQL</span>
+                <span class="p">],</span>
+                <span class="s1">&#39;severity&#39;</span><span class="p">:</span> <span class="s1">&#39;critical&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;complexity&#39;</span><span class="p">:</span> <span class="s1">&#39;O(n) DB calls&#39;</span>
+            <span class="p">},</span>
+            <span class="s1">&#39;inefficient_list_operations&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;patterns&#39;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="c1"># Python - operaciones costosas en listas</span>
+                    <span class="sa">r</span><span class="s1">&#39;\.insert\(0,&#39;</span><span class="p">,</span>  <span class="c1"># Insert al inicio O(n)</span>
+                    <span class="sa">r</span><span class="s1">&#39;in\s+.*for\s+.*in\s+.*for&#39;</span><span class="p">,</span>  <span class="c1"># Búsqueda anidada</span>
+                    <span class="sa">r</span><span class="s1">&#39;\.remove\(.*\)\s*.*for&#39;</span><span class="p">,</span>  <span class="c1"># Remove en loop</span>
+                <span class="p">],</span>
+                <span class="s1">&#39;severity&#39;</span><span class="p">:</span> <span class="s1">&#39;medium&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;complexity&#39;</span><span class="p">:</span> <span class="s1">&#39;O(n) or worse&#39;</span>
+            <span class="p">},</span>
+            <span class="s1">&#39;synchronous_io&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;patterns&#39;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="c1"># Operaciones síncronas bloqueantes</span>
+                    <span class="sa">r</span><span class="s1">&#39;open\s*\(.*\)\.read\(\)&#39;</span><span class="p">,</span>
+                    <span class="sa">r</span><span class="s1">&#39;requests\.get\s*\(&#39;</span><span class="p">,</span>
+                    <span class="sa">r</span><span class="s1">&#39;time\.sleep\s*\(&#39;</span><span class="p">,</span>
+                    <span class="sa">r</span><span class="s1">&#39;input\s*\(&#39;</span><span class="p">,</span>
+                <span class="p">],</span>
+                <span class="s1">&#39;severity&#39;</span><span class="p">:</span> <span class="s1">&#39;low&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;complexity&#39;</span><span class="p">:</span> <span class="s1">&#39;Blocking I/O&#39;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        
+        <span class="c1"># Patrones de optimización</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">optimization_patterns</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;caching&#39;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="sa">r</span><span class="s1">&#39;@cache&#39;</span><span class="p">,</span>
+                <span class="sa">r</span><span class="s1">&#39;@memoize&#39;</span><span class="p">,</span>
+                <span class="sa">r</span><span class="s1">&#39;@lru_cache&#39;</span><span class="p">,</span>
+                <span class="sa">r</span><span class="s1">&#39;cache\[&#39;</span><span class="p">,</span>
+                <span class="sa">r</span><span class="s1">&#39;memo\[&#39;</span><span class="p">,</span>
+            <span class="p">],</span>
+            <span class="s1">&#39;async_operations&#39;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="sa">r</span><span class="s1">&#39;async\s+def&#39;</span><span class="p">,</span>
+                <span class="sa">r</span><span class="s1">&#39;await\s+&#39;</span><span class="p">,</span>
+                <span class="sa">r</span><span class="s1">&#39;Promise\.&#39;</span><span class="p">,</span>
+                <span class="sa">r</span><span class="s1">&#39;async\s+function&#39;</span><span class="p">,</span>
+            <span class="p">],</span>
+            <span class="s1">&#39;bulk_operations&#39;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="sa">r</span><span class="s1">&#39;executemany&#39;</span><span class="p">,</span>
+                <span class="sa">r</span><span class="s1">&#39;bulk_create&#39;</span><span class="p">,</span>
+                <span class="sa">r</span><span class="s1">&#39;batch&#39;</span><span class="p">,</span>
+                <span class="sa">r</span><span class="s1">&#39;chunk&#39;</span><span class="p">,</span>
+            <span class="p">],</span>
+            <span class="s1">&#39;efficient_data_structures&#39;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="sa">r</span><span class="s1">&#39;set\s*\(&#39;</span><span class="p">,</span>
+                <span class="sa">r</span><span class="s1">&#39;dict\s*\(&#39;</span><span class="p">,</span>
+                <span class="sa">r</span><span class="s1">&#39;defaultdict&#39;</span><span class="p">,</span>
+                <span class="sa">r</span><span class="s1">&#39;Counter\(&#39;</span><span class="p">,</span>
+                <span class="sa">r</span><span class="s1">&#39;deque\(&#39;</span><span class="p">,</span>
+            <span class="p">]</span>
+        <span class="p">}</span></div>
+
+    
+<div class="viewcode-block" id="PerformanceAnalyzer.analyze_performance">
+<a class="viewcode-back" href="../api/performance_analyzer.html#performance_analyzer.PerformanceAnalyzer.analyze_performance">[documentos]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">analyze_performance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">files</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Analiza métricas de rendimiento en los archivos.</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            files: Diccionario con rutas y contenido de archivos</span>
+<span class="sd">            </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            Diccionario con problemas de rendimiento detectados</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;performance_issues&#39;</span><span class="p">:</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">),</span>
+            <span class="s1">&#39;optimizations_found&#39;</span><span class="p">:</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">),</span>
+            <span class="s1">&#39;complexity_analysis&#39;</span><span class="p">:</span> <span class="p">{},</span>
+            <span class="s1">&#39;performance_score&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s1">&#39;recommendations&#39;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="s1">&#39;hotspots&#39;</span><span class="p">:</span> <span class="p">[]</span>  <span class="c1"># Archivos con más problemas</span>
+        <span class="p">}</span>
+        
+        <span class="n">file_issues</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+        
+        <span class="c1"># Analizar cada archivo</span>
+        <span class="k">for</span> <span class="n">file_path</span><span class="p">,</span> <span class="n">content</span> <span class="ow">in</span> <span class="n">files</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="c1"># Detectar problemas de rendimiento</span>
+            <span class="n">issues</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_detect_performance_issues</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">file_path</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">issue_type</span><span class="p">,</span> <span class="n">locations</span> <span class="ow">in</span> <span class="n">issues</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">results</span><span class="p">[</span><span class="s1">&#39;performance_issues&#39;</span><span class="p">][</span><span class="n">issue_type</span><span class="p">]</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">locations</span><span class="p">)</span>
+                <span class="n">file_issues</span><span class="p">[</span><span class="n">file_path</span><span class="p">]</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">locations</span><span class="p">)</span>
+            
+            <span class="c1"># Detectar optimizaciones existentes</span>
+            <span class="n">optimizations</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_detect_optimizations</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">file_path</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">opt_type</span><span class="p">,</span> <span class="n">locations</span> <span class="ow">in</span> <span class="n">optimizations</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">results</span><span class="p">[</span><span class="s1">&#39;optimizations_found&#39;</span><span class="p">][</span><span class="n">opt_type</span><span class="p">]</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">locations</span><span class="p">)</span>
+            
+            <span class="c1"># Análisis de complejidad</span>
+            <span class="n">complexity</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_analyze_complexity</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">file_path</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">complexity</span><span class="p">[</span><span class="s1">&#39;max_complexity&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">:</span>  <span class="c1"># Alta complejidad</span>
+                <span class="n">results</span><span class="p">[</span><span class="s1">&#39;complexity_analysis&#39;</span><span class="p">][</span><span class="n">file_path</span><span class="p">]</span> <span class="o">=</span> <span class="n">complexity</span>
+        
+        <span class="c1"># Identificar hotspots</span>
+        <span class="n">results</span><span class="p">[</span><span class="s1">&#39;hotspots&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">{</span><span class="s1">&#39;file&#39;</span><span class="p">:</span> <span class="n">file</span><span class="p">,</span> <span class="s1">&#39;issues_count&#39;</span><span class="p">:</span> <span class="n">count</span><span class="p">}</span>
+            <span class="k">for</span> <span class="n">file</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">file_issues</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)[:</span><span class="mi">5</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">count</span> <span class="o">&gt;</span> <span class="mi">0</span>
+        <span class="p">]</span>
+        
+        <span class="c1"># Calcular score y recomendaciones</span>
+        <span class="n">results</span><span class="p">[</span><span class="s1">&#39;performance_score&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_calculate_performance_score</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+        <span class="n">results</span><span class="p">[</span><span class="s1">&#39;recommendations&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generate_recommendations</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+        <span class="n">results</span><span class="p">[</span><span class="s1">&#39;summary&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generate_summary</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">results</span></div>
+
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_detect_performance_issues</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Detecta problemas de rendimiento en el contenido&quot;&quot;&quot;</span>
+        <span class="n">found_issues</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+        
+        <span class="k">for</span> <span class="n">issue_type</span><span class="p">,</span> <span class="n">issue_def</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">expensive_patterns</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">patterns</span> <span class="o">=</span> <span class="n">issue_def</span><span class="p">[</span><span class="s1">&#39;patterns&#39;</span><span class="p">]</span>
+            
+            <span class="k">for</span> <span class="n">pattern</span> <span class="ow">in</span> <span class="n">patterns</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">matches</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">finditer</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">content</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">MULTILINE</span> <span class="o">|</span> <span class="n">re</span><span class="o">.</span><span class="n">DOTALL</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">match</span> <span class="ow">in</span> <span class="n">matches</span><span class="p">:</span>
+                        <span class="n">line_num</span> <span class="o">=</span> <span class="n">content</span><span class="p">[:</span><span class="n">match</span><span class="o">.</span><span class="n">start</span><span class="p">()]</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+                        <span class="n">found_issues</span><span class="p">[</span><span class="n">issue_type</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                            <span class="s1">&#39;file&#39;</span><span class="p">:</span> <span class="n">file_path</span><span class="p">,</span>
+                            <span class="s1">&#39;line&#39;</span><span class="p">:</span> <span class="n">line_num</span><span class="p">,</span>
+                            <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="n">issue_type</span><span class="p">,</span>
+                            <span class="s1">&#39;severity&#39;</span><span class="p">:</span> <span class="n">issue_def</span><span class="p">[</span><span class="s1">&#39;severity&#39;</span><span class="p">],</span>
+                            <span class="s1">&#39;complexity&#39;</span><span class="p">:</span> <span class="n">issue_def</span><span class="p">[</span><span class="s1">&#39;complexity&#39;</span><span class="p">],</span>
+                            <span class="s1">&#39;snippet&#39;</span><span class="p">:</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">0</span><span class="p">)[:</span><span class="mi">100</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">)</span>
+                        <span class="p">})</span>
+                <span class="k">except</span> <span class="n">re</span><span class="o">.</span><span class="n">error</span><span class="p">:</span>
+                    <span class="k">continue</span>
+        
+        <span class="k">return</span> <span class="n">found_issues</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_detect_optimizations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Detecta optimizaciones ya implementadas&quot;&quot;&quot;</span>
+        <span class="n">found_optimizations</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+        
+        <span class="k">for</span> <span class="n">opt_type</span><span class="p">,</span> <span class="n">patterns</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">optimization_patterns</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">pattern</span> <span class="ow">in</span> <span class="n">patterns</span><span class="p">:</span>
+                <span class="n">matches</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">finditer</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">content</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">MULTILINE</span> <span class="o">|</span> <span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">match</span> <span class="ow">in</span> <span class="n">matches</span><span class="p">:</span>
+                    <span class="n">line_num</span> <span class="o">=</span> <span class="n">content</span><span class="p">[:</span><span class="n">match</span><span class="o">.</span><span class="n">start</span><span class="p">()]</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+                    <span class="n">found_optimizations</span><span class="p">[</span><span class="n">opt_type</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                        <span class="s1">&#39;file&#39;</span><span class="p">:</span> <span class="n">file_path</span><span class="p">,</span>
+                        <span class="s1">&#39;line&#39;</span><span class="p">:</span> <span class="n">line_num</span><span class="p">,</span>
+                        <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="n">opt_type</span><span class="p">,</span>
+                        <span class="s1">&#39;snippet&#39;</span><span class="p">:</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+                    <span class="p">})</span>
+        
+        <span class="k">return</span> <span class="n">found_optimizations</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_analyze_complexity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Analiza la complejidad ciclomática del código&quot;&quot;&quot;</span>
+        <span class="n">complexity_data</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;max_complexity&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s1">&#39;avg_complexity&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s1">&#39;complex_functions&#39;</span><span class="p">:</span> <span class="p">[]</span>
+        <span class="p">}</span>
+        
+        <span class="c1"># Detectar funciones/métodos</span>
+        <span class="n">function_pattern</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;(?:def|function|public\s+\w+|private\s+\w+)\s+(\w+)\s*\([^)]*\)\s*[:{]&#39;</span>
+        <span class="n">functions</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">finditer</span><span class="p">(</span><span class="n">function_pattern</span><span class="p">,</span> <span class="n">content</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">MULTILINE</span><span class="p">))</span>
+        
+        <span class="n">complexities</span> <span class="o">=</span> <span class="p">[]</span>
+        
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">func_match</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">functions</span><span class="p">):</span>
+            <span class="n">func_name</span> <span class="o">=</span> <span class="n">func_match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">func_start</span> <span class="o">=</span> <span class="n">func_match</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+            
+            <span class="c1"># Estimar fin de la función</span>
+            <span class="n">func_end</span> <span class="o">=</span> <span class="n">functions</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">start</span><span class="p">()</span> <span class="k">if</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">functions</span><span class="p">)</span> <span class="k">else</span> <span class="nb">len</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+            <span class="n">func_content</span> <span class="o">=</span> <span class="n">content</span><span class="p">[</span><span class="n">func_start</span><span class="p">:</span><span class="n">func_end</span><span class="p">]</span>
+            
+            <span class="c1"># Calcular complejidad ciclomática (simplificado)</span>
+            <span class="n">complexity</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># Base</span>
+            
+            <span class="c1"># Contar estructuras de control</span>
+            <span class="n">control_structures</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="sa">r</span><span class="s1">&#39;\bif\b&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\belif\b&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\belse\b&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\bfor\b&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\bwhile\b&#39;</span><span class="p">,</span>
+                <span class="sa">r</span><span class="s1">&#39;\btry\b&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\bcatch\b&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\bcase\b&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\b\?\s*:&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;&amp;&amp;&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\|\|&#39;</span>
+            <span class="p">]</span>
+            
+            <span class="k">for</span> <span class="n">pattern</span> <span class="ow">in</span> <span class="n">control_structures</span><span class="p">:</span>
+                <span class="n">complexity</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">func_content</span><span class="p">))</span>
+            
+            <span class="n">complexities</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">complexity</span><span class="p">)</span>
+            
+            <span class="k">if</span> <span class="n">complexity</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">:</span>  <span class="c1"># Alta complejidad</span>
+                <span class="n">line_num</span> <span class="o">=</span> <span class="n">content</span><span class="p">[:</span><span class="n">func_start</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+                <span class="n">complexity_data</span><span class="p">[</span><span class="s1">&#39;complex_functions&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                    <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">func_name</span><span class="p">,</span>
+                    <span class="s1">&#39;line&#39;</span><span class="p">:</span> <span class="n">line_num</span><span class="p">,</span>
+                    <span class="s1">&#39;complexity&#39;</span><span class="p">:</span> <span class="n">complexity</span>
+                <span class="p">})</span>
+        
+        <span class="k">if</span> <span class="n">complexities</span><span class="p">:</span>
+            <span class="n">complexity_data</span><span class="p">[</span><span class="s1">&#39;max_complexity&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">complexities</span><span class="p">)</span>
+            <span class="n">complexity_data</span><span class="p">[</span><span class="s1">&#39;avg_complexity&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">complexities</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">complexities</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">complexity_data</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_calculate_performance_score</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">results</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calcula un score de rendimiento&quot;&quot;&quot;</span>
+        <span class="n">score</span> <span class="o">=</span> <span class="mf">100.0</span>  <span class="c1"># Empezar con score perfecto</span>
+        
+        <span class="c1"># Penalizar por problemas de rendimiento</span>
+        <span class="k">for</span> <span class="n">issue_type</span><span class="p">,</span> <span class="n">issues</span> <span class="ow">in</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;performance_issues&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">issue_def</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">expensive_patterns</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">issue_type</span><span class="p">,</span> <span class="p">{})</span>
+            <span class="n">severity</span> <span class="o">=</span> <span class="n">issue_def</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;severity&#39;</span><span class="p">,</span> <span class="s1">&#39;low&#39;</span><span class="p">)</span>
+            
+            <span class="k">for</span> <span class="n">issue</span> <span class="ow">in</span> <span class="n">issues</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">severity</span> <span class="o">==</span> <span class="s1">&#39;critical&#39;</span><span class="p">:</span>
+                    <span class="n">score</span> <span class="o">-=</span> <span class="mi">15</span>
+                <span class="k">elif</span> <span class="n">severity</span> <span class="o">==</span> <span class="s1">&#39;high&#39;</span><span class="p">:</span>
+                    <span class="n">score</span> <span class="o">-=</span> <span class="mi">10</span>
+                <span class="k">elif</span> <span class="n">severity</span> <span class="o">==</span> <span class="s1">&#39;medium&#39;</span><span class="p">:</span>
+                    <span class="n">score</span> <span class="o">-=</span> <span class="mi">5</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">score</span> <span class="o">-=</span> <span class="mi">2</span>
+        
+        <span class="c1"># Bonus por optimizaciones</span>
+        <span class="n">optimization_count</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">opts</span><span class="p">)</span> <span class="k">for</span> <span class="n">opts</span> <span class="ow">in</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;optimizations_found&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+        <span class="n">score</span> <span class="o">+=</span> <span class="nb">min</span><span class="p">(</span><span class="n">optimization_count</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>  <span class="c1"># Máx +20</span>
+        
+        <span class="c1"># Penalizar por alta complejidad</span>
+        <span class="k">for</span> <span class="n">file_data</span> <span class="ow">in</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;complexity_analysis&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">file_data</span><span class="p">[</span><span class="s1">&#39;max_complexity&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">20</span><span class="p">:</span>
+                <span class="n">score</span> <span class="o">-=</span> <span class="mi">10</span>
+            <span class="k">elif</span> <span class="n">file_data</span><span class="p">[</span><span class="s1">&#39;max_complexity&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">15</span><span class="p">:</span>
+                <span class="n">score</span> <span class="o">-=</span> <span class="mi">5</span>
+        
+        <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">score</span><span class="p">))</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_generate_recommendations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">results</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Genera recomendaciones de rendimiento&quot;&quot;&quot;</span>
+        <span class="n">recommendations</span> <span class="o">=</span> <span class="p">[]</span>
+        
+        <span class="c1"># Recomendaciones por tipo de problema</span>
+        <span class="k">if</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;performance_issues&#39;</span><span class="p">][</span><span class="s1">&#39;nested_loops&#39;</span><span class="p">]:</span>
+            <span class="n">recommendations</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;algorithm&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;priority&#39;</span><span class="p">:</span> <span class="s1">&#39;high&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="s1">&#39;Optimizar loops anidados&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="s1">&#39;Se detectaron loops anidados que pueden causar problemas de rendimiento. Considere usar estructuras de datos más eficientes o algoritmos optimizados.&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;impact&#39;</span><span class="p">:</span> <span class="s1">&#39;Puede reducir complejidad de O(n²) a O(n log n) o mejor&#39;</span>
+            <span class="p">})</span>
+        
+        <span class="k">if</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;performance_issues&#39;</span><span class="p">][</span><span class="s1">&#39;database_in_loop&#39;</span><span class="p">]:</span>
+            <span class="n">recommendations</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;database&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;priority&#39;</span><span class="p">:</span> <span class="s1">&#39;critical&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="s1">&#39;Evitar queries en loops&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="s1">&#39;Se detectaron operaciones de base de datos dentro de loops. Use operaciones bulk o carga los datos necesarios antes del loop.&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;impact&#39;</span><span class="p">:</span> <span class="s1">&#39;Puede reducir llamadas a BD de O(n) a O(1)&#39;</span>
+            <span class="p">})</span>
+        
+        <span class="k">if</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;performance_issues&#39;</span><span class="p">][</span><span class="s1">&#39;inefficient_string_concat&#39;</span><span class="p">]:</span>
+            <span class="n">recommendations</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;memory&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;priority&#39;</span><span class="p">:</span> <span class="s1">&#39;medium&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="s1">&#39;Optimizar concatenación de strings&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="s1">&#39;Use StringBuilder, join() o estructuras más eficientes para concatenar strings en loops.&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;impact&#39;</span><span class="p">:</span> <span class="s1">&#39;Reduce complejidad de O(n²) a O(n)&#39;</span>
+            <span class="p">})</span>
+        
+        <span class="k">if</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;performance_issues&#39;</span><span class="p">][</span><span class="s1">&#39;recursive_calls&#39;</span><span class="p">]:</span>
+            <span class="n">recommendations</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;algorithm&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;priority&#39;</span><span class="p">:</span> <span class="s1">&#39;medium&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="s1">&#39;Revisar funciones recursivas&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="s1">&#39;Considere usar iteración o memoización para optimizar funciones recursivas.&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;impact&#39;</span><span class="p">:</span> <span class="s1">&#39;Previene stack overflow y mejora rendimiento&#39;</span>
+            <span class="p">})</span>
+        
+        <span class="c1"># Recomendaciones generales</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;optimizations_found&#39;</span><span class="p">][</span><span class="s1">&#39;caching&#39;</span><span class="p">]:</span>
+            <span class="n">recommendations</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;optimization&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;priority&#39;</span><span class="p">:</span> <span class="s1">&#39;low&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="s1">&#39;Implementar caché&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="s1">&#39;Considere implementar caché para operaciones costosas que se repiten.&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;impact&#39;</span><span class="p">:</span> <span class="s1">&#39;Puede mejorar rendimiento significativamente&#39;</span>
+            <span class="p">})</span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;optimizations_found&#39;</span><span class="p">][</span><span class="s1">&#39;async_operations&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;performance_issues&#39;</span><span class="p">][</span><span class="s1">&#39;synchronous_io&#39;</span><span class="p">]:</span>
+            <span class="n">recommendations</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;concurrency&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;priority&#39;</span><span class="p">:</span> <span class="s1">&#39;medium&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="s1">&#39;Usar operaciones asíncronas&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="s1">&#39;Considere usar async/await para operaciones I/O para evitar bloqueos.&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;impact&#39;</span><span class="p">:</span> <span class="s1">&#39;Mejora la capacidad de respuesta de la aplicación&#39;</span>
+            <span class="p">})</span>
+        
+        <span class="k">return</span> <span class="n">recommendations</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_generate_summary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">results</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Genera un resumen del análisis de rendimiento&quot;&quot;&quot;</span>
+        <span class="n">total_issues</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">issues</span><span class="p">)</span> <span class="k">for</span> <span class="n">issues</span> <span class="ow">in</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;performance_issues&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+        <span class="n">critical_issues</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span>
+            <span class="nb">len</span><span class="p">(</span><span class="n">issues</span><span class="p">)</span> <span class="k">for</span> <span class="n">issue_type</span><span class="p">,</span> <span class="n">issues</span> <span class="ow">in</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;performance_issues&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">expensive_patterns</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">issue_type</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;severity&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;critical&#39;</span>
+        <span class="p">)</span>
+        
+        <span class="n">optimizations</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">opts</span><span class="p">)</span> <span class="k">for</span> <span class="n">opts</span> <span class="ow">in</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;optimizations_found&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+        
+        <span class="n">summary</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Se detectaron </span><span class="si">{</span><span class="n">total_issues</span><span class="si">}</span><span class="s2"> posibles problemas de rendimiento&quot;</span>
+        
+        <span class="k">if</span> <span class="n">critical_issues</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">summary</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; (</span><span class="si">{</span><span class="n">critical_issues</span><span class="si">}</span><span class="s2"> críticos)&quot;</span>
+        
+        <span class="n">summary</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; y </span><span class="si">{</span><span class="n">optimizations</span><span class="si">}</span><span class="s2"> optimizaciones implementadas.&quot;</span>
+        
+        <span class="k">if</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;hotspots&#39;</span><span class="p">]:</span>
+            <span class="n">top_hotspot</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;hotspots&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">summary</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; El archivo con más problemas es </span><span class="si">{</span><span class="n">top_hotspot</span><span class="p">[</span><span class="s1">&#39;file&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> con </span><span class="si">{</span><span class="n">top_hotspot</span><span class="p">[</span><span class="s1">&#39;issues_count&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> issues.&quot;</span>
+        
+        <span class="n">score</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;performance_score&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">score</span> <span class="o">&gt;=</span> <span class="mi">80</span><span class="p">:</span>
+            <span class="n">summary</span> <span class="o">+=</span> <span class="s2">&quot; El código tiene un buen rendimiento general.&quot;</span>
+        <span class="k">elif</span> <span class="n">score</span> <span class="o">&gt;=</span> <span class="mi">60</span><span class="p">:</span>
+            <span class="n">summary</span> <span class="o">+=</span> <span class="s2">&quot; El rendimiento es aceptable pero hay áreas de mejora.&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">summary</span> <span class="o">+=</span> <span class="s2">&quot; Se recomienda revisar y optimizar el rendimiento del código.&quot;</span>
+        
+        <span class="k">return</span> <span class="n">summary</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>© 2025 <a href="https://github.com/686f6c61">https://github.com/686f6c61</a> - Licencia MIT</p>
+  </div>
+
+  Compilado con <a href="https://www.sphinx-doc.org/">Sphinx</a> usando un
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">tema</a>
+    proporcionado por <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

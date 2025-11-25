@@ -1,0 +1,557 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="es" data-content_root="../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>github_utils &mdash; documentación de Code Empathizer - 2.0.0</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=ea25ecff"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/translations.js?v=f85f4cfb"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Code Empathizer
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Buscar documentos" aria-label="Buscar documentos" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contenidos:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">Módulos de Code Empathizer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API de Code Empathizer</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Code Empathizer</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Código de módulo</a></li>
+      <li class="breadcrumb-item active">github_utils</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Código fuente para github_utils</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Módulo de utilidades para interacción con la API de GitHub.</span>
+
+<span class="sd">Este módulo es parte de Code Empathizer, una herramienta para medir la alineación</span>
+<span class="sd">entre el código de una empresa y sus candidatos.</span>
+
+<span class="sd">Autor: https://github.com/686f6c61</span>
+<span class="sd">Repositorio: https://github.com/686f6c61/Code-Empathizer</span>
+<span class="sd">Fecha: Noviembre 2025</span>
+<span class="sd">Licencia: MIT</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">github</span><span class="w"> </span><span class="kn">import</span> <span class="n">Github</span><span class="p">,</span> <span class="n">GithubException</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">tempfile</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">ast</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pytz</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">yaml</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">language_analyzers.factory</span><span class="w"> </span><span class="kn">import</span> <span class="n">AnalyzerFactory</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<div class="viewcode-block" id="GitHubRepo">
+<a class="viewcode-back" href="../api/github_utils.html#github_utils.GitHubRepo">[documentos]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">GitHubRepo</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Cliente para interactuar con repositorios de GitHub.</span>
+<span class="sd">    </span>
+<span class="sd">    Esta clase proporciona métodos para analizar repositorios de GitHub,</span>
+<span class="sd">    extrayendo código fuente y calculando métricas de calidad mediante</span>
+<span class="sd">    los analizadores de lenguaje disponibles.</span>
+<span class="sd">    </span>
+<span class="sd">    Gestiona automáticamente los límites de la API de GitHub y proporciona</span>
+<span class="sd">    reintentos cuando se alcanzan los límites de velocidad.</span>
+<span class="sd">    </span>
+<span class="sd">    Attributes:</span>
+<span class="sd">        token (str): Token de autenticación de GitHub.</span>
+<span class="sd">        github (Github): Cliente de PyGithub.</span>
+<span class="sd">    </span>
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: Si no se encuentra el token de GitHub en las variables</span>
+<span class="sd">            de entorno.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+<div class="viewcode-block" id="GitHubRepo.__init__">
+<a class="viewcode-back" href="../api/github_utils.html#github_utils.GitHubRepo.__init__">[documentos]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">token</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;GITHUB_TOKEN&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">token</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Token de GitHub no encontrado&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">github</span> <span class="o">=</span> <span class="n">Github</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">token</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cargar_config</span><span class="p">()</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_cargar_config</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Carga la configuración desde config.yaml&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">config_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">&quot;config.yaml&quot;</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">config_path</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No se pudo cargar config.yaml: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">. Usando valores por defecto.&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="s1">&#39;github&#39;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s1">&#39;file_limits&#39;</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="s1">&#39;small_repos&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;max_files&#39;</span><span class="p">:</span> <span class="mi">150</span><span class="p">,</span> <span class="s1">&#39;threshold_kb&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">},</span>
+                        <span class="s1">&#39;medium_repos&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;max_files&#39;</span><span class="p">:</span> <span class="mi">80</span><span class="p">,</span> <span class="s1">&#39;threshold_kb&#39;</span><span class="p">:</span> <span class="mi">10000</span><span class="p">},</span>
+                        <span class="s1">&#39;large_repos&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;max_files&#39;</span><span class="p">:</span> <span class="mi">40</span><span class="p">,</span> <span class="s1">&#39;threshold_kb&#39;</span><span class="p">:</span> <span class="mi">50000</span><span class="p">},</span>
+                        <span class="s1">&#39;very_large_repos&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;max_files&#39;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span> <span class="s1">&#39;threshold_kb&#39;</span><span class="p">:</span> <span class="mi">100000</span><span class="p">}</span>
+                    <span class="p">}</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_max_files_limit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">repo_size_kb</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Obtiene el límite de archivos según el tamaño del repositorio&quot;&quot;&quot;</span>
+        <span class="n">limits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;github&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;file_limits&#39;</span><span class="p">,</span> <span class="p">{})</span>
+
+        <span class="k">if</span> <span class="n">repo_size_kb</span> <span class="o">&gt;</span> <span class="n">limits</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;very_large_repos&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;threshold_kb&#39;</span><span class="p">,</span> <span class="mi">100000</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">limits</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;very_large_repos&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;max_files&#39;</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">repo_size_kb</span> <span class="o">&gt;</span> <span class="n">limits</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;large_repos&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;threshold_kb&#39;</span><span class="p">,</span> <span class="mi">50000</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">limits</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;large_repos&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;max_files&#39;</span><span class="p">,</span> <span class="mi">40</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">repo_size_kb</span> <span class="o">&gt;</span> <span class="n">limits</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;medium_repos&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;threshold_kb&#39;</span><span class="p">,</span> <span class="mi">10000</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">limits</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;medium_repos&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;max_files&#39;</span><span class="p">,</span> <span class="mi">80</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">limits</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;small_repos&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;max_files&#39;</span><span class="p">,</span> <span class="mi">150</span><span class="p">)</span>
+
+<div class="viewcode-block" id="GitHubRepo.analizar_repo">
+<a class="viewcode-back" href="../api/github_utils.html#github_utils.GitHubRepo.analizar_repo">[documentos]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">analizar_repo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">repo_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Analiza un repositorio y retorna sus métricas&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">repo</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">github</span><span class="o">.</span><span class="n">get_repo</span><span class="p">(</span><span class="n">repo_name</span><span class="p">)</span>
+            
+            <span class="c1"># Obtener metadata básica</span>
+            <span class="n">metadata</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;nombre&quot;</span><span class="p">:</span> <span class="n">repo</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                <span class="s2">&quot;url&quot;</span><span class="p">:</span> <span class="n">repo</span><span class="o">.</span><span class="n">html_url</span><span class="p">,</span>
+                <span class="s2">&quot;descripcion&quot;</span><span class="p">:</span> <span class="n">repo</span><span class="o">.</span><span class="n">description</span> <span class="ow">or</span> <span class="s2">&quot;Sin descripción&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;url_clone&quot;</span><span class="p">:</span> <span class="n">repo</span><span class="o">.</span><span class="n">clone_url</span><span class="p">,</span>
+                <span class="s2">&quot;rama_default&quot;</span><span class="p">:</span> <span class="n">repo</span><span class="o">.</span><span class="n">default_branch</span><span class="p">,</span>
+                <span class="s2">&quot;fecha_creacion&quot;</span><span class="p">:</span> <span class="n">repo</span><span class="o">.</span><span class="n">created_at</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(),</span>
+                <span class="s2">&quot;fecha_ultimo_push&quot;</span><span class="p">:</span> <span class="n">repo</span><span class="o">.</span><span class="n">pushed_at</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(),</span>
+                <span class="s2">&quot;lenguaje_principal&quot;</span><span class="p">:</span> <span class="n">repo</span><span class="o">.</span><span class="n">language</span> <span class="ow">or</span> <span class="s2">&quot;No especificado&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;tamano_kb&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">repo</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+            <span class="p">}</span>
+            
+            <span class="c1"># Límite de archivos según configuración</span>
+            <span class="n">MAX_FILES_TO_ANALYZE</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_max_files_limit</span><span class="p">(</span><span class="n">repo</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+
+            <span class="c1"># Advertencia para repositorios grandes</span>
+            <span class="n">large_threshold</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;github&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;file_limits&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;large_repos&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;threshold_kb&#39;</span><span class="p">,</span> <span class="mi">50000</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">repo</span><span class="o">.</span><span class="n">size</span> <span class="o">&gt;</span> <span class="n">large_threshold</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;⚠️  Repositorio grande detectado (</span><span class="si">{</span><span class="n">repo</span><span class="o">.</span><span class="n">size</span><span class="o">/</span><span class="mi">1024</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">MB). Limitando análisis a </span><span class="si">{</span><span class="n">MAX_FILES_TO_ANALYZE</span><span class="si">}</span><span class="s2"> archivos.&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">⚠️  Repositorio grande detectado (</span><span class="si">{</span><span class="n">repo</span><span class="o">.</span><span class="n">size</span><span class="o">/</span><span class="mi">1024</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">MB)&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   Analizando hasta </span><span class="si">{</span><span class="n">MAX_FILES_TO_ANALYZE</span><span class="si">}</span><span class="s2"> archivos para optimizar el tiempo de análisis...&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   Para un análisis completo, considere clonar el repositorio localmente.&quot;</span><span class="p">)</span>
+            
+            <span class="c1"># Obtener archivos de código soportados</span>
+            <span class="n">archivos_codigo</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">archivos_analizados</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">extensiones_soportadas</span> <span class="o">=</span> <span class="n">AnalyzerFactory</span><span class="o">.</span><span class="n">get_supported_extensions</span><span class="p">()</span>
+            
+            <span class="k">try</span><span class="p">:</span>
+                <span class="c1"># Para repos muy grandes, usar estrategia optimizada</span>
+                <span class="k">if</span> <span class="n">repo</span><span class="o">.</span><span class="n">size</span> <span class="o">&gt;</span> <span class="mi">30000</span><span class="p">:</span>  <span class="c1"># Más de 30MB</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   🚀 Usando estrategia de análisis rápido...&quot;</span><span class="p">)</span>
+                    <span class="n">contents</span> <span class="o">=</span> <span class="n">repo</span><span class="o">.</span><span class="n">get_contents</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+                    
+                    <span class="c1"># Primero analizar archivos en la raíz</span>
+                    <span class="n">root_files</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">contents</span> <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;file&quot;</span><span class="p">]</span>
+                    <span class="n">subdirs</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">contents</span> <span class="k">if</span> <span class="n">d</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;dir&quot;</span><span class="p">][:</span><span class="mi">5</span><span class="p">]</span>  <span class="c1"># Solo primeros 5 directorios</span>
+                    
+                    <span class="c1"># Procesar archivos de la raíz</span>
+                    <span class="k">for</span> <span class="n">file_content</span> <span class="ow">in</span> <span class="n">root_files</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">archivos_analizados</span> <span class="o">&gt;=</span> <span class="n">MAX_FILES_TO_ANALYZE</span><span class="p">:</span>
+                            <span class="k">break</span>
+                        <span class="k">for</span> <span class="n">ext</span> <span class="ow">in</span> <span class="n">extensiones_soportadas</span><span class="p">:</span>
+                            <span class="k">if</span> <span class="n">file_content</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="n">ext</span><span class="p">):</span>
+                                <span class="k">try</span><span class="p">:</span>
+                                    <span class="k">if</span> <span class="n">file_content</span><span class="o">.</span><span class="n">size</span> <span class="o">&gt;</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span><span class="p">:</span>  <span class="c1"># Saltar archivos &gt; 1MB</span>
+                                        <span class="k">break</span>
+                                    <span class="n">contenido</span> <span class="o">=</span> <span class="n">file_content</span><span class="o">.</span><span class="n">decoded_content</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+                                    <span class="n">archivos_codigo</span><span class="p">[</span><span class="n">file_content</span><span class="o">.</span><span class="n">path</span><span class="p">]</span> <span class="o">=</span> <span class="n">contenido</span>
+                                    <span class="n">archivos_analizados</span> <span class="o">+=</span> <span class="mi">1</span>
+                                    <span class="k">if</span> <span class="n">archivos_analizados</span> <span class="o">%</span> <span class="mi">10</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                                        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   📄 </span><span class="si">{</span><span class="n">archivos_analizados</span><span class="si">}</span><span class="s2"> archivos analizados...&quot;</span><span class="p">)</span>
+                                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                                    <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error leyendo </span><span class="si">{</span><span class="n">file_content</span><span class="o">.</span><span class="n">path</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                                <span class="k">break</span>
+                    
+                    <span class="c1"># Procesar solo algunos subdirectorios</span>
+                    <span class="k">for</span> <span class="n">subdir</span> <span class="ow">in</span> <span class="n">subdirs</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">archivos_analizados</span> <span class="o">&gt;=</span> <span class="n">MAX_FILES_TO_ANALYZE</span><span class="p">:</span>
+                            <span class="k">break</span>
+                        <span class="k">try</span><span class="p">:</span>
+                            <span class="n">subdir_contents</span> <span class="o">=</span> <span class="n">repo</span><span class="o">.</span><span class="n">get_contents</span><span class="p">(</span><span class="n">subdir</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
+                            <span class="k">for</span> <span class="n">file_content</span> <span class="ow">in</span> <span class="n">subdir_contents</span><span class="p">[:</span><span class="mi">20</span><span class="p">]:</span>  <span class="c1"># Max 20 archivos por subdirectorio</span>
+                                <span class="k">if</span> <span class="n">archivos_analizados</span> <span class="o">&gt;=</span> <span class="n">MAX_FILES_TO_ANALYZE</span><span class="p">:</span>
+                                    <span class="k">break</span>
+                                <span class="k">if</span> <span class="n">file_content</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;file&quot;</span><span class="p">:</span>
+                                    <span class="k">for</span> <span class="n">ext</span> <span class="ow">in</span> <span class="n">extensiones_soportadas</span><span class="p">:</span>
+                                        <span class="k">if</span> <span class="n">file_content</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="n">ext</span><span class="p">):</span>
+                                            <span class="k">try</span><span class="p">:</span>
+                                                <span class="k">if</span> <span class="n">file_content</span><span class="o">.</span><span class="n">size</span> <span class="o">&gt;</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span><span class="p">:</span>
+                                                    <span class="k">break</span>
+                                                <span class="n">contenido</span> <span class="o">=</span> <span class="n">file_content</span><span class="o">.</span><span class="n">decoded_content</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+                                                <span class="n">archivos_codigo</span><span class="p">[</span><span class="n">file_content</span><span class="o">.</span><span class="n">path</span><span class="p">]</span> <span class="o">=</span> <span class="n">contenido</span>
+                                                <span class="n">archivos_analizados</span> <span class="o">+=</span> <span class="mi">1</span>
+                                                <span class="k">if</span> <span class="n">archivos_analizados</span> <span class="o">%</span> <span class="mi">10</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                                                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   📄 </span><span class="si">{</span><span class="n">archivos_analizados</span><span class="si">}</span><span class="s2"> archivos analizados...&quot;</span><span class="p">)</span>
+                                            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                                                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error leyendo </span><span class="si">{</span><span class="n">file_content</span><span class="o">.</span><span class="n">path</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                                            <span class="k">break</span>
+                        <span class="k">except</span><span class="p">:</span>
+                            <span class="k">continue</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="c1"># Estrategia normal para repos pequeños</span>
+                    <span class="n">contents</span> <span class="o">=</span> <span class="n">repo</span><span class="o">.</span><span class="n">get_contents</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+                    <span class="k">while</span> <span class="n">contents</span> <span class="ow">and</span> <span class="n">archivos_analizados</span> <span class="o">&lt;</span> <span class="n">MAX_FILES_TO_ANALYZE</span><span class="p">:</span>
+                        <span class="n">file_content</span> <span class="o">=</span> <span class="n">contents</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">file_content</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;dir&quot;</span><span class="p">:</span>
+                            <span class="c1"># Solo añadir directorios si no hemos alcanzado el límite</span>
+                            <span class="k">if</span> <span class="n">archivos_analizados</span> <span class="o">&lt;</span> <span class="n">MAX_FILES_TO_ANALYZE</span><span class="p">:</span>
+                                <span class="n">contents</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">repo</span><span class="o">.</span><span class="n">get_contents</span><span class="p">(</span><span class="n">file_content</span><span class="o">.</span><span class="n">path</span><span class="p">))</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="c1"># Verificar si el archivo tiene una extensión soportada</span>
+                            <span class="k">for</span> <span class="n">ext</span> <span class="ow">in</span> <span class="n">extensiones_soportadas</span><span class="p">:</span>
+                                <span class="k">if</span> <span class="n">file_content</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="n">ext</span><span class="p">):</span>
+                                    <span class="k">try</span><span class="p">:</span>
+                                        <span class="c1"># Saltar archivos muy grandes (más de 1MB)</span>
+                                        <span class="k">if</span> <span class="n">file_content</span><span class="o">.</span><span class="n">size</span> <span class="o">&gt;</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span><span class="p">:</span>
+                                            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Saltando archivo grande: </span><span class="si">{</span><span class="n">file_content</span><span class="o">.</span><span class="n">path</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">file_content</span><span class="o">.</span><span class="n">size</span><span class="o">/</span><span class="mi">1024</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">KB)&quot;</span><span class="p">)</span>
+                                            <span class="k">break</span>
+                                            
+                                        <span class="n">contenido</span> <span class="o">=</span> <span class="n">repo</span><span class="o">.</span><span class="n">get_contents</span><span class="p">(</span><span class="n">file_content</span><span class="o">.</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">decoded_content</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+                                        <span class="n">archivos_codigo</span><span class="p">[</span><span class="n">file_content</span><span class="o">.</span><span class="n">path</span><span class="p">]</span> <span class="o">=</span> <span class="n">contenido</span>
+                                        <span class="n">archivos_analizados</span> <span class="o">+=</span> <span class="mi">1</span>
+                                        
+                                        <span class="c1"># Mostrar progreso cada 10 archivos para repos grandes</span>
+                                        <span class="k">if</span> <span class="n">archivos_analizados</span> <span class="o">%</span> <span class="mi">10</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                                            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   📄 </span><span class="si">{</span><span class="n">archivos_analizados</span><span class="si">}</span><span class="s2"> archivos analizados...&quot;</span><span class="p">)</span>
+                                            
+                                        <span class="c1"># Verificar límite</span>
+                                        <span class="k">if</span> <span class="n">archivos_analizados</span> <span class="o">&gt;=</span> <span class="n">MAX_FILES_TO_ANALYZE</span><span class="p">:</span>
+                                            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Límite de </span><span class="si">{</span><span class="n">MAX_FILES_TO_ANALYZE</span><span class="si">}</span><span class="s2"> archivos alcanzado&quot;</span><span class="p">)</span>
+                                            <span class="k">break</span>
+                                    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                                        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error leyendo </span><span class="si">{</span><span class="n">file_content</span><span class="o">.</span><span class="n">path</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                                    <span class="k">break</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error obteniendo contenido del repo: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="c1"># Inicializar métricas con valores numéricos</span>
+            <span class="n">metricas_totales</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;metadata&#39;</span><span class="p">:</span> <span class="n">metadata</span><span class="p">,</span>
+                <span class="s1">&#39;nombres&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;descriptividad&#39;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">},</span>
+                <span class="s1">&#39;documentacion&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;cobertura_docstrings&#39;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">},</span>
+                <span class="s1">&#39;modularidad&#39;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s1">&#39;funciones_por_archivo&#39;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+                    <span class="s1">&#39;clases_por_archivo&#39;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+                    <span class="s1">&#39;cohesion_promedio&#39;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+                    <span class="s1">&#39;acoplamiento_promedio&#39;</span><span class="p">:</span> <span class="mf">0.0</span>
+                <span class="p">},</span>
+                <span class="s1">&#39;complejidad&#39;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s1">&#39;complejidad_ciclomatica&#39;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+                    <span class="s1">&#39;max_nivel_anidacion&#39;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+                    <span class="s1">&#39;longitud_promedio_funciones&#39;</span><span class="p">:</span> <span class="mf">0.0</span>
+                <span class="p">},</span>
+                <span class="s1">&#39;manejo_errores&#39;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s1">&#39;cobertura_manejo_errores&#39;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+                    <span class="s1">&#39;especificidad_excepciones&#39;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+                    <span class="s1">&#39;densidad_try_except&#39;</span><span class="p">:</span> <span class="mf">0.0</span>
+                <span class="p">},</span>
+                <span class="s1">&#39;pruebas&#39;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s1">&#39;cobertura_pruebas&#39;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+                    <span class="s1">&#39;densidad_asserts&#39;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+                    <span class="s1">&#39;funciones_test&#39;</span><span class="p">:</span> <span class="mf">0.0</span>
+                <span class="p">},</span>
+                <span class="s1">&#39;seguridad&#39;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s1">&#39;validacion_entradas&#39;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+                    <span class="s1">&#39;uso_funciones_peligrosas&#39;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+                    <span class="s1">&#39;total_validaciones&#39;</span><span class="p">:</span> <span class="mf">0.0</span>
+                <span class="p">},</span>
+                <span class="s1">&#39;consistencia_estilo&#39;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s1">&#39;consistencia_nombres&#39;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+                    <span class="s1">&#39;espaciado_consistente&#39;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+                    <span class="s1">&#39;longitud_lineas_consistente&#39;</span><span class="p">:</span> <span class="mf">0.0</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+
+            <span class="c1"># Actualizar metadata con archivos analizados</span>
+            <span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;archivos_analizados&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">archivos_analizados</span>
+            <span class="k">if</span> <span class="n">archivos_analizados</span> <span class="o">&gt;=</span> <span class="n">MAX_FILES_TO_ANALYZE</span><span class="p">:</span>
+                <span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;nota_limite&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Análisis limitado a </span><span class="si">{</span><span class="n">MAX_FILES_TO_ANALYZE</span><span class="si">}</span><span class="s2"> archivos&quot;</span>
+            
+            <span class="c1"># Analizar archivos usando el factory multi-lenguaje</span>
+            <span class="k">if</span> <span class="n">archivos_codigo</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">📊 Procesando métricas de </span><span class="si">{</span><span class="n">archivos_analizados</span><span class="si">}</span><span class="s2"> archivos...&quot;</span><span class="p">)</span>
+                <span class="n">analisis_multi</span> <span class="o">=</span> <span class="n">AnalyzerFactory</span><span class="o">.</span><span class="n">analyze_multi_language_project</span><span class="p">(</span><span class="n">archivos_codigo</span><span class="p">)</span>
+                
+                <span class="c1"># Extraer métricas del lenguaje principal o hacer promedio ponderado</span>
+                <span class="k">if</span> <span class="n">analisis_multi</span><span class="p">[</span><span class="s1">&#39;primary_language&#39;</span><span class="p">]:</span>
+                    <span class="n">lenguaje_principal</span> <span class="o">=</span> <span class="n">analisis_multi</span><span class="p">[</span><span class="s1">&#39;primary_language&#39;</span><span class="p">]</span>
+                    <span class="n">metricas_principales</span> <span class="o">=</span> <span class="n">analisis_multi</span><span class="p">[</span><span class="s1">&#39;languages&#39;</span><span class="p">][</span><span class="n">lenguaje_principal</span><span class="p">][</span><span class="s1">&#39;metrics&#39;</span><span class="p">]</span>
+                    
+                    <span class="c1"># Actualizar métricas totales con las del análisis</span>
+                    <span class="k">for</span> <span class="n">categoria</span> <span class="ow">in</span> <span class="n">metricas_totales</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">categoria</span> <span class="o">!=</span> <span class="s1">&#39;metadata&#39;</span> <span class="ow">and</span> <span class="n">categoria</span> <span class="ow">in</span> <span class="n">metricas_principales</span><span class="p">:</span>
+                            <span class="n">metricas_totales</span><span class="p">[</span><span class="n">categoria</span><span class="p">]</span> <span class="o">=</span> <span class="n">metricas_principales</span><span class="p">[</span><span class="n">categoria</span><span class="p">]</span>
+                
+                <span class="c1"># Agregar información sobre lenguajes analizados</span>
+                <span class="k">if</span> <span class="s1">&#39;total_metrics&#39;</span> <span class="ow">in</span> <span class="n">analisis_multi</span><span class="p">:</span>
+                    <span class="n">metricas_totales</span><span class="p">[</span><span class="s1">&#39;metadata&#39;</span><span class="p">][</span><span class="s1">&#39;lenguajes_analizados&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">analisis_multi</span><span class="p">[</span><span class="s1">&#39;total_metrics&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;languages_analyzed&#39;</span><span class="p">,</span> <span class="p">[])</span>
+                    <span class="n">metricas_totales</span><span class="p">[</span><span class="s1">&#39;metadata&#39;</span><span class="p">][</span><span class="s1">&#39;archivos_analizados&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">analisis_multi</span><span class="p">[</span><span class="s1">&#39;total_metrics&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;total_files&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+                    <span class="n">metricas_totales</span><span class="p">[</span><span class="s1">&#39;metadata&#39;</span><span class="p">][</span><span class="s1">&#39;empathy_score_global&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">analisis_multi</span><span class="p">[</span><span class="s1">&#39;total_metrics&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;overall_empathy_score&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+                
+                <span class="c1"># Agregar métricas de duplicación del lenguaje principal</span>
+                <span class="k">if</span> <span class="n">analisis_multi</span><span class="p">[</span><span class="s1">&#39;primary_language&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="s1">&#39;duplication&#39;</span> <span class="ow">in</span> <span class="n">analisis_multi</span><span class="p">[</span><span class="s1">&#39;languages&#39;</span><span class="p">][</span><span class="n">analisis_multi</span><span class="p">[</span><span class="s1">&#39;primary_language&#39;</span><span class="p">]]:</span>
+                    <span class="n">metricas_totales</span><span class="p">[</span><span class="s1">&#39;duplicacion&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">analisis_multi</span><span class="p">[</span><span class="s1">&#39;languages&#39;</span><span class="p">][</span><span class="n">analisis_multi</span><span class="p">[</span><span class="s1">&#39;primary_language&#39;</span><span class="p">]][</span><span class="s1">&#39;duplication&#39;</span><span class="p">]</span>
+                
+                <span class="c1"># Agregar análisis de dependencias del lenguaje principal</span>
+                <span class="k">if</span> <span class="n">analisis_multi</span><span class="p">[</span><span class="s1">&#39;primary_language&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="s1">&#39;dependencies&#39;</span> <span class="ow">in</span> <span class="n">analisis_multi</span><span class="p">[</span><span class="s1">&#39;languages&#39;</span><span class="p">][</span><span class="n">analisis_multi</span><span class="p">[</span><span class="s1">&#39;primary_language&#39;</span><span class="p">]]:</span>
+                    <span class="n">metricas_totales</span><span class="p">[</span><span class="s1">&#39;dependencias&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">analisis_multi</span><span class="p">[</span><span class="s1">&#39;languages&#39;</span><span class="p">][</span><span class="n">analisis_multi</span><span class="p">[</span><span class="s1">&#39;primary_language&#39;</span><span class="p">]][</span><span class="s1">&#39;dependencies&#39;</span><span class="p">]</span>
+                
+                <span class="c1"># Agregar análisis de patrones del lenguaje principal</span>
+                <span class="k">if</span> <span class="n">analisis_multi</span><span class="p">[</span><span class="s1">&#39;primary_language&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="s1">&#39;patterns&#39;</span> <span class="ow">in</span> <span class="n">analisis_multi</span><span class="p">[</span><span class="s1">&#39;languages&#39;</span><span class="p">][</span><span class="n">analisis_multi</span><span class="p">[</span><span class="s1">&#39;primary_language&#39;</span><span class="p">]]:</span>
+                    <span class="n">metricas_totales</span><span class="p">[</span><span class="s1">&#39;patrones&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">analisis_multi</span><span class="p">[</span><span class="s1">&#39;languages&#39;</span><span class="p">][</span><span class="n">analisis_multi</span><span class="p">[</span><span class="s1">&#39;primary_language&#39;</span><span class="p">]][</span><span class="s1">&#39;patterns&#39;</span><span class="p">]</span>
+                
+                <span class="c1"># Agregar análisis de rendimiento del lenguaje principal</span>
+                <span class="k">if</span> <span class="n">analisis_multi</span><span class="p">[</span><span class="s1">&#39;primary_language&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="s1">&#39;performance&#39;</span> <span class="ow">in</span> <span class="n">analisis_multi</span><span class="p">[</span><span class="s1">&#39;languages&#39;</span><span class="p">][</span><span class="n">analisis_multi</span><span class="p">[</span><span class="s1">&#39;primary_language&#39;</span><span class="p">]]:</span>
+                    <span class="n">metricas_totales</span><span class="p">[</span><span class="s1">&#39;rendimiento&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">analisis_multi</span><span class="p">[</span><span class="s1">&#39;languages&#39;</span><span class="p">][</span><span class="n">analisis_multi</span><span class="p">[</span><span class="s1">&#39;primary_language&#39;</span><span class="p">]][</span><span class="s1">&#39;performance&#39;</span><span class="p">]</span>
+                
+                <span class="c1"># Agregar análisis de comentarios del lenguaje principal</span>
+                <span class="k">if</span> <span class="n">analisis_multi</span><span class="p">[</span><span class="s1">&#39;primary_language&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="s1">&#39;comments&#39;</span> <span class="ow">in</span> <span class="n">analisis_multi</span><span class="p">[</span><span class="s1">&#39;languages&#39;</span><span class="p">][</span><span class="n">analisis_multi</span><span class="p">[</span><span class="s1">&#39;primary_language&#39;</span><span class="p">]]:</span>
+                    <span class="n">metricas_totales</span><span class="p">[</span><span class="s1">&#39;comentarios&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">analisis_multi</span><span class="p">[</span><span class="s1">&#39;languages&#39;</span><span class="p">][</span><span class="n">analisis_multi</span><span class="p">[</span><span class="s1">&#39;primary_language&#39;</span><span class="p">]][</span><span class="s1">&#39;comments&#39;</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;No se encontraron archivos de código soportados en el repositorio&quot;</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">metricas_totales</span>
+
+        <span class="k">except</span> <span class="n">GithubException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="mi">403</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Límite de rate alcanzado, esperando reset...&quot;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">esperar_reset_rate_limit</span><span class="p">()</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">analizar_repo</span><span class="p">(</span><span class="n">repo_name</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error de GitHub: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">raise</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error analizando repo </span><span class="si">{</span><span class="n">repo_name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="GitHubRepo.esperar_reset_rate_limit">
+<a class="viewcode-back" href="../api/github_utils.html#github_utils.GitHubRepo.esperar_reset_rate_limit">[documentos]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">esperar_reset_rate_limit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Espera hasta que se resetee el límite de rate de GitHub&quot;&quot;&quot;</span>
+        <span class="n">rate_limit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">github</span><span class="o">.</span><span class="n">get_rate_limit</span><span class="p">()</span>
+        <span class="n">reset_time</span> <span class="o">=</span> <span class="n">rate_limit</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">reset</span>
+        <span class="n">current_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">pytz</span><span class="o">.</span><span class="n">UTC</span><span class="p">)</span>
+        <span class="n">wait_time</span> <span class="o">=</span> <span class="p">(</span><span class="n">reset_time</span> <span class="o">-</span> <span class="n">current_time</span><span class="p">)</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span>
+        
+        <span class="k">if</span> <span class="n">wait_time</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">⏳ Esperando </span><span class="si">{</span><span class="n">wait_time</span><span class="o">/</span><span class="mi">60</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> minutos hasta que se resetee el límite...&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;🕐 Hora estimada de reinicio: </span><span class="si">{</span><span class="n">reset_time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%H:%M:%S&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            
+            <span class="k">while</span> <span class="n">wait_time</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">mins</span><span class="p">,</span> <span class="n">secs</span> <span class="o">=</span> <span class="nb">divmod</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">wait_time</span><span class="p">),</span> <span class="mi">60</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\r</span><span class="s2">⌛ Tiempo restante: </span><span class="si">{</span><span class="n">mins</span><span class="si">:</span><span class="s2">02d</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">secs</span><span class="si">:</span><span class="s2">02d</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+                <span class="n">wait_time</span> <span class="o">-=</span> <span class="mi">1</span>
+            
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">✅ ¡Límite reseteado! Continuando con el análisis...&quot;</span><span class="p">)</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="GitHubRepo.extraer_usuario_repo">
+<a class="viewcode-back" href="../api/github_utils.html#github_utils.GitHubRepo.extraer_usuario_repo">[documentos]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">extraer_usuario_repo</span><span class="p">(</span><span class="n">repo_input</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Extrae el formato usuario/repo de una URL de GitHub&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="s1">&#39;/&#39;</span> <span class="ow">in</span> <span class="n">repo_input</span> <span class="ow">and</span> <span class="s1">&#39;github.com&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">repo_input</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">repo_input</span>
+        
+        <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;github\.com/([^/]+/[^/]+)/?$&#39;</span><span class="p">,</span> <span class="n">repo_input</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">match</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Formato inválido. Use &#39;usuario/repo&#39; o una URL de GitHub válida&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="GitHubRepo.get_repo_info">
+<a class="viewcode-back" href="../api/github_utils.html#github_utils.GitHubRepo.get_repo_info">[documentos]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_repo_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Obtiene información básica del repositorio&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Extraer owner/repo de la URL</span>
+            <span class="n">parts</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+            <span class="n">repo_full_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">parts</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">parts</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+            
+            <span class="n">repo</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">github</span><span class="o">.</span><span class="n">get_repo</span><span class="p">(</span><span class="n">repo_full_name</span><span class="p">)</span>
+            
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="s2">&quot;nombre&quot;</span><span class="p">:</span> <span class="n">repo</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                <span class="s2">&quot;url&quot;</span><span class="p">:</span> <span class="n">repo</span><span class="o">.</span><span class="n">html_url</span><span class="p">,</span>
+                <span class="s2">&quot;descripcion&quot;</span><span class="p">:</span> <span class="n">repo</span><span class="o">.</span><span class="n">description</span><span class="p">,</span>
+                <span class="s2">&quot;url_clone&quot;</span><span class="p">:</span> <span class="n">repo</span><span class="o">.</span><span class="n">clone_url</span><span class="p">,</span>
+                <span class="s2">&quot;rama_default&quot;</span><span class="p">:</span> <span class="n">repo</span><span class="o">.</span><span class="n">default_branch</span><span class="p">,</span>
+                <span class="s2">&quot;fecha_creacion&quot;</span><span class="p">:</span> <span class="n">repo</span><span class="o">.</span><span class="n">created_at</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(),</span>
+                <span class="s2">&quot;fecha_ultimo_push&quot;</span><span class="p">:</span> <span class="n">repo</span><span class="o">.</span><span class="n">pushed_at</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(),</span>
+                <span class="s2">&quot;lenguaje_principal&quot;</span><span class="p">:</span> <span class="n">repo</span><span class="o">.</span><span class="n">language</span><span class="p">,</span>
+                <span class="s2">&quot;tamano_kb&quot;</span><span class="p">:</span> <span class="n">repo</span><span class="o">.</span><span class="n">size</span>
+            <span class="p">}</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error obteniendo info del repo: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">raise</span></div>
+
+
+<div class="viewcode-block" id="GitHubRepo.get_code_files">
+<a class="viewcode-back" href="../api/github_utils.html#github_utils.GitHubRepo.get_code_files">[documentos]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_code_files</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">repo_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">extensions</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Obtiene todos los archivos de código del repositorio&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">repo</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">github</span><span class="o">.</span><span class="n">get_repo</span><span class="p">(</span><span class="n">repo_url</span><span class="p">)</span>
+            <span class="n">contents</span> <span class="o">=</span> <span class="n">repo</span><span class="o">.</span><span class="n">get_contents</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="n">code_files</span> <span class="o">=</span> <span class="p">{}</span>
+            
+            <span class="c1"># Límite de archivos según configuración</span>
+            <span class="n">MAX_FILES</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_max_files_limit</span><span class="p">(</span><span class="n">repo</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+            <span class="n">files_count</span> <span class="o">=</span> <span class="mi">0</span>
+
+            <span class="c1"># Si no se especifican extensiones, usar todas las soportadas</span>
+            <span class="k">if</span> <span class="n">extensions</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">extensions</span> <span class="o">=</span> <span class="n">AnalyzerFactory</span><span class="o">.</span><span class="n">get_supported_extensions</span><span class="p">()</span>
+                
+            <span class="k">while</span> <span class="n">contents</span> <span class="ow">and</span> <span class="n">files_count</span> <span class="o">&lt;</span> <span class="n">MAX_FILES</span><span class="p">:</span>
+                <span class="n">file_content</span> <span class="o">=</span> <span class="n">contents</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">file_content</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;dir&quot;</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">files_count</span> <span class="o">&lt;</span> <span class="n">MAX_FILES</span><span class="p">:</span>
+                        <span class="n">contents</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">repo</span><span class="o">.</span><span class="n">get_contents</span><span class="p">(</span><span class="n">file_content</span><span class="o">.</span><span class="n">path</span><span class="p">))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="c1"># Verificar si el archivo tiene una extensión soportada</span>
+                    <span class="k">for</span> <span class="n">ext</span> <span class="ow">in</span> <span class="n">extensions</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">file_content</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="n">ext</span><span class="p">):</span>
+                            <span class="k">try</span><span class="p">:</span>
+                                <span class="c1"># Saltar archivos muy grandes</span>
+                                <span class="k">if</span> <span class="n">file_content</span><span class="o">.</span><span class="n">size</span> <span class="o">&gt;</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span><span class="p">:</span>  <span class="c1"># 1MB</span>
+                                    <span class="k">break</span>
+                                    
+                                <span class="n">code_files</span><span class="p">[</span><span class="n">file_content</span><span class="o">.</span><span class="n">path</span><span class="p">]</span> <span class="o">=</span> <span class="n">file_content</span><span class="o">.</span><span class="n">decoded_content</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+                                <span class="n">files_count</span> <span class="o">+=</span> <span class="mi">1</span>
+                                <span class="k">if</span> <span class="n">files_count</span> <span class="o">&gt;=</span> <span class="n">MAX_FILES</span><span class="p">:</span>
+                                    <span class="k">break</span>
+                            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error decodificando </span><span class="si">{</span><span class="n">file_content</span><span class="o">.</span><span class="n">path</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                            <span class="k">break</span>
+
+            <span class="k">return</span> <span class="n">code_files</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error obteniendo archivos de código: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">raise</span></div>
+
+
+<div class="viewcode-block" id="GitHubRepo.get_repo_from_input">
+<a class="viewcode-back" href="../api/github_utils.html#github_utils.GitHubRepo.get_repo_from_input">[documentos]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_repo_from_input</span><span class="p">(</span><span class="n">tipo</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Obtiene URL del repositorio desde input del usuario&quot;&quot;&quot;</span>
+        <span class="n">repos_disponibles</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&quot;https://github.com/usuario1/repo1&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;https://github.com/usuario2/repo2&quot;</span>
+        <span class="p">]</span>
+        
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">REPOSITORIO </span><span class="si">{</span><span class="n">tipo</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">20</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">repo</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">repos_disponibles</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">. </span><span class="si">{</span><span class="n">repo</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">opcion</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Seleccione repositorio </span><span class="si">{</span><span class="n">tipo</span><span class="si">}</span><span class="s2"> (1-</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">repos_disponibles</span><span class="p">)</span><span class="si">}</span><span class="s2">): &quot;</span><span class="p">))</span>
+                <span class="k">if</span> <span class="mi">1</span> <span class="o">&lt;=</span> <span class="n">opcion</span> <span class="o">&lt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">repos_disponibles</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="n">repos_disponibles</span><span class="p">[</span><span class="n">opcion</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Por favor, ingrese un número válido.&quot;</span><span class="p">)</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>© 2025 <a href="https://github.com/686f6c61">https://github.com/686f6c61</a> - Licencia MIT</p>
+  </div>
+
+  Compilado con <a href="https://www.sphinx-doc.org/">Sphinx</a> usando un
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">tema</a>
+    proporcionado por <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

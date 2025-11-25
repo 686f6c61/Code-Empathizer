@@ -1,0 +1,36 @@
+API de Code Empathizer
+======================
+
+Esta sección contiene la documentación completa de la API de Code Empathizer,
+generada automáticamente desde los docstrings del código fuente.
+
+Módulos Principales
+-------------------
+
+.. toctree::
+   :maxdepth: 2
+
+   empathy_algorithm
+   github_utils
+   exporters
+   cache_manager
+
+Analizadores Avanzados
+-----------------------
+
+.. toctree::
+   :maxdepth: 2
+
+   pattern_analyzer
+   performance_analyzer
+   comment_analyzer
+   duplication_analyzer
+   dependency_analyzer
+
+Analizadores de Lenguaje
+-------------------------
+
+.. toctree::
+   :maxdepth: 2
+
+   language_analyzers

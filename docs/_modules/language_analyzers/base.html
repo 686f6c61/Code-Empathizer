@@ -1,0 +1,406 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="es" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>language_analyzers.base &mdash; documentación de Code Empathizer - 2.0.0</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=ea25ecff"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/translations.js?v=f85f4cfb"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Índice" href="../../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Code Empathizer
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Buscar documentos" aria-label="Buscar documentos" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contenidos:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">Módulos de Code Empathizer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">API de Code Empathizer</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Code Empathizer</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Código de módulo</a></li>
+      <li class="breadcrumb-item active">language_analyzers.base</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Código fuente para language_analyzers.base</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Clase base para analizadores de lenguaje.</span>
+
+<span class="sd">Este módulo es parte de Code Empathizer, una herramienta para medir la alineación</span>
+<span class="sd">entre el código de una empresa y sus candidatos.</span>
+
+<span class="sd">Autor: https://github.com/686f6c61</span>
+<span class="sd">Repositorio: https://github.com/686f6c61/Code-Empathizer</span>
+<span class="sd">Fecha: Noviembre 2025</span>
+<span class="sd">Licencia: MIT</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))))</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">duplication_analyzer</span><span class="w"> </span><span class="kn">import</span> <span class="n">DuplicationAnalyzer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dependency_analyzer</span><span class="w"> </span><span class="kn">import</span> <span class="n">DependencyAnalyzer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pattern_analyzer</span><span class="w"> </span><span class="kn">import</span> <span class="n">PatternAnalyzer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">performance_analyzer</span><span class="w"> </span><span class="kn">import</span> <span class="n">PerformanceAnalyzer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">comment_analyzer</span><span class="w"> </span><span class="kn">import</span> <span class="n">CommentAnalyzer</span>
+
+
+<div class="viewcode-block" id="LanguageAnalyzer">
+<a class="viewcode-back" href="../../api/language_analyzers.html#language_analyzers.LanguageAnalyzer">[documentos]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">LanguageAnalyzer</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Clase base abstracta para analizadores específicos de lenguaje.</span>
+<span class="sd">    </span>
+<span class="sd">    Define la interfaz y comportamiento común para todos los analizadores.</span>
+<span class="sd">    Las subclases deben implementar los métodos abstractos para cada</span>
+<span class="sd">    lenguaje específico.</span>
+<span class="sd">    </span>
+<span class="sd">    Attributes:</span>
+<span class="sd">        metrics: Diccionario con las métricas analizadas.</span>
+<span class="sd">        total_files: Número total de archivos analizados.</span>
+<span class="sd">        total_lines: Número total de líneas procesadas.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+<div class="viewcode-block" id="LanguageAnalyzer.__init__">
+<a class="viewcode-back" href="../../api/language_analyzers.html#language_analyzers.LanguageAnalyzer.__init__">[documentos]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">metrics</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;nombres&#39;</span><span class="p">:</span> <span class="p">{},</span>
+            <span class="s1">&#39;documentacion&#39;</span><span class="p">:</span> <span class="p">{},</span>
+            <span class="s1">&#39;modularidad&#39;</span><span class="p">:</span> <span class="p">{},</span>
+            <span class="s1">&#39;complejidad&#39;</span><span class="p">:</span> <span class="p">{},</span>
+            <span class="s1">&#39;manejo_errores&#39;</span><span class="p">:</span> <span class="p">{},</span>
+            <span class="s1">&#39;pruebas&#39;</span><span class="p">:</span> <span class="p">{},</span>
+            <span class="s1">&#39;seguridad&#39;</span><span class="p">:</span> <span class="p">{},</span>
+            <span class="s1">&#39;consistencia_estilo&#39;</span><span class="p">:</span> <span class="p">{}</span>
+        <span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">total_files</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">total_lines</span> <span class="o">=</span> <span class="mi">0</span></div>
+
+        
+<div class="viewcode-block" id="LanguageAnalyzer.get_file_extensions">
+<a class="viewcode-back" href="../../api/language_analyzers.html#language_analyzers.LanguageAnalyzer.get_file_extensions">[documentos]</a>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_file_extensions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retorna las extensiones de archivo que maneja este analizador.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            List[str]: Lista de extensiones (ej: [&#39;.py&#39;, &#39;.pyw&#39;]).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+    
+<div class="viewcode-block" id="LanguageAnalyzer.get_language_name">
+<a class="viewcode-back" href="../../api/language_analyzers.html#language_analyzers.LanguageAnalyzer.get_language_name">[documentos]</a>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_language_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the name of the language&quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+    
+<div class="viewcode-block" id="LanguageAnalyzer.analyze_file">
+<a class="viewcode-back" href="../../api/language_analyzers.html#language_analyzers.LanguageAnalyzer.analyze_file">[documentos]</a>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">analyze_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">content</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Analyze a single file and return metrics&quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+    
+<div class="viewcode-block" id="LanguageAnalyzer.analyze_files">
+<a class="viewcode-back" href="../../api/language_analyzers.html#language_analyzers.LanguageAnalyzer.analyze_files">[documentos]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">analyze_files</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">files</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Analiza múltiples archivos y agrega los resultados.</span>
+<span class="sd">        </span>
+<span class="sd">        Procesa cada archivo individualmente y luego combina las métricas</span>
+<span class="sd">        para obtener valores promedio o totales según corresponda.</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            files: Diccionario {ruta: contenido} de archivos a analizar.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            Dict[str, Any]: Métricas agregadas de todos los archivos.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">file_metrics</span> <span class="o">=</span> <span class="p">[]</span>
+        
+        <span class="k">for</span> <span class="n">file_path</span><span class="p">,</span> <span class="n">content</span> <span class="ow">in</span> <span class="n">files</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">should_analyze_file</span><span class="p">(</span><span class="n">file_path</span><span class="p">):</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">metrics</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">analyze_file</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">content</span><span class="p">)</span>
+                    <span class="n">file_metrics</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">metrics</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">total_files</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">total_lines</span> <span class="o">+=</span> <span class="n">content</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error analyzing </span><span class="si">{</span><span class="n">file_path</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">file_metrics</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">aggregate_metrics</span><span class="p">(</span><span class="n">file_metrics</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">metrics</span></div>
+
+    
+<div class="viewcode-block" id="LanguageAnalyzer.should_analyze_file">
+<a class="viewcode-back" href="../../api/language_analyzers.html#language_analyzers.LanguageAnalyzer.should_analyze_file">[documentos]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">should_analyze_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if file should be analyzed based on extension&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">any</span><span class="p">(</span><span class="n">file_path</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="n">ext</span><span class="p">)</span> <span class="k">for</span> <span class="n">ext</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_file_extensions</span><span class="p">())</span></div>
+
+    
+<div class="viewcode-block" id="LanguageAnalyzer.aggregate_metrics">
+<a class="viewcode-back" href="../../api/language_analyzers.html#language_analyzers.LanguageAnalyzer.aggregate_metrics">[documentos]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">aggregate_metrics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_metrics</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Aggregate metrics from individual files&quot;&quot;&quot;</span>
+        <span class="c1"># Default implementation - can be overridden by subclasses</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">file_metrics</span><span class="p">:</span>
+            <span class="k">return</span>
+            
+        <span class="c1"># Nombres</span>
+        <span class="n">descriptividad_scores</span> <span class="o">=</span> <span class="p">[</span><span class="n">m</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;nombres&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;descriptividad&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">file_metrics</span> <span class="k">if</span> <span class="n">m</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;nombres&#39;</span><span class="p">)]</span>
+        <span class="k">if</span> <span class="n">descriptividad_scores</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">metrics</span><span class="p">[</span><span class="s1">&#39;nombres&#39;</span><span class="p">][</span><span class="s1">&#39;descriptividad&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">descriptividad_scores</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">descriptividad_scores</span><span class="p">)</span>
+        
+        <span class="c1"># Documentación</span>
+        <span class="n">doc_scores</span> <span class="o">=</span> <span class="p">[</span><span class="n">m</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;documentacion&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;cobertura&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">file_metrics</span> <span class="k">if</span> <span class="n">m</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;documentacion&#39;</span><span class="p">)]</span>
+        <span class="k">if</span> <span class="n">doc_scores</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">metrics</span><span class="p">[</span><span class="s1">&#39;documentacion&#39;</span><span class="p">][</span><span class="s1">&#39;cobertura_docstrings&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">doc_scores</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">doc_scores</span><span class="p">)</span>
+        
+        <span class="c1"># Complejidad</span>
+        <span class="n">complexity_scores</span> <span class="o">=</span> <span class="p">[</span><span class="n">m</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;complejidad&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;ciclomatica&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">file_metrics</span> <span class="k">if</span> <span class="n">m</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;complejidad&#39;</span><span class="p">)]</span>
+        <span class="k">if</span> <span class="n">complexity_scores</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">metrics</span><span class="p">[</span><span class="s1">&#39;complejidad&#39;</span><span class="p">][</span><span class="s1">&#39;complejidad_ciclomatica&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">complexity_scores</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">complexity_scores</span><span class="p">)</span>
+        
+        <span class="c1"># Modularidad</span>
+        <span class="n">functions_per_file</span> <span class="o">=</span> <span class="p">[</span><span class="n">m</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;modularidad&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;funciones&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">file_metrics</span> <span class="k">if</span> <span class="n">m</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;modularidad&#39;</span><span class="p">)]</span>
+        <span class="k">if</span> <span class="n">functions_per_file</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">metrics</span><span class="p">[</span><span class="s1">&#39;modularidad&#39;</span><span class="p">][</span><span class="s1">&#39;funciones_por_archivo&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">functions_per_file</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">functions_per_file</span><span class="p">)</span>
+        
+        <span class="c1"># Manejo de errores</span>
+        <span class="n">error_handling</span> <span class="o">=</span> <span class="p">[</span><span class="n">m</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;manejo_errores&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;cobertura&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">file_metrics</span> <span class="k">if</span> <span class="n">m</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;manejo_errores&#39;</span><span class="p">)]</span>
+        <span class="k">if</span> <span class="n">error_handling</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">metrics</span><span class="p">[</span><span class="s1">&#39;manejo_errores&#39;</span><span class="p">][</span><span class="s1">&#39;cobertura_manejo_errores&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">error_handling</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">error_handling</span><span class="p">)</span>
+        
+        <span class="c1"># Pruebas</span>
+        <span class="n">test_coverage</span> <span class="o">=</span> <span class="p">[</span><span class="n">m</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;pruebas&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;cobertura&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">file_metrics</span> <span class="k">if</span> <span class="n">m</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;pruebas&#39;</span><span class="p">)]</span>
+        <span class="k">if</span> <span class="n">test_coverage</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">metrics</span><span class="p">[</span><span class="s1">&#39;pruebas&#39;</span><span class="p">][</span><span class="s1">&#39;cobertura_pruebas&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">test_coverage</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">test_coverage</span><span class="p">)</span>
+        
+        <span class="c1"># Seguridad</span>
+        <span class="n">security_scores</span> <span class="o">=</span> <span class="p">[</span><span class="n">m</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;seguridad&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;validacion&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">file_metrics</span> <span class="k">if</span> <span class="n">m</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;seguridad&#39;</span><span class="p">)]</span>
+        <span class="k">if</span> <span class="n">security_scores</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">metrics</span><span class="p">[</span><span class="s1">&#39;seguridad&#39;</span><span class="p">][</span><span class="s1">&#39;validacion_entradas&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">security_scores</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">security_scores</span><span class="p">)</span>
+        
+        <span class="c1"># Consistencia</span>
+        <span class="n">style_scores</span> <span class="o">=</span> <span class="p">[</span><span class="n">m</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;consistencia_estilo&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;consistencia&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">file_metrics</span> <span class="k">if</span> <span class="n">m</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;consistencia_estilo&#39;</span><span class="p">)]</span>
+        <span class="k">if</span> <span class="n">style_scores</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">metrics</span><span class="p">[</span><span class="s1">&#39;consistencia_estilo&#39;</span><span class="p">][</span><span class="s1">&#39;consistencia_nombres&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">style_scores</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">style_scores</span><span class="p">)</span></div>
+
+    
+<div class="viewcode-block" id="LanguageAnalyzer.calculate_empathy_score">
+<a class="viewcode-back" href="../../api/language_analyzers.html#language_analyzers.LanguageAnalyzer.calculate_empathy_score">[documentos]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">calculate_empathy_score</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate overall empathy score based on all metrics&quot;&quot;&quot;</span>
+        <span class="n">scores</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">weights</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;nombres&#39;</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">,</span>
+            <span class="s1">&#39;documentacion&#39;</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">,</span>
+            <span class="s1">&#39;modularidad&#39;</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">,</span>
+            <span class="s1">&#39;complejidad&#39;</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">,</span>
+            <span class="s1">&#39;manejo_errores&#39;</span><span class="p">:</span> <span class="mf">0.10</span><span class="p">,</span>
+            <span class="s1">&#39;pruebas&#39;</span><span class="p">:</span> <span class="mf">0.10</span><span class="p">,</span>
+            <span class="s1">&#39;seguridad&#39;</span><span class="p">:</span> <span class="mf">0.10</span><span class="p">,</span>
+            <span class="s1">&#39;consistencia_estilo&#39;</span><span class="p">:</span> <span class="mf">0.10</span>
+        <span class="p">}</span>
+        
+        <span class="k">for</span> <span class="n">category</span><span class="p">,</span> <span class="n">weight</span> <span class="ow">in</span> <span class="n">weights</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">category_metrics</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">category</span><span class="p">,</span> <span class="p">{})</span>
+            <span class="k">if</span> <span class="n">category_metrics</span><span class="p">:</span>
+                <span class="c1"># Get average of all metrics in category</span>
+                <span class="n">values</span> <span class="o">=</span> <span class="p">[</span><span class="n">v</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">category_metrics</span><span class="o">.</span><span class="n">values</span><span class="p">()</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))]</span>
+                <span class="k">if</span> <span class="n">values</span><span class="p">:</span>
+                    <span class="n">avg</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">values</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+                    <span class="n">scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">avg</span> <span class="o">*</span> <span class="n">weight</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span> <span class="k">if</span> <span class="n">scores</span> <span class="k">else</span> <span class="mf">0.0</span></div>
+
+    
+<div class="viewcode-block" id="LanguageAnalyzer.get_summary">
+<a class="viewcode-back" href="../../api/language_analyzers.html#language_analyzers.LanguageAnalyzer.get_summary">[documentos]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_summary</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Obtiene un resumen de los resultados del análisis.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            Dict[str, Any]: Resumen con lenguaje, archivos, líneas,</span>
+<span class="sd">                           métricas y puntuación de empatía.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s1">&#39;language&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_language_name</span><span class="p">(),</span>
+            <span class="s1">&#39;total_files&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_files</span><span class="p">,</span>
+            <span class="s1">&#39;total_lines&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_lines</span><span class="p">,</span>
+            <span class="s1">&#39;metrics&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">metrics</span><span class="p">,</span>
+            <span class="s1">&#39;empathy_score&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">calculate_empathy_score</span><span class="p">()</span>
+        <span class="p">}</span></div>
+
+    
+<div class="viewcode-block" id="LanguageAnalyzer.analyze_duplication">
+<a class="viewcode-back" href="../../api/language_analyzers.html#language_analyzers.LanguageAnalyzer.analyze_duplication">[documentos]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">analyze_duplication</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">files_content</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Analiza duplicación de código en los archivos.</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            files_content: Diccionario con el contenido de archivos.</span>
+<span class="sd">            </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            Dict[str, Any]: Análisis de duplicación.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">analyzer</span> <span class="o">=</span> <span class="n">DuplicationAnalyzer</span><span class="p">(</span><span class="n">min_block_size</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">ignore_whitespace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">analyze_repository_files</span><span class="p">(</span><span class="n">files_content</span><span class="p">)</span></div>
+
+    
+<div class="viewcode-block" id="LanguageAnalyzer.analyze_dependencies">
+<a class="viewcode-back" href="../../api/language_analyzers.html#language_analyzers.LanguageAnalyzer.analyze_dependencies">[documentos]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">analyze_dependencies</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">files_content</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Analiza las dependencias en los archivos.</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            files_content: Diccionario con el contenido de archivos.</span>
+<span class="sd">            </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            Dict[str, Any]: Análisis de dependencias.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">analyzer</span> <span class="o">=</span> <span class="n">DependencyAnalyzer</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">analyze_dependencies</span><span class="p">(</span><span class="n">files_content</span><span class="p">)</span></div>
+
+    
+<div class="viewcode-block" id="LanguageAnalyzer.analyze_patterns">
+<a class="viewcode-back" href="../../api/language_analyzers.html#language_analyzers.LanguageAnalyzer.analyze_patterns">[documentos]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">analyze_patterns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">files_content</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Analiza patrones de diseño y anti-patrones.</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            files_content: Diccionario con el contenido de archivos.</span>
+<span class="sd">            </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            Dict[str, Any]: Análisis de patrones.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">analyzer</span> <span class="o">=</span> <span class="n">PatternAnalyzer</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">analyze_patterns</span><span class="p">(</span><span class="n">files_content</span><span class="p">)</span></div>
+
+    
+<div class="viewcode-block" id="LanguageAnalyzer.analyze_performance">
+<a class="viewcode-back" href="../../api/language_analyzers.html#language_analyzers.LanguageAnalyzer.analyze_performance">[documentos]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">analyze_performance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">files_content</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Analiza métricas de rendimiento.</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            files_content: Diccionario con el contenido de archivos.</span>
+<span class="sd">            </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            Dict[str, Any]: Análisis de rendimiento.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">analyzer</span> <span class="o">=</span> <span class="n">PerformanceAnalyzer</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">analyze_performance</span><span class="p">(</span><span class="n">files_content</span><span class="p">)</span></div>
+
+    
+<div class="viewcode-block" id="LanguageAnalyzer.analyze_comments">
+<a class="viewcode-back" href="../../api/language_analyzers.html#language_analyzers.LanguageAnalyzer.analyze_comments">[documentos]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">analyze_comments</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">files_content</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Analiza comentarios y TODOs.</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            files_content: Diccionario con el contenido de archivos.</span>
+<span class="sd">            </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            Dict[str, Any]: Análisis de comentarios.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">analyzer</span> <span class="o">=</span> <span class="n">CommentAnalyzer</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">analyze_comments</span><span class="p">(</span><span class="n">files_content</span><span class="p">)</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>© 2025 <a href="https://github.com/686f6c61">https://github.com/686f6c61</a> - Licencia MIT</p>
+  </div>
+
+  Compilado con <a href="https://www.sphinx-doc.org/">Sphinx</a> usando un
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">tema</a>
+    proporcionado por <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

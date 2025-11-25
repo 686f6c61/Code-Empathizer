@@ -1,0 +1,7 @@
+Cache Manager
+=============
+
+.. automodule:: cache_manager
+   :members:
+   :undoc-members:
+   :show-inheritance:

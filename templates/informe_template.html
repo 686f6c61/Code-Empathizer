@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Empathizer - Evaluación de Código Empresa-Candidato</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .positive { color: #000000; font-weight: bold; }
+        .negative { color: #666666; font-weight: bold; }
+        .metric-card { height: 100%; }
+        .repo-comparison { background-color: #f8f9fa; padding: 20px; border-radius: 10px; }
+        .difference-arrow { font-size: 2em; color: #333333; }
+        .metric-value { font-size: 1.2em; font-weight: bold; }
+        .chart-container { height: 300px; }
+    </style>
+</head>
+<body>
+    <div class="container py-5">
+        <div class="row mb-4">
+            <div class="col-12 text-center">
+                <h1 class="display-4">Code Empathizer</h1>
+                <p class="lead">Evaluación de Código Empresa-Candidato</p>
+            </div>
+        </div>
+
+        <!-- Resumen de Repositorios -->
+        <div class="row mb-5">
+            {% for repo_tipo, repo_data in metricas.repos.items() %}
+            <div class="col-md-6">
+                <div class="card h-100">
+                    <div class="card-header bg-dark text-white">
+                        <h3 class="card-title mb-0">
+                            {% if repo_tipo == 'empresa' %}
+                            Repositorio Empresa
+                            {% else %}
+                            Repositorio Candidato
+                            {% endif %}
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        {% if repo_data and repo_data.metadata %}
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <strong>Nombre:</strong> {{ repo_data.metadata.nombre|default('N/A') }}
+                            </li>
+                            <li class="list-group-item">
+                                <strong>URL:</strong> 
+                                <a href="{{ repo_data.metadata.url|default('#') }}" target="_blank">
+                                    {{ repo_data.metadata.url|default('N/A') }}
+                                </a>
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Descripción:</strong> {{ repo_data.metadata.descripcion|default('No disponible') }}
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Creado:</strong> {{ repo_data.metadata.fecha_creacion|default('N/A')|date }}
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Lenguaje:</strong> {{ repo_data.metadata.lenguaje_principal|default('N/A') }}
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Tamaño:</strong> {{ repo_data.metadata.tamano_kb|default(0)|round(2) }} KB
+                            </li>
+                        </ul>
+                        {% else %}
+                        <div class="alert alert-warning">
+                            No hay datos disponibles para este repositorio
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Tabla de Información de Métricas -->
+        <div class="card mb-5">
+            <div class="card-header bg-secondary text-white">
+                <h3 class="card-title mb-0">
+                    Métricas Analizadas
+                </h3>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Grupo</th>
+                                <th>KPI</th>
+                                <th>Descripción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="fw-bold">Nombres</td>
+                                <td>Descriptividad</td>
+                                <td>Mide qué tan descriptivos son los nombres de las funciones, variables y clases en el código.</td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold">Documentación</td>
+                                <td>Cobertura de docstrings</td>
+                                <td>Calcula el porcentaje de funciones y clases que tienen docstrings para documentación.</td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold" rowspan="4">Modularidad</td>
+                                <td>Funciones por archivo</td>
+                                <td>Cuenta el número de funciones en el archivo.</td>
+                            </tr>
+                            <tr>
+                                <td>Clases por archivo</td>
+                                <td>Cuenta el número de clases en el archivo.</td>
+                            </tr>
+                            <tr>
+                                <td>Cohesión promedio</td>
+                                <td>Evalúa el grado de cohesión en las clases mediante el uso compartido de atributos entre métodos.</td>
+                            </tr>
+                            <tr>
+                                <td>Acoplamiento promedio</td>
+                                <td>Mide el acoplamiento calculando el número de dependencias externas (importaciones) en las funciones y clases.</td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold" rowspan="3">Complejidad</td>
+                                <td>Complejidad ciclomática</td>
+                                <td>Calcula la complejidad ciclomática del archivo, que mide el número de caminos lógicos en el código.</td>
+                            </tr>
+                            <tr>
+                                <td>Nivel máximo de anidación</td>
+                                <td>Mide la profundidad máxima de estructuras de control anidadas (e.g., if, for, while).</td>
+                            </tr>
+                            <tr>
+                                <td>Longitud promedio de funciones</td>
+                                <td>Calcula la longitud promedio de las funciones en términos de número de líneas.</td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold" rowspan="3">Manejo de Errores</td>
+                                <td>Cobertura de manejo de errores</td>
+                                <td>Porcentaje de funciones que contienen bloques <code>try-except</code> para manejo de errores.</td>
+                            </tr>
+                            <tr>
+                                <td>Especificidad de excepciones</td>
+                                <td>Proporción de bloques <code>try-except</code> que manejan excepciones específicas en lugar de genéricas.</td>
+                            </tr>
+                            <tr>
+                                <td>Densidad de bloques try-except</td>
+                                <td>Número de bloques <code>try-except</code> por función en el archivo.</td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold" rowspan="3">Pruebas</td>
+                                <td>Cobertura de pruebas</td>
+                                <td>Proporción de funciones de prueba (<code>test_</code>) en el archivo en relación con el total de funciones.</td>
+                            </tr>
+                            <tr>
+                                <td>Densidad de asserts</td>
+                                <td>Número promedio de <code>asserts</code> por función de prueba.</td>
+                            </tr>
+                            <tr>
+                                <td>Funciones de prueba</td>
+                                <td>Cuenta el número de funciones de prueba en el archivo.</td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold" rowspan="3">Seguridad</td>
+                                <td>Validación de entradas</td>
+                                <td>Proporción de funciones que contienen validación de entrada (e.g., <code>isinstance</code>, <code>type</code>).</td>
+                            </tr>
+                            <tr>
+                                <td>Uso de funciones peligrosas</td>
+                                <td>Penalización basada en el uso de funciones potencialmente peligrosas como <code>eval</code> y <code>exec</code>.</td>
+                            </tr>
+                            <tr>
+                                <td>Total de validaciones</td>
+                                <td>Cuenta el número total de validaciones de entrada en el código.</td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold" rowspan="3">Consistencia de Estilo</td>
+                                <td>Consistencia de nombres</td>
+                                <td>Proporción de nombres de variables y funciones que siguen una convención (e.g., snake_case, camelCase).</td>
+                            </tr>
+                            <tr>
+                                <td>Espaciado consistente</td>
+                                <td>Indica si el espaciado en el código es consistente (controlado por <code>pylint</code>).</td>
+                            </tr>
+                            <tr>
+                                <td>Longitud de líneas consistente</td>
+                                <td>Indica si la longitud de las líneas es consistente y cumple con las recomendaciones de estilo.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Comparación de Métricas -->
+        {% for categoria in categorias %}
+        <div class="card mb-4">
+            <div class="card-header bg-dark text-white">
+                <h3 class="mb-0">{{ categoria|title }}</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    {% for repo_tipo, repo_data in metricas.repos.items() %}
+                    <div class="col-md-5 {% if repo_tipo == 'empresa' %}text-end{% endif %}">
+                        {% if repo_data and categoria in repo_data %}
+                        <div class="metric-values">
+                            {% for metrica, valor in repo_data[categoria].items() %}
+                            <div class="mb-3">
+                                <h5>{{ metrica|replace('_', ' ')|title }}</h5>
+                                <span class="metric-value">{{ valor|round(3) }}</span>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% if loop.first %}
+                    <div class="col-md-2 text-center">
+                        <div class="difference-arrow">
+                            ↔
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+
+                <!-- Diferencias -->
+                {% if metricas.diferencias and categoria in metricas.diferencias %}
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <div class="card bg-light">
+                            <div class="card-header">
+                                <h4 class="mb-0">Diferencias</h4>
+                            </div>
+                            <div class="card-body">
+                                {% for metrica, diferencia in metricas.diferencias[categoria].items() %}
+                                <div class="mb-2">
+                                    <strong>{{ metrica|replace('_', ' ')|title }}:</strong>
+                                    <span class="{{ 'positive' if diferencia > 0 else 'negative' if diferencia < 0 else '' }}">
+                                        {{ diferencia|round(3) }}
+                                        {% if diferencia > 0 %}
+                                        ↑
+                                        {% elif diferencia < 0 %}
+                                        ↓
+                                        {% endif %}
+                                    </span>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+
+        <!-- Análisis de Empatía -->
+        <div class="card mb-5">
+            <div class="card-header bg-dark text-white">
+                <h3 class="card-title mb-0">
+                    Análisis de Empatía Empresa-Candidato
+                </h3>
+            </div>
+            <div class="card-body">
+                {% if metricas.empathy_analysis %}
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card bg-light">
+                            <div class="card-body text-center">
+                                <h2 class="card-title">Puntuación de Empatía</h2>
+                                <p class="display-1 mb-0 {{ 'text-dark' if metricas.empathy_analysis.empathy_score >= 75 else 'text-secondary' if metricas.empathy_analysis.empathy_score >= 60 else 'text-muted' }}">
+                                    {{ metricas.empathy_analysis.empathy_score|round(2) }}%
+                                </p>
+                                <h4 class="mt-3">{{ metricas.empathy_analysis.interpretation.level }}</h4>
+                                <p class="lead">{{ metricas.empathy_analysis.interpretation.description }}</p>
+                                <p class="text-muted">{{ metricas.empathy_analysis.interpretation.recommendation }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Información de Repositorios -->
+                <div class="row mt-4">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5>Empresa</h5>
+                                <p class="mb-0">{{ metricas.repos.empresa.metadata.nombre }}</p>
+                                <small class="text-muted">{{ metricas.repos.empresa.metadata.lenguaje_principal }}</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5>Candidato</h5>
+                                <p class="mb-0">{{ metricas.repos.candidato.metadata.nombre }}</p>
+                                <small class="text-muted">{{ metricas.repos.candidato.metadata.lenguaje_principal }}</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                <div class="alert alert-warning">
+                    No se pudo calcular la puntuación de empatía
+                </div>
+                {% endif %}
+
+                <!-- Recomendaciones -->
+                {% if metricas.recomendaciones %}
+                <div class="mt-4">
+                    <h4>Recomendaciones</h4>
+                    <ul class="list-group">
+                        {% for recomendacion in metricas.recomendaciones %}
+                        <li class="list-group-item">
+                            • {{ recomendacion }}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+
+                <!-- Análisis Detallado -->
+                <div class="card-body border-top mt-4">
+                    <h4 class="mb-4">
+                        Análisis Detallado
+                    </h4>
+                    
+                    <div class="row">
+                        <!-- Mejor Repositorio -->
+                        <div class="col-12 mb-4">
+                            <div class="alert alert-secondary">
+                                <h5 class="alert-heading">
+                                    Repositorio con Mejor Desempeño
+                                </h5>
+                                <p class="mb-0">
+                                    {% if metricas.empathy_analysis %}
+                                        <strong>Puntuación de Empatía: {{ metricas.empathy_analysis.empathy_score|round(2) }}%</strong><br>
+                                        Nivel: {{ metricas.empathy_analysis.interpretation.level }}<br>
+                                        {{ metricas.empathy_analysis.interpretation.description }}
+                                    {% else %}
+                                        El análisis de empatía entre <strong>{{ metricas.repos.empresa.metadata.nombre }}</strong> (empresa) y
+                                        <strong>{{ metricas.repos.candidato.metadata.nombre }}</strong> (candidato) se ha completado.
+                                    {% endif %}
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Mejores y Peores Métricas por Repo -->
+                        {% for repo_tipo, repo_data in metricas.repos.items() %}
+                        <div class="col-md-6 mb-4">
+                            <div class="card h-100">
+                                <div class="card-header {% if repo_tipo == 'empresa' %}bg-dark{% else %}bg-secondary{% endif %} text-white">
+                                    <h5 class="card-title mb-0">
+                                        {{ repo_data.metadata.nombre }} ({{ repo_tipo|title }})
+                                    </h5>
+                                </div>
+                                <div class="card-body">
+                                    <!-- Mejores Métricas -->
+                                    <h6 class="text-dark">
+                                        Mejores Métricas
+                                    </h6>
+                                    <ul class="list-group list-group-flush mb-4">
+                                        {% for categoria in repo_data.keys() if categoria != 'metadata' and categoria != 'duplicacion' %}
+                                            {% for metrica, valor in repo_data[categoria].items() %}
+                                                {% if valor is number and valor >= 0.7 %}
+                                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                    {{ metrica|replace('_', ' ')|title }}
+                                                    <span class="badge bg-dark rounded-pill">{{ valor|round(3) }}</span>
+                                                </li>
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% endfor %}
+                                    </ul>
+
+                                    <!-- Peores Métricas -->
+                                    <h6 class="text-secondary">
+                                        Métricas por Mejorar
+                                    </h6>
+                                    <ul class="list-group list-group-flush">
+                                        {% for categoria in repo_data.keys() if categoria != 'metadata' %}
+                                            {% for metrica, valor in repo_data[categoria].items() %}
+                                                {% if valor < 0.4 %}
+                                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                    {{ metrica|replace('_', ' ')|title }}
+                                                    <span class="badge bg-secondary rounded-pill">{{ valor|round(3) }}</span>
+                                                </li>
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Explicación de Cálculos -->
+        <div class="card mb-5">
+            <div class="card-header bg-dark text-white">
+                <h3 class="card-title mb-0">
+                    Metodología de Cálculo
+                </h3>
+            </div>
+            <div class="card-body">
+                <div class="accordion" id="calculosAccordion">
+                    <!-- Nombres -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNombres">
+                                Cálculo de Nombres
+                            </button>
+                        </h2>
+                        <div id="collapseNombres" class="accordion-collapse collapse" data-bs-parent="#calculosAccordion">
+                            <div class="accordion-body">
+                                <p><strong>Descriptividad (0-1):</strong></p>
+                                <ul>
+                                    <li>Se analiza cada identificador (variables, funciones, clases)</li>
+                                    <li>Puntuación más alta para nombres descriptivos (más de 3 caracteres, sin abreviaturas)</li>
+                                    <li>Penalización por nombres genéricos como 'x', 'temp', 'var'</li>
+                                    <li>Se promedian todas las puntuaciones</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Documentación -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDocumentacion">
+                                Cálculo de Documentación
+                            </button>
+                        </h2>
+                        <div id="collapseDocumentacion" class="accordion-collapse collapse" data-bs-parent="#calculosAccordion">
+                            <div class="accordion-body">
+                                <p><strong>Cobertura de docstrings (0-1):</strong></p>
+                                <ul>
+                                    <li>Número de funciones/clases con docstring / Total de funciones y clases</li>
+                                    <li>Bonus por docstrings que incluyen parámetros y retorno</li>
+                                    <li>Bonus adicional por ejemplos en la documentación</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Modularidad -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseModularidad">
+                                Cálculo de Modularidad
+                            </button>
+                        </h2>
+                        <div id="collapseModularidad" class="accordion-collapse collapse" data-bs-parent="#calculosAccordion">
+                            <div class="accordion-body">
+                                <p><strong>Funciones por archivo:</strong> Número total de funciones / Número de archivos</p>
+                                <p><strong>Clases por archivo:</strong> Número total de clases / Número de archivos</p>
+                                <p><strong>Cohesión promedio (0-1):</strong></p>
+                                <ul>
+                                    <li>Mide cuánto comparten los métodos los atributos de clase</li>
+                                    <li>Mayor puntuación cuando los métodos usan más atributos en común</li>
+                                </ul>
+                                <p><strong>Acoplamiento promedio (0-1):</strong></p>
+                                <ul>
+                                    <li>Menor puntuación a más dependencias externas</li>
+                                    <li>Se considera el número de imports y uso de variables globales</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Complejidad -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseComplejidad">
+                                Cálculo de Complejidad
+                            </button>
+                        </h2>
+                        <div id="collapseComplejidad" class="accordion-collapse collapse" data-bs-parent="#calculosAccordion">
+                            <div class="accordion-body">
+                                <p><strong>Complejidad ciclomática:</strong></p>
+                                <ul>
+                                    <li>Número de caminos independientes en el código</li>
+                                    <li>Se suma 1 por cada: if, while, for, and, or</li>
+                                    <li>Penalización por valores > 10</li>
+                                </ul>
+                                <p><strong>Nivel máximo de anidación:</strong></p>
+                                <ul>
+                                    <li>Profundidad máxima de estructuras anidadas</li>
+                                    <li>Penalización por niveles > 3</li>
+                                </ul>
+                                <p><strong>Longitud promedio funciones:</strong></p>
+                                <ul>
+                                    <li>Número de líneas por función</li>
+                                    <li>Penalización por funciones > 20 líneas</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Manejo de Errores -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseErrores">
+                                Cálculo de Manejo de Errores
+                            </button>
+                        </h2>
+                        <div id="collapseErrores" class="accordion-collapse collapse" data-bs-parent="#calculosAccordion">
+                            <div class="accordion-body">
+                                <p><strong>Cobertura (0-1):</strong> Funciones con try-except / Total funciones</p>
+                                <p><strong>Especificidad (0-1):</strong></p>
+                                <ul>
+                                    <li>Mayor puntuación por excepciones específicas</li>
+                                    <li>Penalización por except: sin tipo</li>
+                                </ul>
+                                <p><strong>Densidad:</strong> Número de try-except / Número de funciones</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pruebas -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePruebas">
+                                Cálculo de Pruebas
+                            </button>
+                        </h2>
+                        <div id="collapsePruebas" class="accordion-collapse collapse" data-bs-parent="#calculosAccordion">
+                            <div class="accordion-body">
+                                <p><strong>Cobertura (0-1):</strong> Funciones test / Total funciones</p>
+                                <p><strong>Densidad asserts:</strong> Número de asserts / Número de funciones test</p>
+                                <p><strong>Funciones test:</strong> Conteo directo de funciones que empiezan por "test_"</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Seguridad -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSeguridad">
+                                Cálculo de Seguridad
+                            </button>
+                        </h2>
+                        <div id="collapseSeguridad" class="accordion-collapse collapse" data-bs-parent="#calculosAccordion">
+                            <div class="accordion-body">
+                                <p><strong>Validación entradas (0-1):</strong> Funciones con validación / Total funciones</p>
+                                <p><strong>Funciones peligrosas (0-1):</strong></p>
+                                <ul>
+                                    <li>Penalización por uso de eval, exec, globals()</li>
+                                    <li>1 = ninguna función peligrosa usada</li>
+                                </ul>
+                                <p><strong>Total validaciones:</strong> Suma de todas las validaciones encontradas</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Consistencia -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseConsistencia">
+                                Cálculo de Consistencia
+                            </button>
+                        </h2>
+                        <div id="collapseConsistencia" class="accordion-collapse collapse" data-bs-parent="#calculosAccordion">
+                            <div class="accordion-body">
+                                <p><strong>Nombres (0-1):</strong> Identificadores que siguen convención / Total identificadores</p>
+                                <p><strong>Espaciado (0-1):</strong> Líneas con espaciado correcto / Total líneas</p>
+                                <p><strong>Longitud líneas (0-1):</strong> Líneas < 80 caracteres / Total líneas</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="text-center text-muted mt-5 py-4 bg-light">
+            <div class="container">
+                <p class="mb-1">
+                    Code Empathizer v2.0 - R. Benítez
+                </p>
+                <p class="mb-0">
+                    <a href="https://github.com/686f6c61/Repo-Code-Empathizer" class="text-decoration-none" target="_blank">GitHub</a>
+                </p>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> 
